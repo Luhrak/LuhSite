@@ -1,7 +1,7 @@
 import * as path from "jsr:@std/path";
 import nunjucks from "npm:nunjucks@3.2.4";
 
-const templPath = "./src/templates";
+const templPath = "./templates";
 
 nunjucks.configure(templPath, {
   autoescape: true, // on by standard

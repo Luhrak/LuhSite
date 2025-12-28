@@ -1,8 +1,8 @@
-@import url("/styles/font-import.css");
-@import url("/styles/header-footer.css");
+@import url("font-import.css");
+@import url("header-footer.css");
 
 
-/* Color variables to easily change values globally */ 
+/* Color variables to easily change values globally */
 :root {
     --color-light: #EDEBDC;
     --color-primary: #E99C65;
@@ -29,10 +29,10 @@ html {
 body {
     background: var(--color-bg-dark);
     background-attachment: fixed;
-    background-image: url(/pictures/Background.png);
+    background-image: url(/img/Background.png);
     background-position: center center;
     background-size: cover;
-    
+
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -42,8 +42,8 @@ body {
     font-optical-sizing: auto;
 }
 
-main { 
-    padding: 2em 1em 3em 1em; 
+main {
+    padding: 2em 1em 3em 1em;
     font-size: 1.2em;
     flex: 1;
 }
@@ -57,7 +57,8 @@ p {
     max-width: 30rem;
 }
 
-h1, h2 {
+h1,
+h2 {
     display: inline-block;
     padding: 0.2em 0.6em;
     border-radius: var(--border-radius);
@@ -73,14 +74,14 @@ h1 {
 }
 
 h3 {
- margin-top: 1em;
- margin-bottom: 0.4em;
+    margin-top: 1em;
+    margin-bottom: 0.4em;
 }
 
 a {
     color: var(--color-primary);
 
-    &:hover { 
+    &:hover {
         color: var(--color-primary-light);
 
         h2 {
@@ -89,7 +90,7 @@ a {
         }
     }
 
-    &:active { 
+    &:active {
         color: var(--color-primary-dark);
 
         h2 {
@@ -98,7 +99,7 @@ a {
         }
     }
 
-    &:focus { 
+    &:focus {
         color: var(--color-primary-light);
         outline: none;
 
@@ -149,12 +150,12 @@ button {
     &:focus {
         background-color: var(--color-primary-light);
         color: var(--color-bg-dark);
-        outline:none;
+        outline: none;
     }
 }
 
 .button {
-    /* to style a href to look exactly like a button */ 
+    /* to style a href to look exactly like a button */
     display: inline-block;
     background-color: var(--color-primary);
     border-radius: var(--border-radius);
@@ -174,13 +175,13 @@ button {
     &:focus {
         background-color: var(--color-primary-light);
         color: var(--color-bg-dark);
-        outline:none;
+        outline: none;
     }
 }
 
 span {
-    /* Used to shrink arrows on buttons */ 
-    font-size: 0.8em; 
+    /* Used to shrink arrows on buttons */
+    font-size: 0.8em;
 }
 
 .twoColumns {
@@ -196,7 +197,7 @@ span {
 
 
 
-/* ---------- Form input related ---------- */ 
+/* ---------- Form input related ---------- */
 .contact {
     margin-top: 3em;
 }
@@ -215,7 +216,7 @@ form {
         display: flex;
         column-gap: 1em;
 
-        > div {
+        >div {
             flex: 1;
         }
 
@@ -234,7 +235,8 @@ form {
         margin-top: 1.5em;
     }
 
-    & input, textarea {
+    & input,
+    textarea {
         width: 100%;
         box-sizing: border-box;
         padding: 0.75em;
@@ -245,14 +247,14 @@ form {
         border: none;
         font-size: 1em;
         resize: vertical;
-    
+
         &:focus {
             background-color: var(--color-bg-light);
-            outline:none;
-            
+            outline: none;
+
         }
     }
-    
+
     & textarea {
         font-size: 1em;
         min-height: 10em;
@@ -260,7 +262,7 @@ form {
 }
 
 
-/* ---------- Section classes for layout ---------- */ 
+/* ---------- Section classes for layout ---------- */
 .imageConstrained {
     max-width: 30rem;
 }
@@ -268,10 +270,12 @@ form {
 .imageRight {
     display: grid;
     grid-template-columns: 1fr;
-    column-gap: 1em; 
+    column-gap: 1em;
     row-gap: 1em;
 
-    & h1, h2, h3 {
+    & h1,
+    h2,
+    h3 {
         grid-column: 1 / -1;
         margin-top: 0;
         margin-bottom: 0;
@@ -293,7 +297,7 @@ form {
 
     @media screen and (min-width: 36em) {
         grid-template-columns: 1fr 1fr;
-        column-gap: 3em; 
+        column-gap: 3em;
         row-gap: 1em;
     }
 }
@@ -301,10 +305,12 @@ form {
 .imageLeft {
     display: grid;
     grid-template-columns: 1fr;
-    column-gap: 1em; 
+    column-gap: 1em;
     row-gap: 1em;
 
-    & h1, h2, h3 {
+    & h1,
+    h2,
+    h3 {
         grid-column: 1 / -1;
         margin-top: 0;
         margin-bottom: 0;
@@ -331,7 +337,7 @@ form {
 
     @media screen and (min-width: 36em) {
         grid-template-columns: 1fr 2fr;
-        column-gap: 3em; 
+        column-gap: 3em;
         row-gap: 1em;
     }
 }
@@ -340,9 +346,11 @@ form {
     display: grid;
     grid-template-columns: 1fr;
     margin-top: 0;
-    gap: 1.4em; 
+    gap: 1.4em;
 
-    & h1, h2, h3 {
+    & h1,
+    h2,
+    h3 {
         grid-column: 1 / -1;
         margin-top: 0;
         margin-bottom: 0;
@@ -399,11 +407,11 @@ form {
         }
 
         & :nth-child(2n-1) {
-            justify-self: end; 
+            justify-self: end;
         }
 
         & *:nth-child(2n) {
-            justify-self: start; 
+            justify-self: start;
         }
     }
 }
@@ -415,19 +423,19 @@ form {
     gap: 0.5em;
     list-style: none;
     padding-left: 0;
-    
+
     li>a {
         background-color: var(--color-bg-opague);
         backdrop-filter: blur(var(--blur-ammount));
         border-radius: var(--border-radius);
-        
+
         & div {
             align-items: center;
             border-radius: var(--border-radius);
             overflow: hidden;
             aspect-ratio: 1 / 1;
         }
-        
+
         & img {
             height: 100%;
             width: 100%;
@@ -444,7 +452,7 @@ form {
         }
 
         &:focus {
-            outline:none;
+            outline: none;
 
             & img {
                 transform: scale(1.15);
@@ -515,7 +523,7 @@ form {
                 font-size: 0.95em;
             }
         }
-    
+
         &:hover {
             background-color: #f8d6bd16;
 
@@ -630,7 +638,7 @@ form {
     &>div {
         display: grid;
         grid-template-columns: 1fr 2fr;
-        gap: 1em; 
+        gap: 1em;
         background-color: var(--color-bg-opague);
         backdrop-filter: blur(var(--blur-ammount));
         border-radius: var(--border-radius);
@@ -649,7 +657,8 @@ form {
         display: block;
     }
 
-    h1, h2 {
+    h1,
+    h2 {
         margin-right: auto;
         margin-bottom: 0;
     }

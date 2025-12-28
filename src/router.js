@@ -1,25 +1,81 @@
-import { Router } from "@oak/oak";
-import * as controller from "./pages/controller.js";
+import * as pages from "./controller/pages.js";
 
-const router = new Router();
+const routes = [
+  {
+    path: "/",
+    method: "GET",
+    handler: pages.index,
+  },
+  {
+    path: "/gallery",
+    method: "GET",
+    handler: pages.gallery,
+  },
+  {
+    path: "/prices",
+    method: "GET",
+    handler: pages.prices,
+  },
+  {
+    path: "/projects",
+    method: "GET",
+    handler: pages.projects,
+  },
+  {
+    path: "/about",
+    method: "GET",
+    handler: pages.about,
+  },
+  {
+    path: "/legal/impressum",
+    method: "GET",
+    handler: pages.impressum,
+  },
+  {
+    path: "/legal/privacy-policy",
+    method: "GET",
+    handler: pages.privacyPolicy,
+  },
+  {
+    path: "/detailpage/art-raimond",
+    method: "GET",
+    handler: pages.artRaimond,
+  },
+  {
+    path: "/detailpage/art-stargaze",
+    method: "GET",
+    handler: pages.artStargaze,
+  },
+  {
+    path: "/detailpage/price-headshot",
+    method: "GET",
+    handler: pages.priceHeadshot,
+  },
+  {
+    path: "/detailpage/price-sticker",
+    method: "GET",
+    handler: pages.priceSticker,
+  },
+  {
+    path: "/detailpage/project-fursuit",
+    method: "GET",
+    handler: pages.projectFursuit,
+  },
+  {
+    path: "/detailpage/project-stickers",
+    method: "GET",
+    handler: pages.projectStickers,
+  },
+];
 
-// Main Pages
-router.get("/", controller.index);
-router.get("/gallery", controller.gallery);
-router.get("/prices", controller.prices);
-router.get("/projects", controller.projects);
-router.get("/about", controller.about);
-
-// Legal Pages
-router.get("/legal/impressum", controller.impressum);
-router.get("/legal/privacy-policy", controller.privacyPolicy);
-
-// Detail Pages
-router.get("/detailpage/art-raimond", controller.artRaimond);
-router.get("/detailpage/art-stargaze", controller.artStargaze);
-router.get("/detailpage/price-headshot", controller.priceHeadshot);
-router.get("/detailpage/price-sticker", controller.priceSticker);
-router.get("/detailpage/project-fursuit", controller.projectFursuit);
-router.get("/detailpage/project-stickers", controller.projectStickers);
-
-export default router;
+export const router = async (ctx) => {
+  for (const route of routes) {
+    if (
+      ctx.method === route.method &&
+      new URLPattern({ pathname: route.path }).test(ctx.url)
+    ) {
+      return route.handler(ctx);
+    }
+  }
+  return ctx;
+};
