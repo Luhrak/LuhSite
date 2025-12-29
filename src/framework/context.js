@@ -5,6 +5,7 @@ export default class Context {
     this.request = request;
     this.url = new URL(request.url);
     this.method = request.method;
+    this.entryId = undefined;
     /* Response fields */
     this.body = undefined;
     this.headers = new Headers();

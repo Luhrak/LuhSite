@@ -13,6 +13,11 @@ const routes = [
     handler: pages.gallery,
   },
   {
+    path: "/gallery/:id",
+    method: "GET",
+    handler: pages.artPiece,
+  },
+  {
     path: "/gallery-add",
     method: "GET",
     handler: pages.galleryAdd,
@@ -76,10 +81,12 @@ const routes = [
 
 export const router = async (ctx) => {
   for (const route of routes) {
-    if (
-      ctx.method === route.method &&
-      new URLPattern({ pathname: route.path }).test(ctx.url)
-    ) {
+    const urlPattern = new URLPattern({ pathname: route.path });
+    const match = urlPattern.exec(ctx.url);
+
+    if (ctx.method === route.method && match) {
+      // Store matched parameters in the context
+      ctx.entryId = match.pathname.groups.id;
       return route.handler(ctx);
     }
   }

@@ -1,0 +1,24 @@
+{% extends "./layoutBlocks/layout.html" %} 
+
+{% block title %}Luhraks Gallery - Raimond{% endblock %} 
+
+{% block content %}
+
+    <main>
+      <div class="widthConstraint">
+        <section class="detailsPage">
+          <img
+            src="{{ art.artfile }}"
+            alt="{{ art.alt }}"
+          />
+          <h1>{{ art.title }}</h1>
+          <p>
+            {{ art.description }}
+          </p>
+          <p>Want an art piece similar to this too?</p>
+          <a class="button" href="/prices">Commission Art</a>
+        </section>
+      </div>
+    </main>
+
+{% endblock %}

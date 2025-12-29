@@ -1,4 +1,4 @@
-import { listVisualOnly } from "../gallery/model.js";
+import { get, listVisualOnly } from "../gallery/model.js";
 import { render } from "../service/render.js";
 // TODO: Split into multiple or shorten
 
@@ -13,6 +13,15 @@ export const index = async (ctx) => {
 export const gallery = async (ctx) => {
   const gallery = listVisualOnly();
   ctx.body = await render("gallery.html", { gallery });
+  ctx.headers.set("content-type", "text/html");
+  ctx.status = 200;
+  return ctx;
+};
+
+export const artPiece = async (ctx) => {
+  const id = ctx.entryId;
+  const art = await get(id);
+  ctx.body = await render("gallery-detailpage.html", { art });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
