@@ -1,4 +1,5 @@
 import * as pages from "./controller/pages.js";
+import * as formArt from "./controller/formGallery.js";
 
 // Match requests with known pages
 const routes = [
@@ -13,14 +14,19 @@ const routes = [
     handler: pages.gallery,
   },
   {
+    path: "/gallery/add",
+    method: "GET",
+    handler: formArt.addArt,
+  },
+  {
+    path: "/gallery/add",
+    method: "POST",
+    handler: formArt.createArt,
+  },
+  {
     path: "/gallery/:id",
     method: "GET",
     handler: pages.artPiece,
-  },
-  {
-    path: "/gallery-add",
-    method: "GET",
-    handler: pages.galleryAdd,
   },
   {
     path: "/prices",
@@ -85,8 +91,7 @@ export const router = async (ctx) => {
     const match = urlPattern.exec(ctx.url);
 
     if (ctx.method === route.method && match) {
-      // Store matched parameters in the context
-      ctx.entryId = match.pathname.groups.id;
+      ctx.entryId = match.pathname.groups.id; // for detailpages
       return route.handler(ctx);
     }
   }

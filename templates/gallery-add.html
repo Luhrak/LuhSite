@@ -8,11 +8,22 @@
       <div class="widthConstraint">
         <h1>New Art</h1>
         
-        <form method="post" action="/gallery/add">
+        <form method="POST" action="/gallery/add">
 
+          <label for="title">Title</label>
+          {% if formErrors.title %}
+            <p class="form-error">{{formErrors.title}}</p>
+          {% endif %}
+          <input 
+          type="text" 
+          id="title" 
+          name="title" 
+          value="{{ formData.title or '' }}"
+          />
+          
           <label for="artfile">Art file</label>
           {% if formErrors.artfile %}
-            <p class="Form-error">{{formErrors.artfile}}</p>
+            <p class="form-error">{{formErrors.artfile}}</p>
           {% endif %}
           <input 
           type="file"
@@ -22,21 +33,9 @@
           value="{{ formData.artfile or '' }}"
           />
 
-          <label for="title">Title</label>
-          {% if formErrors.title %}
-            <p class="Form-error">{{formErrors.title}}</p>
-          {% endif %}
-          <input 
-          type="text" 
-          id="title" 
-          name="title" 
-          value="{{ formData.title or '' }}"
-          />
 
-          <label for="alt">Alt text</label>
-          {% if formErrors.type %}
-            <p class="Form-error">{{formErrors.alt}}</p>
-          {% endif %}
+
+          <label for="alt">Alt text (optional)</label>
           <input 
           type="text" 
           id="alt" 
@@ -44,9 +43,20 @@
           value="{{ formData.alt or '' }}"
           />
 
+          <label for="note-date">Date</label>
+          {% if formErrors.date %}
+          <p class="form-error">{{formErrors.date}}</p>
+          {% endif %}
+          <input
+            type="date"
+            id="date"
+            name="date"
+            value="{{ formData.date or prefillDate }}"
+          />
+
           <label for="type">Type</label>
           {% if formErrors.type %}
-            <p class="Form-error">{{formErrors.type}}</p>
+            <p class="form-error">{{formErrors.type}}</p>
           {% endif %}
           <input 
           type="text" 
@@ -55,10 +65,7 @@
           value="{{ formData.type or '' }}"
           />
 
-          <label for="description">Description</label>
-          {% if formErrors.description %}
-            <p class="Form-error">{{formErrors.description}}</p>
-          {% endif %}
+          <label for="description">About the art (optional)</label>
           <textarea 
           id="description" 
           name="description" 

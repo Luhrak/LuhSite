@@ -3,7 +3,7 @@ import { render } from "../service/render.js";
 
 export async function addArt(ctx) {
   const today = new Date().toISOString().split("T")[0];
-  ctx.body = render("form.html", {
+  ctx.body = render("gallery-add.html", {
     prefillDate: today,
     formData: {},
     formErrors: {},
@@ -21,24 +21,16 @@ export async function createArt(ctx) {
   // Validation
   const errors = {};
   if (!formData.title) errors.title = "Titel is required";
-  if (!formData.topic) errors.topic = "Topic is required";
-  if (!formData.date) {
-    errors.date = "Date is required";
-  } else {
-    // Usually doesnt come up but just in case:
-    const ts = Date.parse(formData.date);
-    if (isNaN(ts)) {
-      errors.date = "Please put in a valid date format: JJJJ-MM-TT";
-    }
-  }
-  if (!formData.text) errors.text = "Text is required";
+  if (!formData.artfile) errors.artfile = "Art file is required";
+  if (!formData.date) errors.date = "Date is required";
+  if (!formData.type) errors.type = "Type is required";
 
   if (Object.keys(errors).length > 0) {
     // Show user input errors
     const today = new Date().toISOString().split("T")[0];
     ctx.status = 400;
     ctx.headers.set("content-type", "text/html; charset=utf-8");
-    ctx.body = render("form.html", {
+    ctx.body = render("gallery-add.html", {
       prefillDate: formData.date,
       formData,
       formErrors: errors,
@@ -47,13 +39,15 @@ export async function createArt(ctx) {
     // Save to db and redirect to new detailpage
     const newNote = add({
       title: formData.title,
-      topic: formData.topic,
-      text: formData.text,
+      artfile: formData.artfile, // TODO: img saving into gallery and putting the path
+      alt: formData.alt,
       date: formData.date,
+      type: formData.type,
+      description: formData.description,
     });
     ctx.status = 303;
     ctx.headers.set("Location", `/note/${newNote}`);
-    // body not needed
+    // ctx.body not needed for redirect
   }
   return ctx;
 }
