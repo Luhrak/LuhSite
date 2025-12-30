@@ -1,35 +1,10 @@
-import { get, listVisualOnly } from "../gallery/model.js";
+import { listVisualOnly } from "../gallery/model.js";
 import { render } from "../service/render.js";
-// TODO: Split into multiple or shorten
 
 // Main Pages
 export const index = async (ctx) => {
   const gallery = listVisualOnly();
   ctx.body = await render("index.html", { gallery });
-  ctx.headers.set("content-type", "text/html");
-  ctx.status = 200;
-  return ctx;
-};
-
-export const gallery = async (ctx) => {
-  const gallery = listVisualOnly();
-  ctx.body = await render("gallery.html", { gallery });
-  ctx.headers.set("content-type", "text/html");
-  ctx.status = 200;
-  return ctx;
-};
-
-export const artPiece = async (ctx) => {
-  const id = ctx.entryId;
-  const art = await get(id);
-  ctx.body = await render("gallery-detailpage.html", { art });
-  ctx.headers.set("content-type", "text/html");
-  ctx.status = 200;
-  return ctx;
-};
-
-export const galleryAdd = async (ctx) => {
-  ctx.body = await render("gallery-add.html");
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
@@ -56,15 +31,7 @@ export const about = async (ctx) => {
   return ctx;
 };
 
-// 404
-export const error404 = async (ctx) => {
-  ctx.body = await render("error404.html");
-  ctx.headers.set("content-type", "text/html");
-  ctx.status = 404;
-  return ctx;
-};
-
-// Legal
+// Misc 
 export const impressum = async (ctx) => {
   ctx.body = await render("legal/impressum.html");
   ctx.headers.set("content-type", "text/html");
@@ -79,8 +46,16 @@ export const privacyPolicy = async (ctx) => {
   return ctx;
 };
 
+export const error404 = async (ctx) => {
+  ctx.body = await render("error404.html");
+  ctx.headers.set("content-type", "text/html");
+  ctx.status = 404;
+  return ctx;
+};
+
 // Detail Pages
 export const priceHeadshot = async (ctx) => {
+  // Remove eventually
   ctx.body = await render("detailpage/price-headshot.html");
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
@@ -88,6 +63,7 @@ export const priceHeadshot = async (ctx) => {
 };
 
 export const priceSticker = async (ctx) => {
+  // Remove eventually
   ctx.body = await render("detailpage/price-sticker.html");
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;

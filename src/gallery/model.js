@@ -49,6 +49,16 @@ export function get(id) {
   return stmt.get(id);
 }
 
+export function del(id) {
+  const db = connection();
+  const stmt = db.prepare(`
+    DELETE 
+    FROM gallery
+    WHERE id = ?
+  `);
+  return stmt.get(id);
+}
+
 // Adding a new entry
 export function add({ artfile, title, type, date, alt, description }) {
   const db = connection();

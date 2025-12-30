@@ -1,32 +1,12 @@
 import * as pages from "./controller/pages.js";
-import * as formArt from "./controller/formGallery.js";
+import * as gallery from "./controller/gallery.js";
 
-// Match requests with known pages
 const routes = [
+  // Main pages
   {
     path: "/",
     method: "GET",
     handler: pages.index,
-  },
-  {
-    path: "/gallery",
-    method: "GET",
-    handler: pages.gallery,
-  },
-  {
-    path: "/gallery/add",
-    method: "GET",
-    handler: formArt.addArt,
-  },
-  {
-    path: "/gallery/add",
-    method: "POST",
-    handler: formArt.createArt,
-  },
-  {
-    path: "/gallery/:id",
-    method: "GET",
-    handler: pages.artPiece,
   },
   {
     path: "/prices",
@@ -43,6 +23,35 @@ const routes = [
     method: "GET",
     handler: pages.about,
   },
+
+  // Gallery (specific ones before general id!)
+  {
+    path: "/gallery",
+    method: "GET",
+    handler: gallery.gallery,
+  },
+  {
+    path: "/gallery/add",
+    method: "GET",
+    handler: gallery.addArtForm,
+  },
+  {
+    path: "/gallery/add",
+    method: "POST",
+    handler: gallery.submitArtForm,
+  },
+  {
+    path: "/gallery/:id",
+    method: "GET",
+    handler: gallery.artPiece,
+  },
+  {
+    path: "/gallery-delete/:id",
+    method: "POST",
+    handler: gallery.deleteArtPiece,
+  },
+
+  // Legal pages
   {
     path: "/legal/impressum",
     method: "GET",
@@ -53,13 +62,15 @@ const routes = [
     method: "GET",
     handler: pages.privacyPolicy,
   },
+
+  // Static Detailpages > Becomes project pages
   {
-    path: "/detailpage/price-headshot",
+    path: "/detailpage/price-headshot", // Remove eventually
     method: "GET",
     handler: pages.priceHeadshot,
   },
   {
-    path: "/detailpage/price-sticker",
+    path: "/detailpage/price-sticker", // Remove eventually
     method: "GET",
     handler: pages.priceSticker,
   },
@@ -76,6 +87,7 @@ const routes = [
 ];
 
 export const router = async (ctx) => {
+  // Match requests with known pages
   for (const route of routes) {
     const urlPattern = new URLPattern({ pathname: route.path });
     const match = urlPattern.exec(ctx.url);

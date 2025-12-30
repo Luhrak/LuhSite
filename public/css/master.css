@@ -11,6 +11,7 @@
     --color-bg-dark: #222222;
     --color-bg-light: #303030;
     --color-bg-opague: #00000022;
+    --color-red: #d16464;
     --border-radius: 1rem;
     --blur-ammount: 10px;
 }
@@ -265,6 +266,19 @@ form {
         font-size: 1em;
         min-height: 10em;
     }
+}
+
+.hiddenForm {
+    background-color: unset;
+    backdrop-filter: unset;
+    border-radius: unset;
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+.redBg {
+    background-color: var(--color-red);
 }
 
 
@@ -652,27 +666,25 @@ form {
 }
 
 
+.headingWithButtons {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+
+    & button {
+        margin: 0;
+        padding: 0.65em 1em;
+    }
+
+    .button {
+        margin: 0;
+    }
+}
+
 .detailsPage {
     display: flex;
     flex-direction: column;
     gap: 1.6em;
-
-    &>div {
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        gap: 1em;
-        background-color: var(--color-bg-opague);
-        backdrop-filter: blur(var(--blur-ammount));
-        border-radius: var(--border-radius);
-        padding: 0.5em;
-
-        &>div {
-            display: flex;
-            flex-direction: column;
-            gap: 1em;
-            justify-content: center;
-        }
-    }
 
     img {
         overflow: hidden;
@@ -696,9 +708,4 @@ form {
     &>p:last-of-type {
         margin-bottom: 0em;
     }
-}
-
-.timeLine {
-    list-style: none;
-    padding-left: 0;
 }
