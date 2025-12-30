@@ -4,7 +4,8 @@ import { render } from "../service/render.js";
 
 // Main Pages
 export const index = async (ctx) => {
-  ctx.body = await render("index.html");
+  const gallery = listVisualOnly();
+  ctx.body = await render("index.html", { gallery });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
@@ -79,20 +80,6 @@ export const privacyPolicy = async (ctx) => {
 };
 
 // Detail Pages
-export const artRaimond = async (ctx) => {
-  ctx.body = await render("detailpage/art-raimond.html");
-  ctx.headers.set("content-type", "text/html");
-  ctx.status = 200;
-  return ctx;
-};
-
-export const artStargaze = async (ctx) => {
-  ctx.body = await render("detailpage/art-stargaze.html");
-  ctx.headers.set("content-type", "text/html");
-  ctx.status = 200;
-  return ctx;
-};
-
 export const priceHeadshot = async (ctx) => {
   ctx.body = await render("detailpage/price-headshot.html");
   ctx.headers.set("content-type", "text/html");

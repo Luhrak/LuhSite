@@ -54,16 +54,6 @@ const routes = [
     handler: pages.privacyPolicy,
   },
   {
-    path: "/detailpage/art-raimond",
-    method: "GET",
-    handler: pages.artRaimond,
-  },
-  {
-    path: "/detailpage/art-stargaze",
-    method: "GET",
-    handler: pages.artStargaze,
-  },
-  {
     path: "/detailpage/price-headshot",
     method: "GET",
     handler: pages.priceHeadshot,

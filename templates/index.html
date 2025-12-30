@@ -33,46 +33,28 @@
             <h2>My recent art <span>➜</span></h2>
           </a>
           <ul class="gallery">
+            {% for art in gallery %}
+            {% if loop.index0 < 4 %}    
             <li>
-              <a href="/detailpage/art-stargaze">
+              <a href="/gallery/{{ art.id }}">
                 <div>
                   <img
-                    src="/img/Gallery/6_Stargaze.png"
-                    alt="Luh sitting on the floor with a hand pointing up to little versions of a solar system. He looks happy."
+                    src="{{ art.artfile }}"
+                    alt="{{ art.alt }}"
                   />
                 </div>
               </a>
             </li>
+            {% endif %}
+            {% else %}
             <li>
-              <a href="/detailpage/art-raimond">
+              <a>
                 <div>
-                  <img
-                    src="/img/Gallery/2_Raimond.png"
-                    alt="White furred harengon standing holding up a coin. He wears a huge jacket over his shoulders and has two short swords on his belt."
-                  />
+                  <p>No art found</p>
                 </div>
               </a>
             </li>
-            <li>
-              <a href="/detailpage/art-raimond">
-                <div>
-                  <img
-                    src="/img/Gallery/5_WolfSword.png"
-                    alt="Grey furred wolf with black hair and blue eyes looking at the viewer and holding a greatsword over his shoulder."
-                  />
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="/detailpage/art-raimond">
-                <div>
-                  <img
-                    src="/img/Gallery/1_MushRogue.png"
-                    alt="Tiny cute mushroom creature with two daggers running."
-                  />
-                </div>
-              </a>
-            </li>
+            {% endfor %}
           </ul>
         </section>
 
