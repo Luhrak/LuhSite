@@ -24,7 +24,11 @@ export async function createArt(ctx) {
   if (!formData.title) errors.title = "Titel is required";
   if (!formData.date) errors.date = "Date is required";
   if (!formData.type) errors.type = "Type is required";
-  if (!formData.artfile) errors.artfile = validateImage();
+  const fileError = validateImage(formData.artfile);
+  if (fileError) errors.artfile = fileError;
+
+  console.log(errors.artfile);
+  console.log("error length " + Object.keys(errors).length);
 
   if (Object.keys(errors).length > 0) {
     prefilledFormWithErrors(ctx, formData, errors);

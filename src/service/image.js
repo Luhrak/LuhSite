@@ -1,16 +1,15 @@
 import * as path from "jsr:@std/path";
-import * as mediaTypes from "https://deno.land/std/media_types/mod.ts";
+import * as mediaTypes from "jsr:@std/media-types";
 
 const POST_FILE_LIMIT = 1024 * 1024 * 5; // 5 MB
 
 export function validateImage(file) {
   if (!file) return "Art file is required";
   if (file.size == 0) return "Art file is required";
-  if (file.size > POST_FILE_LIMIT) {
-    return "Datei zu groß.";
-  }
-  if (isMimetypeOk(file.type) && isExtensionOk(file.name)) return;
-  return "Dateiformat nicht zulässig.";
+  if (file.size > POST_FILE_LIMIT) return "File too big. (Must be below 5MB)";
+  if (!isMimetypeOk(file.type) || !isExtensionOk(file.name))
+    return "Invalid file type. (Must be png, jpg or gif)";
+  return undefined;
 }
 
 const isMimetypeOk = (type) => {
