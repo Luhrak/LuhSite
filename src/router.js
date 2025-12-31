@@ -47,8 +47,18 @@ const routes = [
   },
   {
     path: "/gallery-delete/:id",
-    method: "POST",
+    method: "POST", // Not actually using DELETE ok? 
     handler: gallery.deleteArtPiece,
+  },
+  {
+    path: "/gallery-edit/:id",// - instead of / suboptimal 
+    method: "GET", // Not actually using PUT/PATCH ok? 
+    handler: gallery.editArtPiece,
+  },
+  {
+    path: "/gallery-update/:id", // - instead of / suboptimal 
+    method: "POST", // Not actually using PUT/PATCH ok? 
+    handler: gallery.updateArtPiece,
   },
 
   // Legal pages

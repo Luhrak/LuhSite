@@ -12,12 +12,14 @@
             alt="{{ art.alt }}"
           />
           <div class="headingWithButtons">
+            
           <h1>{{ art.title }}</h1>
-          <a class="button" href="">Edit</a>
 
+          <a class="button" href="/gallery-edit/{{ art.id }}"> Edit </a>
           <form type="hidden" class="hiddenForm" method="POST" action="/gallery-delete/{{ art.id }}">
             <button class="redBg" type="submit">Delete</button>
           </form>
+
           </div>
           <p>
             {{ art.description }}
