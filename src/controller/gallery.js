@@ -1,7 +1,6 @@
-import { get, del, listVisualOnly } from "../gallery/model.js";
+import { add, get, del, listVisualOnly } from "../gallery/model.js";
 import { render } from "../service/render.js";
 import { validateImage, uploadImage } from "../service/image.js";
-import { Console } from "node:console";
 
 export const gallery = async (ctx) => {
   const gallery = listVisualOnly();
@@ -51,9 +50,10 @@ function addArtFormData(ctx, formData, errors) {
   const today = new Date().toISOString().split("T")[0];
   ctx.body = render("gallery-add.html", {
     prefillDate: formData.date,
-    formData,
+    formData: formData,
     formErrors: errors,
   });
+  console.log(formData),
   ctx.headers.set("content-type", "text/html");
   ctx.status = 400;
 }
@@ -83,7 +83,7 @@ export async function submitArtForm(ctx) {
     }
 
     // Save to db
-    const newNote = add({
+    const newEntry = add({
       title: formData.title,
       artfile: uploadResult, // Path as string
       alt: formData.alt,
@@ -93,7 +93,7 @@ export async function submitArtForm(ctx) {
     });
     // Redirect to uploaded detailpage (ctx.body not needed for redirect)
     ctx.status = 303;
-    ctx.headers.set("Location", `/gallery/${newNote}`);
+    ctx.headers.set("Location", `/gallery/${newEntry}`);
   }
   return ctx;
 }
