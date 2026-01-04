@@ -224,18 +224,6 @@ nav button {
     }
 }
 
-/*  Make this one work with js aria */
-/*
-.activeTab {
-    color: var(--color-bg-dark);
-    background-color: var(--color-primary-dark);
-    text-shadow: none;
-    border-radius: var(--border-radius);
-    padding: 0.4em 0.6em;
-    margin: 0;
-}
-*/
-
 
 
 /* ---------- Footer ---------- */
