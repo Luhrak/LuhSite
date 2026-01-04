@@ -53,10 +53,10 @@ export const error404 = async (ctx) => {
   return ctx;
 };
 
-export const error500 = async (ctx) => {
-  ctx.body = await render("error500.html");
+export const error403 = async (ctx) => {
+  ctx.body = await render("error403.html");
   ctx.headers.set("content-type", "text/html");
-  ctx.status = 500;
+  ctx.status = 403;
   return ctx;
 };
 
