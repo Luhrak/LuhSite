@@ -28,33 +28,33 @@ export const about = async (ctx) => {
   ctx.body = await render("about.html");
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
-  return ctx;
+  // return ctx;
 };
 
 // Misc
 export const impressum = async (ctx) => {
-  ctx.body = await render("legal/impressum.html");
+  ctx.body = await render("legalPages/impressum.html");
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
 };
 
 export const privacyPolicy = async (ctx) => {
-  ctx.body = await render("legal/privacy-policy.html");
+  ctx.body = await render("legalPages/privacy-policy.html");
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
 };
 
 export const error404 = async (ctx) => {
-  ctx.body = await render("error404.html");
+  ctx.body = await render("errorPages/error404.html");
   ctx.headers.set("content-type", "text/html");
   ctx.status = 404;
   return ctx;
 };
 
 export const error403 = async (ctx) => {
-  ctx.body = await render("error403.html");
+  ctx.body = await render("errorPages/error403.html");
   ctx.headers.set("content-type", "text/html");
   ctx.status = 403;
   return ctx;
@@ -63,7 +63,7 @@ export const error403 = async (ctx) => {
 // Detail Pages
 export const priceHeadshot = async (ctx) => {
   // Remove eventually
-  ctx.body = await render("detailpage/price-headshot.html");
+  ctx.body = await render("detailPages/price-headshot.html");
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
@@ -71,21 +71,21 @@ export const priceHeadshot = async (ctx) => {
 
 export const priceSticker = async (ctx) => {
   // Remove eventually
-  ctx.body = await render("detailpage/price-sticker.html");
+  ctx.body = await render("detailPages/price-sticker.html");
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
 };
 
 export const projectFursuit = async (ctx) => {
-  ctx.body = await render("detailpage/project-fursuit.html");
+  ctx.body = await render("detailPages/project-fursuit.html");
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
 };
 
 export const projectStickers = async (ctx) => {
-  ctx.body = await render("detailpage/project-stickers.html");
+  ctx.body = await render("detailPages/project-stickers.html");
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;

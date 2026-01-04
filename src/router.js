@@ -47,50 +47,50 @@ const routes = [
   },
   {
     path: "/gallery-delete/:id",
-    method: "POST", // Not actually using DELETE ok? 
+    method: "POST", // Not actually using DELETE ok?
     handler: gallery.deleteArtPiece,
   },
   {
-    path: "/gallery-edit/:id",// - instead of / suboptimal 
-    method: "GET", // Not actually using PUT/PATCH ok? 
+    path: "/gallery-edit/:id", // - instead of / suboptimal
+    method: "GET", // Not actually using PUT/PATCH ok?
     handler: gallery.editArtPiece,
   },
   {
-    path: "/gallery-update/:id", // - instead of / suboptimal 
-    method: "POST", // Not actually using PUT/PATCH ok? 
+    path: "/gallery-update/:id", // - instead of / suboptimal
+    method: "POST", // Not actually using PUT/PATCH ok?
     handler: gallery.updateArtPiece,
   },
 
   // Legal pages
   {
-    path: "/legal/impressum",
+    path: "/legalPages/impressum",
     method: "GET",
     handler: pages.impressum,
   },
   {
-    path: "/legal/privacy-policy",
+    path: "/legalPages/privacy-policy",
     method: "GET",
     handler: pages.privacyPolicy,
   },
 
   // Static Detailpages > Becomes project pages
   {
-    path: "/detailpage/price-headshot", // Remove eventually
+    path: "/detailPages/price-headshot", // Remove eventually
     method: "GET",
     handler: pages.priceHeadshot,
   },
   {
-    path: "/detailpage/price-sticker", // Remove eventually
+    path: "/detailPages/price-sticker", // Remove eventually
     method: "GET",
     handler: pages.priceSticker,
   },
   {
-    path: "/detailpage/project-fursuit",
+    path: "/detailPages/project-fursuit",
     method: "GET",
     handler: pages.projectFursuit,
   },
   {
-    path: "/detailpage/project-stickers",
+    path: "/detailPages/project-stickers",
     method: "GET",
     handler: pages.projectStickers,
   },

@@ -54,7 +54,6 @@ function generateFilename(file) {
 }
 
 export async function deleteImage(imageName) {
-  console.log(imageName);
   const filePath = path.join(Deno.cwd(), "public", imageName);
   try {
     await Deno.remove(filePath);
