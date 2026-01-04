@@ -53,6 +53,18 @@ export const error404 = async (ctx) => {
   return ctx;
 };
 
+
+
+export const error500 = async (ctx) => {
+  ctx.body = await render("error500.html");
+  ctx.headers.set("content-type", "text/html");
+  ctx.status = 500;
+  return ctx;
+};
+
+
+
+
 // Detail Pages
 export const priceHeadshot = async (ctx) => {
   // Remove eventually
