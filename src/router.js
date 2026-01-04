@@ -1,5 +1,5 @@
-import * as pages from "./controller/pages.js";
-import * as gallery from "./controller/gallery.js";
+import * as pages from "./pages/controller.js";
+import * as gallery from "./gallery/controller.js";
 
 const routes = [
   // Main pages

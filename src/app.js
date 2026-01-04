@@ -1,7 +1,7 @@
 import Context from "./framework/context.js";
 import { router } from "./router.js";
-import { serveStatic } from "./framework/middleware/serveStatic.js";
-import { error500 } from "./framework/middleware/error500.js";
+import { serveStatic } from "./middleware/serveStatic.js";
+import { error500 } from "./middleware/error500.js";
 
 export const handleRequest = async (request) => {
   try {
@@ -10,7 +10,7 @@ export const handleRequest = async (request) => {
     ctx = await serveStatic(ctx);
     return ctx.extractResponse();
   } catch {
-    // In case that anything above went wrong
+    // If anything above went wrong, show custom error 500 page
     return error500();
   }
 };

@@ -28,7 +28,7 @@ export const about = async (ctx) => {
   ctx.body = await render("about.html");
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
-  // return ctx;
+  return ctx;
 };
 
 // Misc

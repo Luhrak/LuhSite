@@ -1,4 +1,4 @@
-import * as model from "../gallery/model.js";
+import * as model from "./model.js";
 import * as image from "../service/image.js";
 import { render } from "../service/render.js";
 

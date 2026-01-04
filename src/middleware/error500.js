@@ -11,6 +11,7 @@ export const error500 = async () => {
   );
   const header = new Headers();
   header.set("content-type", "text/html");
+
   return new Response(await Deno.readTextFile(filepath), {
     status: 500,
     headers: header,
