@@ -1,6 +1,6 @@
 {% extends "./layoutBlocks/layout.html" %}
 
-{% block title %}Luhraks Price {{ editing or 'New Price' }}{% endblock %}
+{% block title %}Luhraks Prices - {{ editing or 'New Price' }}{% endblock %}
 
 {% block content %}
 
@@ -49,30 +49,6 @@
         id="artfile"
         name="artfile"
         accept="image/png, image/jpeg"
-      />
-
-   
-      <label for="date">Date</label>
-      {% if formErrors.date %}
-        <p class="form-error">{{ formErrors.date }}</p>
-      {% endif %}
-      <input
-        type="date"
-        id="date"
-        name="date"
-        value="{{ formData.date or prefillDate }}"
-      />
-
-     
-      <label for="type">Type</label>
-      {% if formErrors.type %}
-        <p class="form-error">{{ formErrors.type }}</p>
-      {% endif %}
-      <input
-        type="text"
-        id="type"
-        name="type"
-        value="{{ formData.type or '' }}"
       />
 
      

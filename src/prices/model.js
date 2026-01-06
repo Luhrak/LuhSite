@@ -4,12 +4,10 @@ import { connection } from "../service/db.js";
 export function create() {
   const db = connection();
   const stmt = db.prepare(`
-    CREATE TABLE IF NOT EXISTS "price" (
+    CREATE TABLE IF NOT EXISTS "prices" (
       "id" INTEGER NOT NULL UNIQUE,
-      "artfile" TEXT NOT NULL,
+      "previewfile" TEXT NOT NULL,
       "title" TEXT NOT NULL,
-      "type" TEXT NOT NULL,
-      "date" TEXT NOT NULL,
       "description" TEXT,
       "additions" TEXT,
       PRIMARY KEY("id" AUTOINCREMENT)
@@ -21,49 +19,67 @@ export function create() {
 // Only for overview (images)
 export function listVisualOnly() {
   const db = connection();
-  return db.prepare(`
-    SELECT id, artfile, title FROM price
-  `).all();
+  return db
+    .prepare(
+      `
+    SELECT id, previewfile, title FROM prices
+    `
+    )
+    .all();
 }
 
 // Full list
 export function list() {
   const db = connection();
-  return db.prepare(`
-    SELECT id, artfile, title, type, date, description, additions
-    FROM price
-  `).all();
+  return db
+    .prepare(
+      `
+    SELECT id, previewfile, title, description, additions
+    FROM prices
+  `
+    )
+    .all();
 }
 
 // Single entry
 export function get(id) {
   const db = connection();
-  return db.prepare(`
-    SELECT id, artfile, title, type, date, description, additions
-    FROM price
+  return db
+    .prepare(
+      `
+    SELECT id, previewfile, title, description, additions
+    FROM prices
     WHERE id = ?
-  `).get(id);
+  `
+    )
+    .get(id);
 }
 
 // Add new entry
-export function add({ artfile, title, type, date, description, additions }) {
+export function add({ previewfile, title, description, additions }) {
   const db = connection();
-  const result = db.prepare(`
-    INSERT INTO price (artfile, title, type, date, description, additions)
+  const result = db
+    .prepare(
+      `
+    INSERT INTO prices (previewfile, title, description, additions)
     VALUES (?, ?, ?, ?, ?, ?)
-  `).run(artfile, title, type, date, description, additions);
+  `
+    )
+    .run(previewfile, title, description, additions);
 
   return result.lastInsertRowid;
 }
 
 // Update entry
-export function update(id, { artfile, title, type, description, additions }) {
+export function update(id, { previewfile, title, description, additions }) {
   const db = connection();
-  db.prepare(`
-    UPDATE price
-    SET artfile = ?, title = ?, type = ?, date = ?, description = ?, additions = ?
+  db.prepare(
+    `
+    UPDATE prices
+    SET previewfile = ?, title = ?, description = ?, additions = ?
     WHERE id = ?
-  `).run(artfile, title, type, date, description, additions, id);
+  `
+  ).run(previewfile, title, description, additions, id);
 
   return id;
 }
@@ -71,7 +87,11 @@ export function update(id, { artfile, title, type, description, additions }) {
 // Delete entry
 export function del(id) {
   const db = connection();
-  return db.prepare(`
-    DELETE FROM price WHERE id = ?
-  `).run(id);
+  return db
+    .prepare(
+      `
+    DELETE FROM prices WHERE id = ?
+  `
+    )
+    .run(id);
 }

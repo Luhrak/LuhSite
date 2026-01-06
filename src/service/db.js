@@ -1,13 +1,17 @@
 import { DatabaseSync } from "node:sqlite";
-import { create } from "../gallery/model.js";
+import { create as createGalleryTable } from "../gallery/model.js";
+import { create as createPricesTable } from "../prices/model.js";
 
 let _db = null;
 
 // initialize connetion to databank
 export function initConnection(path) {
   if (!_db) {
+    // Also creates the file if not exist
     _db = new DatabaseSync(path);
-    create();
+    // Create required tables in the db
+    createGalleryTable();
+    createPricesTable();
   }
   return _db;
 }

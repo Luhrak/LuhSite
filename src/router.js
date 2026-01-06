@@ -25,6 +25,7 @@ const routes = [
     handler: pages.about,
   },
 
+
   // Gallery (specific ones before general id!)
   {
     path: "/gallery",
@@ -53,7 +54,7 @@ const routes = [
   },
   {
     path: "/gallery-edit/:id", // - instead of / suboptimal
-    method: "GET", // Not actually using PUT/PATCH ok?
+    method: "GET", 
     handler: gallery.editArtPiece,
   },
   {
@@ -62,13 +63,14 @@ const routes = [
     handler: gallery.updateArtPiece,
   },
 
+
   // Prices
   {
     path: "/prices",
     method: "GET",
     handler: price.priceList,
   },
-{
+  {
     path: "/prices/add",
     method: "GET",
     handler: price.addPriceForm,
@@ -78,7 +80,6 @@ const routes = [
     method: "POST",
     handler: price.submitPriceForm,
   },
-
   {
     path: "/prices/:id",
     method: "GET",
@@ -91,7 +92,7 @@ const routes = [
   },
   {
     path: "/prices-edit/:id", // - instead of / suboptimal
-    method: "GET", // Not actually using PUT/PATCH ok?
+    method: "GET", 
     handler: price.editPrice,
   },
   {
@@ -99,9 +100,6 @@ const routes = [
     method: "POST", // Not actually using PUT/PATCH ok?
     handler: price.updatePrice,
   },
-
-
-
 
 
   // Legal pages
@@ -138,6 +136,7 @@ const routes = [
     handler: pages.projectStickers,
   },
 ];
+
 
 export const router = async (ctx) => {
   // Match requests with known pages

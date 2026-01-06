@@ -5,27 +5,30 @@ import { render } from "../service/render.js";
 export const priceList = async (ctx) => {
   const prices = model.listVisualOnly();
   ctx.body = render("price.html", { prices });
+  ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
+  return ctx; // Remember to always return ctx, every function in this project gets context and returns context
+  // That way ctx can get from server>app>router>controller> returned back to server
 };
 
 export const priceDetail = async (ctx) => {
   const price = model.get(ctx.entryId);
   ctx.body = render("price-detail.html", { price });
+  ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
+  return ctx;
 };
 
 export const addPriceForm = async (ctx) => {
-  const today = new Date().toISOString().slice(0, 10);
-
   ctx.body = render("price-add.html", {
     editing: false,
     formData: {},
     formErrors: {},
-    prefillDate: today,
   });
   ctx.status = 200;
+  ctx.headers.set("content-type", "text/html");
+  return ctx;
 };
-
 
 export const submitPriceForm = async (ctx) => {
   const form = await ctx.request.formData();
@@ -36,9 +39,7 @@ export const submitPriceForm = async (ctx) => {
 
   const errors = {};
   if (!formData.title) errors.title = "Title is required";
-  if (!formData.type) errors.type = "Type is required";
-  if (!formData.date) errors.date = "Date is required";
-
+  // I took out Data & Type as they are not needed
   const fileError = file ? image.validateImage(file) : null;
   if (fileError) errors.artfile = fileError;
 
@@ -46,11 +47,10 @@ export const submitPriceForm = async (ctx) => {
     ctx.body = render("price-add.html", {
       formData,
       formErrors: errors,
-      prefillDate: formData.date || new Date().toISOString().slice(0, 10),
       editing: false,
     });
     ctx.status = 400;
-    return;
+    return ctx;
   }
 
   const uploadResult = file ? await image.uploadImage(file) : "";
@@ -58,14 +58,13 @@ export const submitPriceForm = async (ctx) => {
   const id = model.add({
     artfile: uploadResult,
     title: formData.title,
-    type: formData.type,
-    date: formData.date,
     description: formData.description,
     additions: formData.additions,
   });
 
   ctx.status = 303;
   ctx.headers.set("Location", `/price/${id}`);
+  return ctx;
 };
 
 export const deletePrice = async (ctx) => {
@@ -75,4 +74,5 @@ export const deletePrice = async (ctx) => {
 
   ctx.status = 303;
   ctx.headers.set("Location", "/price");
+  return ctx;
 };
