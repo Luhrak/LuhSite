@@ -527,6 +527,7 @@ form {
         border-radius: var(--border-radius);
         overflow: hidden;
         color: var(--color-light);
+        
 
         &>div:first-of-type {
             align-items: center;
@@ -589,6 +590,7 @@ form {
                 }
 
             }
+            
         }
 
         @media screen and (min-width: 38rem) {
@@ -622,6 +624,8 @@ form {
         gap: 1em;
     }
 }
+
+
 
 .price {
     display: flex;
@@ -708,4 +712,21 @@ form {
     &>p:last-of-type {
         margin-bottom: 0em;
     }
+}
+
+/* ---------- ADDITONS FOR PRICES ---------- */
+
+.prices .price-label {
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  color: var(--color-primary) !important;
+  margin-top: 0.9rem;
+  margin-bottom: 0.15rem;
+}
+
+.prices .price-description,
+.prices .price-additions {
+  font-size: 0.95rem;
+  line-height: 1.5;
 }

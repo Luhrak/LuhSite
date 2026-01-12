@@ -3,7 +3,8 @@ import * as image from "../service/image.js";
 import { render } from "../service/render.js";
 
 export const priceList = async (ctx) => {
-  const prices = await model.listVisualOnly();
+  //const prices = await model.listVisualOnly();
+  const prices = await model.list();
   ctx.body = render("prices.html", { prices });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
