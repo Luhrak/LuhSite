@@ -91,53 +91,47 @@ export async function editPrice(ctx) {
   ctx.status = 400;
   return ctx;
 }
-
 export async function updatePrice(ctx) {
-  // Read form data
   const id = ctx.entryId;
   const price = await model.get(id);
+
   const form = await ctx.request.formData();
-    // Für Datei: get file aus formData
   const file = form.get("previewfile");
   const formData = Object.fromEntries(form.entries());
 
-  // Validation
   const errors = {};
-  if (!formData.title) errors.title = "Titel is required";
-  if (!formData.type) errors.type = "Type is required";
+  if (!formData.title) errors.title = "Title is required";
+  if (!formData.description) errors.description = "Description is required";
 
   if (Object.keys(errors).length > 0) {
     addPriceFormData(ctx, formData, errors);
-  } else {
-    // Handling if a new file was uploaded
-    if (formData.previewfile) {
-      const fileError = image.validateImage(formData.previewfile);
+    return ctx;
+  }
+
+  if (file && file.size > 0) {
+    const fileError = image.validateImage(file);
+    if (fileError) {
       errors.previewfile = fileError;
-      if (Object.keys(errors).length > 0) {
-        addPriceFormData(ctx, formData, errors);
-      }
-
-      const uploadResult = await image.uploadImage(formData.previewfile);
-
-      // Validate Upload
-      if (!uploadResult) {
-        errors.previewfile = "Upload failed";
-        addPriceFormData(ctx, formData, errors);
-      } else {
-        formData.previewfile = uploadResult;
-      }
-    } else {
-      // or take the old one
-      formData.previewfile = price.previewfile;
+      addPriceFormData(ctx, formData, errors);
+      return ctx;
     }
 
-    // Update in db
-    const unpdatedEntry = model.update(id, formData);
+    const uploadResult = await image.uploadImage(file);
+    if (!uploadResult) {
+      errors.previewfile = "Upload failed";
+      addPriceFormData(ctx, formData, errors);
+      return ctx;
+    }
 
-    // Redirect to uploaded detailpage (ctx.body not needed for redirect)
-    ctx.status = 303;
-    ctx.headers.set("Location", `/prices/${unpdatedEntry}`);
+    formData.previewfile = uploadResult;
+  } else {
+    formData.previewfile = price.previewfile;
   }
+
+  const updatedEntry = model.update(id, formData);
+
+  ctx.status = 303;
+  ctx.headers.set("Location", `/prices/${updatedEntry}`);
   return ctx;
 }
 

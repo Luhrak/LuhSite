@@ -9,7 +9,7 @@
     <h1>{{ editing or 'New Price' }}</h1>
 
     {% if editing %}
-      <form method="POST" action="/price-update/{{ formData.id }}" enctype="multipart/form-data">
+      <form method="POST" action="/prices-update/{{ formData.id }}" enctype="multipart/form-data">
     {% else %}
       <form method="POST" action="/prices/add" enctype="multipart/form-data">
     {% endif %}

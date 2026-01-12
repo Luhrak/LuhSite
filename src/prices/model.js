@@ -72,7 +72,7 @@ export function add({ previewfile, title, description, additions }) {
 
 // Update entry
 export function update(id, { previewfile, title, description, additions }) {
-   db = connection();
+   const db = connection();
   const stmt = db.prepare(
     `
     UPDATE prices
