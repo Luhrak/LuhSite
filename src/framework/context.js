@@ -6,6 +6,10 @@ export default class Context {
     this.url = new URL(request.url);
     this.method = request.method;
     this.entryId = undefined; // easy access to id for detailpages as its not saved seperately in the request itself
+    /* Fetchable */
+    this.cookies = {};
+    this.session = {};
+    this.sessionId = undefined;
     /* Response fields */
     this.body = undefined;
     this.headers = new Headers();

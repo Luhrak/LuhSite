@@ -58,6 +58,11 @@ p {
     max-width: 30rem;
 }
 
+.centered {
+    max-width: 100%;
+    text-align: center;
+}
+
 h1,
 h2 {
     display: inline-block;
@@ -266,6 +271,11 @@ form {
         font-size: 1em;
         min-height: 10em;
     }
+}
+
+.slimForm {
+    max-width: 25em;
+    margin: 0 auto;
 }
 
 .hiddenForm {
@@ -527,7 +537,7 @@ form {
         border-radius: var(--border-radius);
         overflow: hidden;
         color: var(--color-light);
-        
+
 
         &>div:first-of-type {
             align-items: center;
@@ -590,7 +600,7 @@ form {
                 }
 
             }
-            
+
         }
 
         @media screen and (min-width: 38rem) {
@@ -717,16 +727,16 @@ form {
 /* ---------- ADDITONS FOR PRICES ---------- */
 
 .prices .price-label {
-  font-weight: 700;
-  font-size: 0.9rem;
-  letter-spacing: 0.04em;
-  color: var(--color-primary) !important;
-  margin-top: 0.9rem;
-  margin-bottom: 0.15rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    color: var(--color-primary) !important;
+    margin-top: 0.9rem;
+    margin-bottom: 0.15rem;
 }
 
 .prices .price-description,
 .prices .price-additions {
-  font-size: 0.95rem;
-  line-height: 1.5;
+    font-size: 0.95rem;
+    line-height: 1.5;
 }

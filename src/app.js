@@ -3,11 +3,14 @@ import { router } from "./router.js";
 import { serveStatic } from "./middleware/serveStatic.js";
 import { error500 } from "./middleware/error500.js";
 import { logRequest } from "./middleware/logging.js";
+import { handleSession } from "./middleware/session.js";
 
 export async function handleRequest(request) {
   // Custom 500 page with try catch commented out while working on project so we can get error messages in terminal
   // try {
   let ctx = new Context(request);
+
+  ctx = handleSession(ctx);
   ctx = await router(ctx);
   ctx = await serveStatic(ctx);
   logRequest(ctx);

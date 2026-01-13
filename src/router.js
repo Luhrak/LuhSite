@@ -1,15 +1,15 @@
 import * as pages from "./pages/controller.js";
 import * as gallery from "./gallery/controller.js";
 import * as price from "./prices/controller.js";
+import * as account from "./accounts/controller.js";
 
 const routes = [
-  // Main pages
+  // Main routes
   {
     path: "/",
     method: "GET",
     handler: pages.index,
   },
-
   {
     path: "/projects",
     method: "GET",
@@ -21,7 +21,19 @@ const routes = [
     handler: pages.about,
   },
 
-  // Gallery (specific ones before general id!)
+  // Legal routes
+  {
+    path: "/legalPages/impressum",
+    method: "GET",
+    handler: pages.impressum,
+  },
+  {
+    path: "/legalPages/privacy-policy",
+    method: "GET",
+    handler: pages.privacyPolicy,
+  },
+
+  // Gallery routes (specific ones before general id!)
   {
     path: "/gallery",
     method: "GET",
@@ -43,8 +55,8 @@ const routes = [
     handler: gallery.artPiece,
   },
   {
-    path: "/gallery-delete/:id",
-    method: "POST", // Not actually using DELETE ok?
+    path: "/gallery-delete/:id", // - instead of / suboptimal
+    method: "POST",
     handler: gallery.deleteArtPiece,
   },
   {
@@ -54,11 +66,11 @@ const routes = [
   },
   {
     path: "/gallery-update/:id", // - instead of / suboptimal
-    method: "POST", // Not actually using PUT/PATCH ok?
+    method: "POST",
     handler: gallery.updateArtPiece,
   },
 
-  // Prices
+  // Prices routes
   {
     path: "/prices",
     method: "GET",
@@ -80,8 +92,8 @@ const routes = [
     handler: price.priceDetail,
   },
   {
-    path: "/prices-delete/:id",
-    method: "POST", // Not actually using DELETE ok?
+    path: "/prices-delete/:id", // - instead of / suboptimal
+    method: "POST",
     handler: price.deletePrice,
   },
   {
@@ -91,23 +103,33 @@ const routes = [
   },
   {
     path: "/prices-update/:id", // - instead of / suboptimal
-    method: "POST", // Not actually using PUT/PATCH ok?
+    method: "POST",
     handler: price.updatePrice,
   },
 
-  // Legal pages
+  // Accounts routes
   {
-    path: "/legalPages/impressum",
+    path: "/login",
     method: "GET",
-    handler: pages.impressum,
+    handler: account.login,
   },
   {
-    path: "/legalPages/privacy-policy",
+    path: "/signup",
     method: "GET",
-    handler: pages.privacyPolicy,
+    handler: account.signup,
+  },
+  {
+    path: "/login",
+    method: "POST",
+    handler: account.confirmLogin,
+  },
+  {
+    path: "/signup",
+    method: "POST",
+    handler: account.confirmSignup,
   },
 
-  // Static Detailpages > Becomes project pages
+  // Project routes
   {
     path: "/detailPages/price-headshot", // Remove eventually
     method: "GET",

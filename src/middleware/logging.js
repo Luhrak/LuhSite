@@ -11,7 +11,6 @@ export async function logRequest(ctx) {
       url: ctx.url.href,
       origin: ctx.url.origin,
     };
-    console.log(logEntry);
     add(logEntry);
   }
 }
