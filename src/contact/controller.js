@@ -25,6 +25,7 @@ export async function submitContactForm(ctx) {
     email: formData.email,
     subject: formData.subject,
     message: formData.message,
+     is_new: 1,
   });
 
   ctx.status = 303;
@@ -33,10 +34,32 @@ export async function submitContactForm(ctx) {
 }
 
 export async function messageList(ctx) {
-  const messages = model.list(); // list() holt alle Nachrichten aus DB
+  const newMessages = model.listNew();    // is_new = 1
+  const readMessages = model.listRead();  // is_new = 0
 
-  ctx.body = await render("messages.html", { messages });
+  ctx.body = await render("messages.html", {
+    messages: {
+      new: newMessages,
+      read: readMessages
+    }
+  });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
+  return ctx;
+}
+export async function markMessageRead(ctx) {
+  const id = ctx.entryId;
+  model.markAsRead(id);
+
+  ctx.status = 303;
+  ctx.headers.set("Location", "/messages");
+  return ctx;
+}
+export async function deleteMessage(ctx) {
+  const id = ctx.entryId;
+  model.del(id);
+
+  ctx.status = 303;
+  ctx.headers.set("Location", "/messages");
   return ctx;
 }

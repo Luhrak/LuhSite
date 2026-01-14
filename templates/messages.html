@@ -7,9 +7,10 @@
   <div class="widthConstraint">
     <h1>Contact Messages</h1>
 
-    {% if messages.length > 0 %}
+    {% if messages.new.length > 0 %}
+      <h2>New Messages</h2>
       <ul class="wideGallery">
-        {% for msg in messages %}
+        {% for msg in messages.new %}
           <li>
             <div class="prices">
               <h3>{{ msg.name }}</h3>
@@ -20,15 +21,51 @@
               {% endif %}
 
               <p>{{ msg.message }}</p>
-
               <p style="opacity: 0.6; font-size: 0.9rem;">
                 {{ msg.created_at }}
               </p>
+
+              <form action="/messages-mark-read/{{ msg.id }}" method="POST" style="display:inline-block;">
+                <button type="submit">Mark as Read</button>
+              </form>
+
+              <form action="/messages-delete/{{ msg.id }}" method="POST" style="display:inline-block;">
+                <button type="submit">Delete</button>
+              </form>
             </div>
           </li>
         {% endfor %}
       </ul>
-    {% else %}
+    {% endif %}
+
+    {% if messages.read.length > 0 %}
+      <h2>Read Messages</h2>
+      <ul class="wideGallery">
+        {% for msg in messages.read %}
+          <li>
+            <div class="prices">
+              <h3>{{ msg.name }}</h3>
+              <p><strong>Email:</strong> {{ msg.email }}</p>
+
+              {% if msg.subject %}
+                <p><strong>Subject:</strong> {{ msg.subject }}</p>
+              {% endif %}
+
+              <p>{{ msg.message }}</p>
+              <p style="opacity: 0.6; font-size: 0.9rem;">
+                {{ msg.created_at }}
+              </p>
+
+              <form action="/messages-delete/{{ msg.id }}" method="POST" style="display:inline-block;">
+                <button type="submit">Delete</button>
+              </form>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% if messages.new.length == 0 and messages.read.length == 0 %}
       <p>No messages yet.</p>
     {% endif %}
   </div>
