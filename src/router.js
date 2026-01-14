@@ -171,6 +171,23 @@ const routes = [
     method: "GET",
     handler: contact.messageList,
   },
+{
+  path: "/messages",
+  method: "GET",
+  handler: contact.messageList,
+},
+{
+  path: "/messages-read/:id",
+  method: "POST",
+  handler: contact.markMessageRead,
+},
+
+{
+  path: "/messages-delete/:id",
+  method: "POST",
+  handler: contact.deleteMessage,
+},
+
 ];
 
 export async function router(ctx) {
@@ -186,3 +203,4 @@ export async function router(ctx) {
   }
   return pages.error404(ctx);
 }
+
