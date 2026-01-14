@@ -185,6 +185,18 @@ button {
     }
 }
 
+.flashbox {
+    background-color: var(--color-bg-dark);
+    border-radius: var(--border-radius);
+    padding: 0.5em 1.4em;
+    margin: 0.8em auto 0 auto;
+    font-size: 1.2em;
+
+    & p {
+        margin: 0
+    }
+}
+
 span {
     /* Used to shrink arrows on buttons */
     font-size: 0.8em;

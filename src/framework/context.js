@@ -16,6 +16,7 @@ export default class Context {
     this.status = undefined;
     /* Other */
     this.serveStatic = false;
+    this.flash = undefined;
     this.logTime = new Date();
   }
 

@@ -56,7 +56,7 @@ export async function editArtPiece(ctx) {
     formData: art,
   });
   ctx.headers.set("content-type", "text/html");
-  ctx.status = 400;
+  ctx.status = 200;
   return ctx;
 }
 
@@ -157,5 +157,5 @@ async function addArtFormData(ctx, formData, errors) {
     formErrors: errors,
   });
   ctx.headers.set("content-type", "text/html");
-  ctx.status = 400;
+  ctx.status = 200;
 }

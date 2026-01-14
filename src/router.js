@@ -132,6 +132,11 @@ const routes = [
     method: "POST",
     handler: account.confirmSignup,
   },
+  {
+    path: "/logout",
+    method: "GET",
+    handler: account.logout,
+  },
 
   // Project routes
   {

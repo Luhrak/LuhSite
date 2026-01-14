@@ -4,7 +4,7 @@ import { render } from "../service/render.js";
 // Main Pages
 export async function index(ctx) {
   const gallery = listVisualOnly();
-  ctx.body = await render("index.html", { gallery });
+  ctx.body = await render("index.html", { flash: ctx.flash, gallery });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;

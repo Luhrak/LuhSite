@@ -1,6 +1,5 @@
 import * as model from "./model.js";
 import { render } from "../service/render.js";
-import { Console } from "node:console";
 
 export async function login(ctx) {
   ctx.body = await render("login.html");
@@ -17,9 +16,54 @@ export async function signup(ctx) {
 }
 
 export async function confirmLogin(ctx) {
-  ctx.body = await render("login.html");
+  // Read form data
+  const form = await ctx.request.formData();
+  const formData = Object.fromEntries(form.entries());
+
+  // Validation
+  const errors = {};
+  if (!formData.username) errors.username = "Username is required";
+  if (!formData.password) errors.password = "Password is required";
+  if (Object.keys(errors).length > 0) {
+    loginData(ctx, formData, errors);
+  } else {
+    const accountId = model.match({
+      username: formData.username,
+      password: formData.password,
+    });
+    if (accountId === undefined) {
+      errors.username =
+        "No account with this username and password combination found";
+      loginData(ctx, formData, errors);
+    } else {
+      // Login
+      ctx.session.account = accountId;
+      ctx.session.flash = "You are now logged in as " + formData.username;
+
+      // Redirect
+      ctx.status = 303;
+      ctx.headers.set("Location", `/`);
+      return ctx;
+    }
+  }
+  return ctx;
+}
+
+async function loginData(ctx, formData, errors) {
+  // no redirect or export cuz only used in submit / update
+  ctx.body = await render("login.html", {
+    formData: formData,
+    formErrors: errors,
+  });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
+}
+
+export function logout(ctx) {
+  delete ctx.session.account;
+  ctx.session.flash = "You are now logged out";
+  ctx.status = 303;
+  ctx.headers.set("Location", `/`);
   return ctx;
 }
 
@@ -47,6 +91,11 @@ export async function confirmSignup(ctx) {
       password: formData.password,
       permission: "guest",
     });
+
+    // Login
+    ctx.session.account = newEntry;
+    ctx.session.flash = "Account created and logged in as " + formData.username;
+
     // Redirect to uploaded detailpage (ctx.body not needed for redirect)
     ctx.status = 303;
     ctx.headers.set("Location", `/`);
@@ -62,7 +111,7 @@ async function signupData(ctx, formData, errors) {
     formErrors: errors,
   });
   ctx.headers.set("content-type", "text/html");
-  ctx.status = 400;
+  ctx.status = 200;
 }
 
 function isValidatePassword(password) {

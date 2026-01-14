@@ -16,7 +16,7 @@ export async function submitContactForm(ctx) {
       formErrors: errors,
     });
     ctx.headers.set("content-type", "text/html");
-    ctx.status = 400;
+    ctx.status = 200;
     return ctx;
   }
 

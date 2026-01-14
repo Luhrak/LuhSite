@@ -52,7 +52,7 @@ export async function submitPriceForm(ctx) {
       formErrors: errors,
       // editing: false,
     });
-    ctx.status = 400;
+    ctx.status = 200;
     return ctx;
   }
   const uploadResult = file ? await image.uploadImage(file) : "";
@@ -87,7 +87,7 @@ export async function editPrice(ctx) {
     formData: price,
   });
   ctx.headers.set("content-type", "text/html");
-  ctx.status = 400;
+  ctx.status = 200;
   return ctx;
 }
 
@@ -143,5 +143,5 @@ async function addPriceFormData(ctx, formData, errors) {
     formErrors: errors,
   });
   ctx.headers.set("content-type", "text/html");
-  ctx.status = 400;
+  ctx.status = 200;
 }

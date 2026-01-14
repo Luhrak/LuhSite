@@ -26,6 +26,17 @@ export function get(id) {
   return stmt.get(id);
 }
 
+// Checks the table for a username and password combination
+export function match({ username, password }) {
+  const db = connection();
+  const stmt = db.prepare(`
+    SELECT id 
+    FROM accounts
+    WHERE username = ?  AND password = ?
+  `);
+  return stmt.get(username, password);
+}
+
 // Adding a new entry
 export function add({ username, password, permission }) {
   const db = connection();

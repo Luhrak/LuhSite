@@ -9,6 +9,6 @@ nunjucks.configure(templPath, {
   watch: false, // only for live update
 });
 
-export async function render(viewName, context = {}) {
-  return await nunjucks.render(viewName, context);
+export async function render(viewName, variables = {}) {
+  return await nunjucks.render(viewName, variables);
 }

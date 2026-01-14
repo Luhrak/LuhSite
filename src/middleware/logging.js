@@ -1,7 +1,7 @@
 import { connection } from "../service/db.js";
 
 export async function logRequest(ctx) {
-  // Filter out images or they would clutter the log a lot
+  // Filtering out static or they would clutter the log a lot
   if (!ctx.serveStatic) {
     const logEntry = {
       time: ctx.logTime.toString(),

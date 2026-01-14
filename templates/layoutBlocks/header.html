@@ -26,3 +26,9 @@
       </div>
     </header>
     <script src="/js/hamburgerMenu.js"></script>
+
+    {% if flash %}
+    <div class="flashbox" > 
+      <p>{{flash}}</p>
+    </div>
+    {% endif %}
