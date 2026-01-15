@@ -9,7 +9,6 @@ export async function logRequest(ctx) {
       method: ctx.method,
       status: ctx.status,
       url: ctx.url.href,
-      origin: ctx.url.origin,
     };
     add(logEntry);
   }
@@ -26,7 +25,6 @@ export function create() {
       "method"	    TEXT NOT NULL,
       "status"	    INTEGER NOT NULL,
       "url"	        TEXT NOT NULL,
-      "origin"	    TEXT NOT NULL,
       PRIMARY KEY("id" AUTOINCREMENT)
     )
     `);
@@ -34,12 +32,12 @@ export function create() {
 }
 
 // Adding a new entry
-export function add({ time, processTime, method, status, url, origin }) {
+export function add({ time, processTime, method, status, url }) {
   const db = connection();
   const stmt = db.prepare(`
-    INSERT INTO requestLog (time, processTime, method, status, url, origin)
-    VALUES (?, ?, ?, ?, ?, ?)
+    INSERT INTO requestLog (time, processTime, method, status, url)
+    VALUES (?, ?, ?, ?, ?)
   `);
-  const result = stmt.run(time, processTime, method, status, url, origin);
+  const result = stmt.run(time, processTime, method, status, url);
   return result.lastInsertRowid;
 }
