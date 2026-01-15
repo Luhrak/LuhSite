@@ -16,6 +16,7 @@
       <div class="headingWithButtons">
         <h1>{{ price.title }}</h1>
 
+        {% if permission %}
         <a class="button" href="/prices-edit/{{ price.id }}">Edit</a>
 
         <div class="deleteBox">
@@ -48,6 +49,8 @@
             </button>
           </div>
         </div>
+        {% endif %}
+        
       </div>
 
       <!-- 🆕 PRICE -->

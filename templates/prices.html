@@ -8,40 +8,45 @@
     <h1>Commission Pricing</h1>
 
     <ul class="wideGallery">
-      <li>
-        <a href="/prices/add">
-          <div>
-            <img src="/img/NewPost.png" alt="Add new price">
-          </div>
-          <div>
-            <h3>New Price</h3>
-            <p>Add new entry</p>
-          </div>
-        </a>
-      </li>
-          {% for price in prices %}
-            <li>
-              <a href="/prices/{{ price.id }}">
-                <div>
-                  <img src="{{ price.previewfile }}" alt="{{ price.title }}">
-                </div>
+      
+      {% if permission %}
+        <li>
+          <a href="/prices/add">
+            <div>
+              <img src="/img/NewPost.png" alt="Add new price">
+            </div>
+            <div>
+              <h3>New Price</h3>
+              <p>Add new entry</p>
+            </div>
+          </a>
+        </li>
+      {% endif %}
 
-                <div>
-                  <!-- Title + Additions (Preis) -->
-                  <div class="price">
-                  <h3>{{ price.title }}</h3>
-                  <p>from {{ price.price }} €</p>
-                  </div>
+      {% for price in prices %}
+        <li>
+          <a href="/prices/{{ price.id }}">
+            <div>
+              <img src="{{ price.previewfile }}" alt="{{ price.title }}">
+            </div>
 
-                 <p>
-                  {{ price.short_description or '—' }}
-                </p>
-                </div>
-              </a>
-            </li>
-          {% else %}
-            <li>No prices yet</li>
-          {% endfor %}
+            <div>
+              <!-- Title + Additions (Preis) -->
+              <div class="price">
+              <h3>{{ price.title }}</h3>
+              <p>from {{ price.price }} €</p>
+              </div>
+
+              <p>
+              {{ price.short_description or '—' }}
+            </p>
+            </div>
+          </a>
+        </li>
+      {% else %}
+        <li>No prices yet</li>
+      {% endfor %}
+      
     </ul>
   </div>
 </main>

@@ -20,6 +20,9 @@
               <li><a href="/prices">Prices</a></li>
               <li><a href="/projects">Projects</a></li>
               <li><a href="/about">About</a></li>
+              {% if permission %}
+              <li><a href="/messages">Messages</a></li>
+              {% endif %}
             </ul>
           </nav>
         </hamburger-menu>

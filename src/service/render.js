@@ -15,6 +15,7 @@ export async function render(viewName, ctx, variables = {}) {
   // so it doesnt have to be repeated over and over on every render
   variables = getFlash(ctx, variables);
   variables = getPermission(ctx, variables);
+
   // Then just nomal render via nunjucks
   return await nunjucks.render(viewName, variables);
 }
@@ -28,8 +29,8 @@ function getFlash(ctx, variables) {
 }
 
 function getPermission(ctx, variables) {
-  if (ctx.session.accout) {
-    const permission = getAccountPermission(ctx.session.accout).permission;
+  if (ctx.session.account) {
+    const permission = getAccountPermission(ctx.session.account).permission;
     if (permission === "admin" || permission === "moderator") {
       variables.permission = "true";
     }

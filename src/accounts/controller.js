@@ -27,17 +27,17 @@ export async function confirmLogin(ctx) {
   if (Object.keys(errors).length > 0) {
     loginData(ctx, formData, errors);
   } else {
-    const accountId = model.match({
+    const account = model.match({
       username: formData.username,
       password: formData.password,
     });
-    if (accountId === undefined) {
+    if (account === undefined) {
       errors.username =
         "No account with this username and password combination found";
       loginData(ctx, formData, errors);
     } else {
       // Login
-      ctx.session.account = accountId;
+      ctx.session.account = account.id;
       ctx.session.flash = "You are now logged in as " + formData.username;
 
       // Redirect
@@ -93,7 +93,7 @@ export async function confirmSignup(ctx) {
     });
 
     // Login
-    ctx.session.account = newEntry;
+    ctx.session.account = newEntry.id;
     ctx.session.flash = "Account created and logged in as " + formData.username;
 
     // Redirect to uploaded detailpage (ctx.body not needed for redirect)

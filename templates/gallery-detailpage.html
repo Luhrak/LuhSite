@@ -13,9 +13,10 @@
           />
           <div class="headingWithButtons">
             
-          <h1>{{ art.title }}</h1>
-
-          <a class="button" href="/gallery-edit/{{ art.id }}"> Edit </a>
+            <h1>{{ art.title }}</h1>
+            
+            {% if permission %}
+            <a class="button" href="/gallery-edit/{{ art.id }}"> Edit </a>
 
             <div class="deleteBox">
            
@@ -41,14 +42,14 @@
                   class="button"
                   onclick="
                     document.getElementById('confirmDeleteGallery').style.display='none';
-                    this.closest('.deleteBox').querySelector('.redBg').style.display='inline-block';
-                  "
+                    this.closest('.deleteBox').querySelector('.redBg').style.display='inline-block';"
                 >
                   Cancel
                 </button>
               </div>
             </div>
-
+            {% endif %}
+            
           </div>
         {% if art.description %}
           <p>
