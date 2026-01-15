@@ -63,14 +63,25 @@
       >{{ formData.description or '' }}</textarea>
 
     
-      <label for="additions">Additions</label>
-      <textarea
-        id="additions"
-        name="additions"
-        rows="4"
-      >{{ formData.additions or '' }}</textarea>
-
+      <label for="price">Price (EUR)</label>
+      <input
+        type="number"
+        id="price"
+        name="price"
+        min="0"
+        step="1"
+        value="{{ formData.price or '' }}"
+      />
    
+
+      <label for="short_description">Short description</label>
+      <textarea
+        id="short_description"
+        name="short_description"
+        rows="3"
+      >{{ formData.short_description or '' }}</textarea>
+
+
       {% if editing %}
         <button type="submit">Update</button>
       {% else %}

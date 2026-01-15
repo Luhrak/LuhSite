@@ -29,14 +29,13 @@
                 <div>
                   <!-- Title + Additions (Preis) -->
                   <div class="price">
-                    <h3>{{ price.title }}</h3>
-                    <p>{{ price.additions or '' }}</p>
+                  <h3>{{ price.title }}</h3>
+                  <p>from {{ price.price }} €</p>
                   </div>
 
-                  <!-- Description -->
-                  <p>
-                    {{ price.description or '—' }}
-                  </p>
+                 <p>
+                  {{ price.short_description or '—' }}
+                </p>
                 </div>
               </a>
             </li>

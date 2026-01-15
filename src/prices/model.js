@@ -4,13 +4,13 @@ import { connection } from "../service/db.js";
 export function create() {
   const db = connection();
   const stmt = db.prepare(`
-    CREATE TABLE IF NOT EXISTS "prices" (
-      "id" INTEGER NOT NULL UNIQUE,
-      "previewfile" TEXT NOT NULL,
-      "title" TEXT NOT NULL,
-      "description" TEXT NOT NULL,
-      "additions" TEXT,
-      PRIMARY KEY("id" AUTOINCREMENT)
+    CREATE TABLE IF NOT EXISTS prices (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      previewfile TEXT NOT NULL,
+      title TEXT NOT NULL,
+      price INTEGER NOT NULL,
+      short_description TEXT,
+      description TEXT NOT NULL
     )
   `);
   return stmt.all();
@@ -31,23 +31,25 @@ export function listVisualOnly() {
 // Full list
 export function list() {
   const db = connection();
-  return db
-    .prepare(
-      `
-    SELECT id, previewfile, title, description, additions
+  return db.prepare(`
+    SELECT
+      id,
+      previewfile,
+      title,
+      price,
+      short_description,
+      description
     FROM prices
-  `
-    )
-    .all();
+    ORDER BY id DESC
+  `).all();
 }
-
 // Single entry
 export function get(id) {
   const db = connection();
   return db
     .prepare(
       `
-    SELECT id, previewfile, title, description, additions
+    SELECT id, previewfile, title, price, short_description, description
     FROM prices
     WHERE id = ?
   `
@@ -56,31 +58,31 @@ export function get(id) {
 }
 
 // Add new entry
-export function add({ previewfile, title, description, additions }) {
+export function add({ previewfile, title, description, price, short_description }) {
   const db = connection();
   const result = db
     .prepare(
       `
-    INSERT INTO prices (previewfile, title, description, additions)
-    VALUES (?, ?, ?, ?)
+    INSERT INTO prices (previewfile, title, price, short_description, description)
+    VALUES (?, ?, ?, ?, ?)
   `
     )
-    .run(previewfile, title, description, additions);
+    .run(previewfile, title, price, short_description, description);
 
   return result.lastInsertRowid;
 }
 
 // Update entry
-export function update(id, { previewfile, title, description, additions }) {
+export function update(id, { previewfile, title, price, short_description, description }) {
    const db = connection();
   const stmt = db.prepare(
     `
     UPDATE prices
-    SET previewfile = ?, title = ?, description = ?, additions = ?
+    SET previewfile = ?, title = ?, price = ?, short_description = ?, description = ?
     WHERE id = ?
   `
   );
-  stmt.run(previewfile, title, description, additions, id);
+  stmt.run(previewfile, title, price, short_description, description, id);
 
   return id;
 }

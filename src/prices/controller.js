@@ -33,15 +33,18 @@ export async function addPriceForm(ctx) {
 
 export async function submitPriceForm(ctx) {
   const form = await ctx.request.formData();
-  // Für Datei: get file aus formData
   const file = form.get("previewfile");
   const formData = Object.fromEntries(form.entries());
 
+  // 1. Price von String zu Integer konvertieren
+  const price = parseInt(formData.price, 10) || 0;
+  const short_description = formData.short_description || "";
+
   const errors = {};
   if (!formData.title) errors.title = "Title is required";
-  // I took out Data & Type as they are not needed
-
   if (!formData.description) errors.description = "Description is required";
+  if (price <= 0) errors.price = "Price must be greater than 0";
+
   const fileError = file ? image.validateImage(file) : null;
   if (fileError) errors.previewfile = fileError;
 
@@ -50,18 +53,21 @@ export async function submitPriceForm(ctx) {
     ctx.body = await render("prices-add.html", {
       formData,
       formErrors: errors,
-      // editing: false,
     });
-    ctx.status = 200;
+    ctx.status = 400;
     return ctx;
   }
-  const uploadResult = file ? await image.uploadImage(file) : "";
 
+  // Upload image falls vorhanden
+  const uploadResult = file && file.size > 0 ? await image.uploadImage(file) : "";
+
+  // 2. Daten in die DB schreiben
   const id = model.add({
     previewfile: uploadResult,
     title: formData.title,
+    price: price,
+    short_description: short_description,
     description: formData.description,
-    additions: formData.additions,
   });
 
   ctx.status = 303;
@@ -93,42 +99,54 @@ export async function editPrice(ctx) {
 
 export async function updatePrice(ctx) {
   const id = ctx.entryId;
-  const price = model.get(id);
+  const existingPrice = model.get(id);
 
   const form = await ctx.request.formData();
   const file = form.get("previewfile");
   const formData = Object.fromEntries(form.entries());
 
+  // 1. Price und Short Description korrekt setzen
+  const price = parseInt(formData.price, 10) || 0;
+  const short_description = formData.short_description || "";
+
   const errors = {};
   if (!formData.title) errors.title = "Title is required";
   if (!formData.description) errors.description = "Description is required";
+  if (price <= 0) errors.price = "Price must be greater than 0";
 
   if (Object.keys(errors).length > 0) {
-    addPriceFormData(ctx, formData, errors);
+    await addPriceFormData(ctx, formData, errors);
     return ctx;
   }
 
+  // 2. Datei-Upload prüfen
   if (file && file.size > 0) {
     const fileError = image.validateImage(file);
     if (fileError) {
       errors.previewfile = fileError;
-      addPriceFormData(ctx, formData, errors);
+      await addPriceFormData(ctx, formData, errors);
       return ctx;
     }
 
     const uploadResult = await image.uploadImage(file);
     if (!uploadResult) {
       errors.previewfile = "Upload failed";
-      addPriceFormData(ctx, formData, errors);
+      await addPriceFormData(ctx, formData, errors);
       return ctx;
     }
-
     formData.previewfile = uploadResult;
   } else {
-    formData.previewfile = price.previewfile;
+    formData.previewfile = existingPrice.previewfile;
   }
 
-  const updatedEntry = model.update(id, formData);
+  // 3. Update in DB
+  const updatedEntry = model.update(id, {
+    previewfile: formData.previewfile,
+    title: formData.title,
+    price: price,
+    short_description: short_description,
+    description: formData.description,
+  });
 
   ctx.status = 303;
   ctx.headers.set("Location", `/prices/${updatedEntry}`);

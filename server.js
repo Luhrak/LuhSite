@@ -9,6 +9,7 @@ const DB_PATH = "./data/data.db";
 createSessionStore();
 const db = initConnection(DB_PATH);
 
+
 Deno.serve({ port, hostname }, handleRequest);
 // deno run --allow-net --allow-read --allow-write --watch server.js
 // deno run --allow-net --allow-read --allow-write --allow-env --unstable-temporal server.js

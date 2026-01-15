@@ -4,61 +4,78 @@
 
 {% block content %}
 
-    <main>
-      <div class="widthConstraint">
-        <section class="detailsPage">
-          <img
-            src="{{ price.previewfile }}"
-            alt="{{ price.alt }}"
-          />
-          <div class="headingWithButtons">
-            
-          <h1>{{ price.title }}</h1>
+<main>
+  <div class="widthConstraint">
+    <section class="detailsPage">
 
-          <a class="button" href="/prices-edit/{{ price.id }}"> Edit </a>
-          <div class="deleteBox">
-            
+      <img
+        src="{{ price.previewfile }}"
+        alt="{{ price.alt }}"
+      />
+
+      <div class="headingWithButtons">
+        <h1>{{ price.title }}</h1>
+
+        <a class="button" href="/prices-edit/{{ price.id }}">Edit</a>
+
+        <div class="deleteBox">
+          <button
+            class="redBg"
+            type="button"
+            onclick="document.getElementById('confirmDelete').style.display='block'; this.style.display='none';"
+          >
+            Delete
+          </button>
+
+          <div id="confirmDelete" style="display: none; margin-top: 0.5rem;">
+            <p style="margin-bottom: 0.5rem;">
+              Are you sure you want to delete this price?
+            </p>
+
+            <form method="POST" action="/prices-delete/{{ price.id }}" style="display:inline;">
+              <button class="redBg" type="submit">Confirm Delete</button>
+            </form>
+
             <button
-              class="redBg"
               type="button"
-              onclick="document.getElementById('confirmDelete').style.display='block'; this.style.display='none';"
+              class="button"
+              onclick="
+                document.getElementById('confirmDelete').style.display='none';
+                this.closest('.deleteBox').querySelector('.redBg').style.display='inline-block';
+              "
             >
-              Delete
+              Cancel
             </button>
-
-         
-            <div id="confirmDelete" style="display: none; margin-top: 0.5rem;">
-              <p style="margin-bottom: 0.5rem;">
-                Are you sure you want to delete this price?
-              </p>
-
-              <form method="POST" action="/prices-delete/{{ price.id }}" style="display:inline;">
-                <button class="redBg" type="submit">Confirm Delete</button>
-              </form>
-
-              <button
-                type="button"
-                class="button"
-                onclick="
-                  document.getElementById('confirmDelete').style.display='none';
-                  this.closest('.deleteBox').querySelector('.redBg').style.display='inline-block';
-                "
-              >
-                Cancel
-              </button>
-            </div>
           </div>
-
-          </div>
-        {% if price.description %}
-          <p>
-            {{ price.description }}
-          </p>
-        {% endif %}
-          <p>Want an price piece similar to this too?</p>
-          <a class="button" href="/prices">Commission price</a>
-        </section>
+        </div>
       </div>
-    </main>
+
+      <!-- 🆕 PRICE -->
+      {% if price.price %}
+        <p class="priceHighlight">
+          from {{ price.price }} €
+        </p>
+      {% endif %}
+
+      <!-- 🆕 SHORT DESCRIPTION -->
+      {% if price.short_description %}
+        <p class="shortDescription">
+          {{ price.short_description }}
+        </p>
+      {% endif %}
+
+      <!-- FULL DESCRIPTION -->
+      {% if price.description %}
+        <p>
+          {{ price.description }}
+        </p>
+      {% endif %}
+
+      <p>Want a price piece similar to this too?</p>
+      <a class="button" href="/prices">Commission price</a>
+
+    </section>
+  </div>
+</main>
 
 {% endblock %}
