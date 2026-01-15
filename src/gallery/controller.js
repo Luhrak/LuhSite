@@ -4,7 +4,7 @@ import { render } from "../service/render.js";
 
 export async function gallery(ctx) {
   const gallery = model.listVisualOnly();
-  ctx.body = await render("gallery.html", { gallery });
+  ctx.body = await render("gallery.html", ctx, { gallery });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
@@ -13,7 +13,7 @@ export async function gallery(ctx) {
 export async function artPiece(ctx) {
   const id = ctx.entryId;
   const art = model.get(id);
-  ctx.body = await render("gallery-detailpage.html", { art });
+  ctx.body = await render("gallery-detailpage.html", ctx, { art });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
@@ -24,13 +24,16 @@ export function deleteArtPiece(ctx) {
   const art = model.get(id);
   image.deleteImage(art.artfile);
   model.remove(id);
+
+  ctx.session.flash =
+    "Artpost with the title " + art.title + " has been deleted";
   ctx.status = 303;
   ctx.headers.set("Location", `/gallery`);
   return ctx;
 }
 
 export async function galleryAdd(ctx) {
-  ctx.body = await render("gallery-add.html");
+  ctx.body = await render("gallery-add.html", ctx);
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
@@ -38,7 +41,7 @@ export async function galleryAdd(ctx) {
 
 export async function addArtForm(ctx) {
   const today = new Date().toISOString().split("T")[0];
-  ctx.body = await render("gallery-add.html", {
+  ctx.body = await render("gallery-add.html", ctx, {
     prefillDate: today,
   });
   ctx.headers.set("content-type", "text/html");
@@ -49,7 +52,7 @@ export async function addArtForm(ctx) {
 export async function editArtPiece(ctx) {
   const id = ctx.entryId;
   const art = model.get(id);
-  ctx.body = await render("gallery-add.html", {
+  ctx.body = await render("gallery-add.html", ctx, {
     editing: "Edit Art",
     // Path to image is in formData.artfile but prefilling
     // input type file is not allowed in html for security
@@ -151,7 +154,7 @@ export async function submitArtForm(ctx) {
 async function addArtFormData(ctx, formData, errors) {
   // no redirect or export cuz only used in submit / update
   const today = new Date().toISOString().split("T")[0];
-  ctx.body = await render("gallery-add.html", {
+  ctx.body = await render("gallery-add.html", ctx, {
     prefillDate: formData.date,
     formData: formData,
     formErrors: errors,

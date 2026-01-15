@@ -2,14 +2,14 @@ import * as model from "./model.js";
 import { render } from "../service/render.js";
 
 export async function login(ctx) {
-  ctx.body = await render("login.html");
+  ctx.body = await render("login.html", ctx);
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
 }
 
 export async function signup(ctx) {
-  ctx.body = await render("login.html", { signup: "Sign up" });
+  ctx.body = await render("login.html", ctx, { signup: "Sign up" });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
@@ -51,7 +51,7 @@ export async function confirmLogin(ctx) {
 
 async function loginData(ctx, formData, errors) {
   // no redirect or export cuz only used in submit / update
-  ctx.body = await render("login.html", {
+  ctx.body = await render("login.html", ctx, {
     formData: formData,
     formErrors: errors,
   });
@@ -105,7 +105,7 @@ export async function confirmSignup(ctx) {
 
 async function signupData(ctx, formData, errors) {
   // no redirect or export cuz only used in submit / update
-  ctx.body = await render("login.html", {
+  ctx.body = await render("login.html", ctx, {
     signup: "Sign up",
     formData: formData,
     formErrors: errors,

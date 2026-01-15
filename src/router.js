@@ -190,7 +190,7 @@ const routes = [
 ];
 
 export async function router(ctx) {
-  // Match requests with known pages
+  // Match requests with known routes and uses their handler
   for (const route of routes) {
     const urlPattern = new URLPattern({ pathname: route.path });
     const match = urlPattern.exec(ctx.url);

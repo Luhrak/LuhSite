@@ -3,19 +3,24 @@ import { encodeBase64 } from "jsr:@std/encoding/base64";
 import { getCookies, setCookie, deleteCookie } from "jsr:@std/http";
 
 export function getSession(ctx) {
-  // Sets cookies and session into context
+  // Sets cookies and session into ctx
   ctx.cookies = getCookies(ctx.request.headers);
   ctx.sessionId = ctx.cookies?.sessionId;
   ctx.session = sessionStore().get(ctx.sessionId) ?? {};
 
-  // Get and remove flash message out of session
-  ctx.flash = ctx.session.flash;
-  delete ctx.session.flash;
+  // Somehow loading flash messages when not logged into wont work eventhough they are saved correctly
   return ctx;
 }
 
 export function saveSession(ctx) {
-  // Session saved to cookie and store if it holds data, deletes it if not
+  // Session saved to cookie & sessionStore via has id and some cleanup
+
+  if (ctx.session.flashUsed && !ctx.session.serveStatic) {
+    // delete flash messages that were displayed this request
+    delete ctx.session.flash;
+    delete ctx.session.flashUsed;
+  }
+
   if (hasData(ctx.session)) {
     ctx.sessionId = ctx.sessionId ?? createId();
     sessionStore().set(ctx.sessionId, ctx.session);

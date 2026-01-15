@@ -5,7 +5,7 @@ import { render } from "../service/render.js";
 export async function priceList(ctx) {
   //const prices = await model.listVisualOnly();
   const prices = model.list();
-  ctx.body = await render("prices.html", { prices });
+  ctx.body = await render("prices.html", ctx, { prices });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
@@ -14,14 +14,14 @@ export async function priceList(ctx) {
 export async function priceDetail(ctx) {
   const id = ctx.entryId;
   const price = model.get(id);
-  ctx.body = await render("prices-detail.html", { price });
+  ctx.body = await render("prices-detail.html", ctx, { price });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
 }
 
 export async function addPriceForm(ctx) {
-  ctx.body = await render("prices-add.html", {
+  ctx.body = await render("prices-add.html", ctx, {
     // editing: false,
     formData: {},
     formErrors: {},
@@ -50,7 +50,7 @@ export async function submitPriceForm(ctx) {
 
   if (Object.keys(errors).length > 0) {
     ctx.headers.set("content-type", "text/html");
-    ctx.body = await render("prices-add.html", {
+    ctx.body = await render("prices-add.html", ctx, {
       formData,
       formErrors: errors,
     });
@@ -59,7 +59,8 @@ export async function submitPriceForm(ctx) {
   }
 
   // Upload image falls vorhanden
-  const uploadResult = file && file.size > 0 ? await image.uploadImage(file) : "";
+  const uploadResult =
+    file && file.size > 0 ? await image.uploadImage(file) : "";
 
   // 2. Daten in die DB schreiben
   const id = model.add({
@@ -88,7 +89,7 @@ export async function deletePrice(ctx) {
 export async function editPrice(ctx) {
   const id = ctx.entryId;
   const price = model.get(id);
-  ctx.body = await render("prices-add.html", {
+  ctx.body = await render("prices-add.html", ctx, {
     editing: "Edit Price",
     formData: price,
   });
@@ -156,7 +157,7 @@ export async function updatePrice(ctx) {
 async function addPriceFormData(ctx, formData, errors) {
   // no redirect or export cuz only used in submit / update
   //const today = new Date().toISOString().split("T")[0];
-  ctx.body = await render("prices-add.html", {
+  ctx.body = await render("prices-add.html", ctx, {
     formData: formData,
     formErrors: errors,
   });

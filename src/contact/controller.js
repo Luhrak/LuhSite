@@ -11,7 +11,7 @@ export async function submitContactForm(ctx) {
   if (!formData.message) errors.message = "Message is required";
 
   if (Object.keys(errors).length > 0) {
-    ctx.body = await render("contact.html", {
+    ctx.body = await render("contact.html", ctx, {
       formData,
       formErrors: errors,
     });
@@ -37,7 +37,7 @@ export async function messageList(ctx) {
   const newMessages = model.listNew(); // is_new = 1
   const readMessages = model.listRead(); // is_new = 0
 
-  ctx.body = await render("messages.html", {
+  ctx.body = await render("messages.html", ctx, {
     messages: {
       new: newMessages,
       read: readMessages,
