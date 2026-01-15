@@ -16,9 +16,38 @@
           <h1>{{ art.title }}</h1>
 
           <a class="button" href="/gallery-edit/{{ art.id }}"> Edit </a>
-          <form type="hidden" class="hiddenForm" method="POST" action="/gallery-delete/{{ art.id }}">
-            <button class="redBg" type="submit">Delete</button>
-          </form>
+
+            <div class="deleteBox">
+           
+              <button
+                class="redBg"
+                type="button"
+                onclick="document.getElementById('confirmDeleteGallery').style.display='block'; this.style.display='none';"
+              >
+                Delete
+              </button>
+
+              <div id="confirmDeleteGallery" style="display: none; margin-top: 0.5rem;">
+                <p style="margin-bottom: 0.5rem;">
+                  Are you sure you want to delete this artwork?
+                </p>
+
+                <form method="POST" action="/gallery-delete/{{ art.id }}" style="display:inline;">
+                  <button class="redBg" type="submit">Confirm Delete</button>
+                </form>
+
+                <button
+                  type="button"
+                  class="button"
+                  onclick="
+                    document.getElementById('confirmDeleteGallery').style.display='none';
+                    this.closest('.deleteBox').querySelector('.redBg').style.display='inline-block';
+                  "
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
 
           </div>
         {% if art.description %}
