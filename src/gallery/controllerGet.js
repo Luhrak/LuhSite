@@ -23,7 +23,10 @@ export async function galleryDetail(ctx) {
 export async function galleryAdd(ctx) {
   const today = new Date().toISOString().split("T")[0];
   const prices = priceModel.listMinimal();
-  ctx.body = await render("gallery-add.html", ctx, { prefillDate: today, prices });
+  ctx.body = await render("gallery-add.html", ctx, {
+    prefillDate: today,
+    prices,
+  });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
@@ -38,6 +41,7 @@ export async function galleryEdit(ctx) {
     // We have formData.previewfile for input prefilling
     // however cant prefill files in html for security
     formData: art,
+    prices,
   });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;

@@ -15,15 +15,12 @@ export async function prices(ctx) {
 export async function pricesDetail(ctx) {
   const id = ctx.entryId;
   const price = model.get(id);
-
-  const relatedImages = galleryModel.listByPrice(price.id);
-  // Nunjucks Render
-  ctx.body = await render("prices-detail.html", ctx, { price, relatedImages });
+  const gallery = galleryModel.listByPrice(price.id);
+  ctx.body = await render("prices-detail.html", ctx, { price, gallery });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
 }
-
 
 export async function pricesAdd(ctx) {
   ctx.body = await render("prices-add.html", ctx);

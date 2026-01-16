@@ -53,7 +53,11 @@
           </p>
         {% endif %}
           <p>Want an art piece similar to this too?</p>
+          {% if art.price_id %}
+          <a class="button" href="/prices/{{ art.price_id }}">Commission Art</a>
+          {% else %}
           <a class="button" href="/prices">Commission Art</a>
+          {% endif %}
         </section>
       </div>
     </main>

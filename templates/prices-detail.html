@@ -89,50 +89,24 @@
       />
     </section>
 
-
-
-      {% if relatedImages %}
-        <h2>Related Images</h2>
-        <ul class="relatedGallery">
-          {% for img in relatedImages %}
-            <li>
-              <img src="{{ img.artfile }}" alt="{{ img.alt }}">
-            </li>
+      {% if gallery and gallery | length > 0 %}
+        <h2>Examples of {{ price.title }}</h2>
+        <ul class="gallery">
+          {% for art in gallery %}
+              <li>
+                <a href="/gallery/{{ art.id }}">
+                  <div>
+                    <img
+                      src="{{ art.artfile }}"
+                      alt="{{ art.alt }}"
+                    />
+                  </div>
+                </a>
+              </li>
           {% endfor %}
         </ul>
       {% endif %}
 
-
-
-    <div class="imageRow">
-      <h2>Examples of {{ price.title }}</h2>
-      <img
-        src="/img/Prices/StickerHectic.png"
-        alt="Sticker of red fox flapping his arms and being in panic"
-      />
-      <img
-        src="/img/Prices/StickerBS.png"
-        alt="Sticker of blue wolf sniffing and ti says: yup, smells like BS"
-      />
-      <img
-        src="/img/Projects/Stickers/LuhShrug.png"
-        alt="Sticker of luhrak shrugging"
-      />
-    </div>
-    <div class="imageRow">
-      <img
-        src="/img/Prices/StickerHug.png"
-        alt="Sticker of grey wolf hugging"
-      />
-      <img
-        src="/img/Prices/Stickerinnocent.png"
-        alt="Sticker of goat looking innocent with a halo"
-      />
-      <img
-        src="/img/Prices/StickerShy.png"
-        alt="Sticker of a grey wolf with pink hair being shy"
-      />
-    </div>
   </div>
 </main>
 

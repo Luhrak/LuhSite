@@ -8,7 +8,6 @@ export function create() {
       "id"	INTEGER NOT NULL UNIQUE,
       "artfile"	TEXT NOT NULL,
       "title"	TEXT NOT NULL,
-      "type"	TEXT NOT NULL,
       "date"	TEXT NOT NULL,
       "alt"	TEXT DEFAULT 'An artpiece',
       "description"	TEXT,
@@ -23,7 +22,7 @@ export function list() {
   // Gets a list with all entries
   const db = connection();
   const stmt = db.prepare(`
-    SELECT id, artfile, title, type, date, alt, description 
+    SELECT id, artfile, title, date, alt, description 
     FROM gallery
     `);
   return stmt.all();
@@ -44,21 +43,21 @@ export function get(id) {
   // Gets one entry with all columns via id
   const db = connection();
   const stmt = db.prepare(`
-    SELECT id, artfile, title, type, date, alt, description 
+    SELECT id, artfile, title, date, alt, description, price_id 
     FROM gallery
     WHERE id = ?
   `);
   return stmt.get(id);
 }
 
-export function add({ artfile, title, type, date, alt, description, price_id }) {
+export function add({ artfile, title, date, alt, description, price_id }) {
   // Adds a new entry
   const db = connection();
   const stmt = db.prepare(`
-    INSERT INTO gallery (artfile, title, type, date, alt, description, price_id)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO gallery (artfile, title, date, alt, description, price_id)
+    VALUES (?, ?, ?, ?, ?, ?)
   `);
-  const result = stmt.run(artfile, title, type, date, alt, description, price_id);
+  const result = stmt.run(artfile, title, date, alt, description, price_id);
   return result.lastInsertRowid;
 }
 
@@ -73,15 +72,18 @@ export function remove(id) {
   return stmt.get(id);
 }
 
-export function update(id, { artfile, title, type, date, alt, description, price_id }) {
+export function update(
+  id,
+  { artfile, title, date, alt, description, price_id }
+) {
   // Updates an existing entry
   const db = connection();
   const stmt = db.prepare(`
     UPDATE gallery
-    SET artfile = ?, title = ?, type = ?, date = ?, alt = ?, description = ?, price_id = ?
+    SET artfile = ?, title = ?, date = ?, alt = ?, description = ?, price_id = ?
     WHERE id = ?
   `);
-  stmt.run(artfile, title, type, date, alt, description, price_id, id);
+  stmt.run(artfile, title, date, alt, description, price_id, id);
   return id;
 }
 export function listByPrice(priceId) {

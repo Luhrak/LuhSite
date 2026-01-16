@@ -67,29 +67,16 @@
             value="{{ formData.date or prefillDate }}"
           />
 
-          <label for="type">Type</label>
-          {% if formErrors.type %}
-            <p class="form-error">{{formErrors.type}}</p>
-          {% endif %}
-          <input 
-          type="text" 
-          id="type" 
-          name="type" 
-          value="{{ formData.type or '' }}"
-          />
-
           <label for="price_id">Assign to Price (optional)</label>
           <select name="price_id" id="price_id">
             <option value="">-- None --</option>
             {% for price in prices %}
               <option value="{{ price.id }}"
-                {% if formData.price_id == price.id %} selected {% endif %}>
+                {% if formData.price_id == price.id %} selected="selected" {% endif %}>
                 {{ price.title }}
               </option>
             {% endfor %}
           </select>
-
-
 
           <label for="description">About the art (optional)</label>
           <textarea 

@@ -13,7 +13,6 @@ export async function gallerySubmit(ctx) {
   const errors = {};
   if (!formData.title) errors.title = "Titel is required";
   if (!formData.date) errors.date = "Date is required";
-  if (!formData.type) errors.type = "Type is required";
   const fileError = image.validateImage(formData.artfile);
   if (fileError) errors.artfile = fileError;
 
@@ -34,7 +33,6 @@ export async function gallerySubmit(ctx) {
       artfile: uploadResult, // Path as string
       alt: formData.alt,
       date: formData.date,
-      type: formData.type,
       description: formData.description,
       price_id: priceId,
     });
@@ -53,7 +51,7 @@ async function galleryAddWithData(ctx, formData, errors) {
     prefillDate: formData.date,
     formData: formData,
     formErrors: errors,
-    prices
+    prices,
   });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
@@ -71,7 +69,6 @@ export async function galleryUpdate(ctx) {
   const errors = {};
   if (!formData.title) errors.title = "Titel is required";
   if (!formData.date) errors.date = "Date is required";
-  if (!formData.type) errors.type = "Type is required";
 
   // image replacing is optional so only check if given
   if (formData.artfile) {
@@ -120,7 +117,6 @@ async function galleryEditWithData(ctx, formData, errors) {
   formData.id = art.id;
   formData.artfile = art.artfile;
   if ("title" in errors) formData.title = art.title;
-  if ("type" in errors) formData.type = art.type;
 
   ctx.body = await render("gallery-add.html", ctx, {
     editing: "Edit Art",
