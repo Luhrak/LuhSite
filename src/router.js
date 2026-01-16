@@ -1,8 +1,11 @@
 import * as pages from "./pages/controller.js";
-import * as gallery from "./gallery/controller.js";
-import * as price from "./prices/controller.js";
+import * as galleryGet from "./gallery/controllerGet.js";
+import * as galleryPost from "./gallery/controllerPost.js";
+import * as priceGet from "./prices/controllerGet.js";
+import * as pricePost from "./prices/controllerPost.js";
+import * as accountGet from "./accounts/controllerGet.js";
+import * as accountPost from "./accounts/controllerPost.js";
 import * as contact from "./contact/controller.js";
-import * as account from "./accounts/controller.js";
 import { getPermissionById } from "./accounts/model.js";
 
 const routes = [
@@ -56,84 +59,84 @@ const routes = [
   {
     path: "/gallery",
     method: "GET",
-    handler: gallery.gallery,
+    handler: galleryGet.gallery,
   },
   {
     path: "/gallery/add",
     method: "GET",
     requiredPermissions: ["admin", "moderator"],
-    handler: gallery.addArtForm,
+    handler: galleryGet.galleryAdd,
   },
   {
     path: "/gallery/add",
     method: "POST",
     requiredPermissions: ["admin", "moderator"],
-    handler: gallery.submitArtForm,
+    handler: galleryPost.gallerySubmit,
   },
   {
     path: "/gallery/:id",
     method: "GET",
-    handler: gallery.artPiece,
+    handler: galleryGet.galleryDetail,
   },
   {
     path: "/gallery-delete/:id",
     method: "POST",
     requiredPermissions: ["admin", "moderator"],
-    handler: gallery.deleteArtPiece,
+    handler: galleryPost.galleryDelete,
   },
   {
     path: "/gallery-edit/:id",
     method: "GET",
     requiredPermissions: ["admin", "moderator"],
-    handler: gallery.editArtPiece,
+    handler: galleryGet.galleryEdit,
   },
   {
     path: "/gallery-update/:id",
     method: "POST",
     requiredPermissions: ["admin", "moderator"],
-    handler: gallery.updateArtPiece,
+    handler: galleryPost.galleryUpdate,
   },
 
   // Prices routes
   {
     path: "/prices",
     method: "GET",
-    handler: price.priceList,
+    handler: priceGet.prices,
   },
   {
     path: "/prices/add",
     method: "GET",
     requiredPermissions: ["admin", "moderator"],
-    handler: price.addPriceForm,
+    handler: priceGet.pricesAdd,
   },
   {
     path: "/prices/add",
     method: "POST",
     requiredPermissions: ["admin", "moderator"],
-    handler: price.submitPriceForm,
+    handler: pricePost.pricesSubmit,
   },
   {
     path: "/prices/:id",
     method: "GET",
-    handler: price.priceDetail,
+    handler: priceGet.pricesDetail,
   },
   {
     path: "/prices-delete/:id",
     method: "POST",
     requiredPermissions: ["admin", "moderator"],
-    handler: price.deletePrice,
+    handler: pricePost.pricesDelete,
   },
   {
     path: "/prices-edit/:id",
     method: "GET",
     requiredPermissions: ["admin", "moderator"],
-    handler: price.editPrice,
+    handler: priceGet.pricesEdit,
   },
   {
     path: "/prices-update/:id",
     method: "POST",
     requiredPermissions: ["admin", "moderator"],
-    handler: price.updatePrice,
+    handler: pricePost.pricesUpdate,
   },
 
   // Accounts routes
@@ -141,59 +144,59 @@ const routes = [
     path: "/login",
     method: "GET",
     requiredPermissions: ["none"],
-    handler: account.login,
+    handler: accountGet.login,
   },
   {
     path: "/signup",
     method: "GET",
     requiredPermissions: ["none"],
-    handler: account.signup,
+    handler: accountGet.signup,
   },
   {
     path: "/login",
     method: "POST",
     requiredPermissions: ["none"],
-    handler: account.confirmLogin,
+    handler: accountPost.loginConfirm,
   },
   {
     path: "/signup",
     method: "POST",
     requiredPermissions: ["none"],
-    handler: account.confirmSignup,
+    handler: accountPost.signupConfirm,
   },
   {
     path: "/logout",
     method: "GET",
     requiredPermissions: ["guest", "admin", "moderator"],
-    handler: account.logout,
+    handler: accountGet.logout,
   },
 
   // Contact routes
   {
     path: "/contact/add",
     method: "POST",
-    handler: contact.submitContactForm,
+    handler: contact.messagesSubmit,
   },
   {
     path: "/messages",
     method: "GET",
-    handler: contact.messageList,
+    handler: contact.messages,
   },
   {
     path: "/messages",
     method: "GET",
-    handler: contact.messageList,
+    handler: contact.messages,
   },
   {
     path: "/messages-read/:id",
     method: "POST",
-    handler: contact.markMessageRead,
+    handler: contact.messagesMarkRead,
   },
 
   {
     path: "/messages-delete/:id",
     method: "POST",
-    handler: contact.deleteMessage,
+    handler: contact.messagesDelete,
   },
 ];
 

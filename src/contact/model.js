@@ -3,6 +3,7 @@ import { connection } from "../service/db.js";
 export function create() {
   // Creates messages table if not exist
   const db = connection();
+  // is_new is a basically a bool but sqlite uses int instead
   const stmt = db.prepare(`
     CREATE TABLE IF NOT EXISTS "messages" (
       "id" INTEGER NOT NULL UNIQUE,

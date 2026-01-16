@@ -1,21 +1,7 @@
 import * as model from "./model.js";
 import { render } from "../service/render.js";
 
-export async function login(ctx) {
-  ctx.body = await render("login.html", ctx);
-  ctx.headers.set("content-type", "text/html");
-  ctx.status = 200;
-  return ctx;
-}
-
-export async function signup(ctx) {
-  ctx.body = await render("login.html", ctx, { signup: "Sign up" });
-  ctx.headers.set("content-type", "text/html");
-  ctx.status = 200;
-  return ctx;
-}
-
-export async function confirmLogin(ctx) {
+export async function loginConfirm(ctx) {
   // Read form data
   const form = await ctx.request.formData();
   const formData = Object.fromEntries(form.entries());
@@ -25,7 +11,7 @@ export async function confirmLogin(ctx) {
   if (!formData.username) errors.username = "Username is required";
   if (!formData.password) errors.password = "Password is required";
   if (Object.keys(errors).length > 0) {
-    loginData(ctx, formData, errors);
+    loginWithData(ctx, formData, errors);
   } else {
     const account = model.match({
       username: formData.username,
@@ -34,7 +20,7 @@ export async function confirmLogin(ctx) {
     if (account === undefined) {
       errors.username =
         "No account with this username and password combination found";
-      loginData(ctx, formData, errors);
+      loginWithData(ctx, formData, errors);
     } else {
       // Login
       ctx.session.account = account.id;
@@ -49,7 +35,7 @@ export async function confirmLogin(ctx) {
   return ctx;
 }
 
-async function loginData(ctx, formData, errors) {
+async function loginWithData(ctx, formData, errors) {
   // no redirect or export cuz only used in submit / update
   ctx.body = await render("login.html", ctx, {
     formData: formData,
@@ -59,15 +45,7 @@ async function loginData(ctx, formData, errors) {
   ctx.status = 200;
 }
 
-export function logout(ctx) {
-  delete ctx.session.account;
-  ctx.session.flash = "You are now logged out";
-  ctx.status = 303;
-  ctx.headers.set("Location", `/`);
-  return ctx;
-}
-
-export async function confirmSignup(ctx) {
+export async function signupConfirm(ctx) {
   // Read form data
   const form = await ctx.request.formData();
   const formData = Object.fromEntries(form.entries());
@@ -83,7 +61,7 @@ export async function confirmSignup(ctx) {
     errors.passwordConfirm = "Passwords dont match";
 
   if (Object.keys(errors).length > 0) {
-    signupData(ctx, formData, errors);
+    signupWithData(ctx, formData, errors);
   } else {
     // Save to db
     const newEntry = model.add({
@@ -103,7 +81,7 @@ export async function confirmSignup(ctx) {
   return ctx;
 }
 
-async function signupData(ctx, formData, errors) {
+async function signupWithData(ctx, formData, errors) {
   // no redirect or export cuz only used in submit / update
   ctx.body = await render("login.html", ctx, {
     signup: "Sign up",
