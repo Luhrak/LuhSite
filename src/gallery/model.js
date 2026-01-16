@@ -12,6 +12,7 @@ export function create() {
       "date"	TEXT NOT NULL,
       "alt"	TEXT DEFAULT 'An artpiece',
       "description"	TEXT,
+      "price_id" INTEGER,
       PRIMARY KEY("id" AUTOINCREMENT)
     )
     `);
@@ -50,14 +51,14 @@ export function get(id) {
   return stmt.get(id);
 }
 
-export function add({ artfile, title, type, date, alt, description }) {
+export function add({ artfile, title, type, date, alt, description, price_id }) {
   // Adds a new entry
   const db = connection();
   const stmt = db.prepare(`
-    INSERT INTO gallery (artfile, title, type, date, alt, description)
-    VALUES (?, ?, ?, ?, ?, ?)
+    INSERT INTO gallery (artfile, title, type, date, alt, description, price_id)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
   `);
-  const result = stmt.run(artfile, title, type, date, alt, description);
+  const result = stmt.run(artfile, title, type, date, alt, description, price_id);
   return result.lastInsertRowid;
 }
 
@@ -72,14 +73,24 @@ export function remove(id) {
   return stmt.get(id);
 }
 
-export function update(id, { artfile, title, type, date, alt, description }) {
+export function update(id, { artfile, title, type, date, alt, description, price_id }) {
   // Updates an existing entry
   const db = connection();
   const stmt = db.prepare(`
     UPDATE gallery
-    SET artfile = ?, title = ?, type = ?, date = ?, alt = ?, description = ?
+    SET artfile = ?, title = ?, type = ?, date = ?, alt = ?, description = ?, price_id = ?
     WHERE id = ?
   `);
-  stmt.run(artfile, title, type, date, alt, description, id);
+  stmt.run(artfile, title, type, date, alt, description, price_id, id);
   return id;
+}
+export function listByPrice(priceId) {
+  const db = connection();
+  const stmt = db.prepare(`
+    SELECT id, artfile, alt
+    FROM gallery
+    WHERE price_id = ?
+    ORDER BY id DESC
+  `);
+  return stmt.all(priceId);
 }

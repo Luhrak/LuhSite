@@ -1,5 +1,6 @@
 import * as model from "./model.js";
 import * as image from "../service/image.js";
+import * as galleryModel from "../gallery/model.js";
 import { render } from "../service/render.js";
 import { text } from "node:stream/consumers";
 
@@ -14,11 +15,15 @@ export async function prices(ctx) {
 export async function pricesDetail(ctx) {
   const id = ctx.entryId;
   const price = model.get(id);
-  ctx.body = await render("prices-detail.html", ctx, { price });
+
+  const relatedImages = galleryModel.listByPrice(price.id);
+  // Nunjucks Render
+  ctx.body = await render("prices-detail.html", ctx, { price, relatedImages });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
 }
+
 
 export async function pricesAdd(ctx) {
   ctx.body = await render("prices-add.html", ctx);

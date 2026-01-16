@@ -1,5 +1,6 @@
 import * as model from "./model.js";
 import * as image from "../service/image.js";
+import * as priceModel from "../prices/model.js";
 import { render } from "../service/render.js";
 
 export async function gallery(ctx) {
@@ -21,7 +22,8 @@ export async function galleryDetail(ctx) {
 
 export async function galleryAdd(ctx) {
   const today = new Date().toISOString().split("T")[0];
-  ctx.body = await render("gallery-add.html", ctx, { prefillDate: today });
+  const prices = priceModel.listMinimal();
+  ctx.body = await render("gallery-add.html", ctx, { prefillDate: today, prices });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
   return ctx;
@@ -30,6 +32,7 @@ export async function galleryAdd(ctx) {
 export async function galleryEdit(ctx) {
   const id = ctx.entryId;
   const art = model.get(id);
+  const prices = priceModel.listMinimal();
   ctx.body = await render("gallery-add.html", ctx, {
     editing: "Edit Art",
     // We have formData.previewfile for input prefilling

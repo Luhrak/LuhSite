@@ -78,6 +78,19 @@
           value="{{ formData.type or '' }}"
           />
 
+          <label for="price_id">Assign to Price (optional)</label>
+          <select name="price_id" id="price_id">
+            <option value="">-- None --</option>
+            {% for price in prices %}
+              <option value="{{ price.id }}"
+                {% if formData.price_id == price.id %} selected {% endif %}>
+                {{ price.title }}
+              </option>
+            {% endfor %}
+          </select>
+
+
+
           <label for="description">About the art (optional)</label>
           <textarea 
           id="description" 

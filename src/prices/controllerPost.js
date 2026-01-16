@@ -1,4 +1,5 @@
 import * as model from "./model.js";
+import * as gallery from "../gallery/model.js";
 import * as image from "../service/image.js";
 import { render } from "../service/render.js";
 import { text } from "node:stream/consumers";
@@ -178,5 +179,15 @@ export async function pricesDelete(ctx) {
   ctx.session.flash = 'Price "' + price.title + '" has been deleted';
   ctx.status = 303;
   ctx.headers.set("Location", "/prices");
+  return ctx;
+}
+
+export async function pricesDetail(ctx) {
+  const id = ctx.entryId;
+  const price = model.get(id);
+  const relatedImages = gallery.listByPrice(price.id);
+  ctx.body = await render("prices-detail.html", ctx, { price, relatedImages });
+  ctx.headers.set("content-type", "text/html");
+  ctx.status = 200;
   return ctx;
 }

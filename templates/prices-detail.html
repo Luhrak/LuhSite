@@ -89,6 +89,21 @@
       />
     </section>
 
+
+
+      {% if relatedImages %}
+        <h2>Related Images</h2>
+        <ul class="relatedGallery">
+          {% for img in relatedImages %}
+            <li>
+              <img src="{{ img.artfile }}" alt="{{ img.alt }}">
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+
+
     <div class="imageRow">
       <h2>Examples of {{ price.title }}</h2>
       <img

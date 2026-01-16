@@ -1,11 +1,13 @@
 import * as model from "./model.js";
 import * as image from "../service/image.js";
+import * as priceModel from "../prices/model.js";
 import { render } from "../service/render.js";
 
 export async function gallerySubmit(ctx) {
   // Read form data
   const form = await ctx.request.formData();
   const formData = Object.fromEntries(form.entries());
+  const priceId = formData.price_id ? parseInt(formData.price_id, 10) : null;
 
   // Validation
   const errors = {};
@@ -34,6 +36,7 @@ export async function gallerySubmit(ctx) {
       date: formData.date,
       type: formData.type,
       description: formData.description,
+      price_id: priceId,
     });
     // Redirect to uploaded detailpage (ctx.body not needed for redirect)
     ctx.status = 303;
@@ -44,11 +47,13 @@ export async function gallerySubmit(ctx) {
 
 async function galleryAddWithData(ctx, formData, errors) {
   // no redirect or export cuz function calling this returns the context already
+  const prices = priceModel.listMinimal();
   const today = new Date().toISOString().split("T")[0];
   ctx.body = await render("gallery-add.html", ctx, {
     prefillDate: formData.date,
     formData: formData,
     formErrors: errors,
+    prices
   });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
@@ -60,6 +65,7 @@ export async function galleryUpdate(ctx) {
   const existingArt = model.get(id);
   const form = await ctx.request.formData();
   const formData = Object.fromEntries(form.entries());
+  const priceId = formData.price_id ? parseInt(formData.price_id, 10) : null;
 
   // Validation
   const errors = {};
