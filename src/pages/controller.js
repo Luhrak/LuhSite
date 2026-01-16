@@ -41,6 +41,29 @@ export async function privacyPolicy(ctx) {
   return ctx;
 }
 
+// Hausarbeit -------------
+export async function documentation(ctx) {
+  ctx.body = await render("hausarbeit/documentation.html", ctx);
+  ctx.headers.set("content-type", "text/html");
+  ctx.status = 200;
+  return ctx;
+}
+
+export async function journal(ctx) {
+  ctx.body = await render("hausarbeit/journal.html", ctx);
+  ctx.headers.set("content-type", "text/html");
+  ctx.status = 200;
+  return ctx;
+}
+
+export async function kolophon(ctx) {
+  ctx.body = await render("hausarbeit/kolophon.html", ctx);
+  ctx.headers.set("content-type", "text/html");
+  ctx.status = 200;
+  return ctx;
+}
+// Hausarbeit end -------------
+
 export async function error404(ctx) {
   ctx.body = await render("errorPages/error404.html", ctx);
   ctx.headers.set("content-type", "text/html");
