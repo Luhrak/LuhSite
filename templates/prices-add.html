@@ -37,7 +37,7 @@
       {% if formData.previewfile %}
         <label for="previewfile">Replace image (optional)</label>
       {% else %}
-        <label for="previewfile">Image</label>
+        <label for="previewfile">Image (optional)</label>
       {% endif %}
 
       {% if formErrors.previewfile %}
@@ -52,6 +52,9 @@
 
       <!-- Price -->
       <label for="price">Price (EUR)</label>
+      {% if formErrors.price %}
+      <p class="form-error">{{ formErrors.price }}</p>
+      {% endif %}
       <input
         type="number"
         id="price"
@@ -62,10 +65,7 @@
       />
 
       <!-- Additions -->
-      <label for="additions">Price additions</label>
-        {% if formErrors.additions %}
-        <p class="form-error">{{ formErrors.additions }}</p>
-        {% endif %}
+      <label for="additions">Price additions (optional)</label>
       <textarea
         id="additions"
         name="additions"

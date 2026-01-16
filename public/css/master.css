@@ -240,6 +240,7 @@ form {
     &>div {
         display: flex;
         column-gap: 1em;
+        align-items: center;
 
         >div {
             flex: 1;
@@ -254,10 +255,6 @@ form {
         display: block;
         margin-bottom: 0.5em;
         font-weight: 600;
-    }
-
-    button {
-        margin-top: 1.5em;
     }
 
     & input,
@@ -302,6 +299,10 @@ form {
 
 .redBg {
     background-color: var(--color-red);
+}
+
+.disclaimer {
+    font-size: 0.85em;
 }
 
 

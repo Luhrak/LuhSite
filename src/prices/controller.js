@@ -41,9 +41,9 @@ export async function submitPriceForm(ctx) {
 
   const errors = {};
   if (!formData.title) errors.title = "Title is required";
-  if (price <= 0) errors.price = "Price must be greater than 0";
+  if (price <= 0) errors.price = "Price over 0 is requried";
   if (!formData.short_description)
-    errors.description = "Short description is required";
+    errors.short_description = "Short description is required";
   if (!formData.description) errors.description = "Description is required";
 
   const fileError = file ? image.validateImage(file) : null;
@@ -61,7 +61,7 @@ export async function submitPriceForm(ctx) {
 
   // Upload image falls vorhanden
   const uploadResult =
-    file && file.size > 0 ? await image.uploadImage(file) : "";
+    file && file.size > 0 ? await image.uploadImage(file, "prices") : "";
 
   // Daten in die DB schreiben
   const id = model.add({
@@ -80,7 +80,9 @@ export async function submitPriceForm(ctx) {
 
 export async function deletePrice(ctx) {
   const price = model.get(ctx.entryId);
-  image.deleteImage(price.previewfile);
+  if (price.previewfile) {
+    image.deleteImage(price.previewfile);
+  }
   model.remove(ctx.entryId);
 
   ctx.session.flash =
@@ -133,7 +135,7 @@ export async function updatePrice(ctx) {
       return ctx;
     }
 
-    const uploadResult = await image.uploadImage(file);
+    const uploadResult = await image.uploadImage(file, "prices");
     if (!uploadResult) {
       errors.previewfile = "Upload failed";
       await addPriceFormData(ctx, formData, errors);

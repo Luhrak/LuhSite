@@ -25,8 +25,8 @@ function isExtensionOk(filename) {
   return validExtensions.includes(`.${fileExtension}`);
 }
 
-export async function uploadImage(image) {
-  const filename = generateFilename(image);
+export async function uploadImage(image, folderPath) {
+  const filename = generateFilename(image, folderPath);
   const filePath = path.join(Deno.cwd(), "public", filename);
 
   try {
@@ -45,10 +45,10 @@ export async function uploadImage(image) {
   }
 }
 
-function generateFilename(file) {
+function generateFilename(file, folderPath) {
   return path.join(
     "upload",
-    "gallery",
+    folderPath,
     crypto.randomUUID() + "." + mediaTypes.extension(file.type)
   );
 }

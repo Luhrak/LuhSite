@@ -67,7 +67,7 @@
         </p>
         {% endif %}
         <div class="priceArea">
-          <p>{{ price.price }}€ per Sticker</p>
+          <p>{{ price.price }}€ per {{ price.title }}</p>
           {% if price.additions %}
             <p>{{ price.additions }}</p>
           {% endif %}
@@ -84,8 +84,8 @@
           with me. The quickest way to reach me is on Telegram or Discord by
           writing me a direct message.
         </p>
-        <p>However you can also mail me here:</p>
-        <a class="button" href="/about#contact-about">Write an email</a>
+        <p>However you can also contact me here:</p>
+        <a class="button" href="/about#contact-about">Contact</a>
       </div>
       <img
         src="/img/Boop.png"

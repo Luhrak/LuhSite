@@ -86,7 +86,7 @@ export async function updateArtPiece(ctx) {
         addArtFormData(ctx, formData, errors);
       }
 
-      const uploadResult = await image.uploadImage(formData.artfile);
+      const uploadResult = await image.uploadImage(formData.artfile, "gallery");
 
       // Validate Upload
       if (!uploadResult) {
@@ -127,7 +127,7 @@ export async function submitArtForm(ctx) {
   if (Object.keys(errors).length > 0) {
     addArtFormData(ctx, formData, errors);
   } else {
-    const uploadResult = await image.uploadImage(formData.artfile);
+    const uploadResult = await image.uploadImage(formData.artfile, "gallery");
 
     // Validate Upload
     if (!uploadResult) {
