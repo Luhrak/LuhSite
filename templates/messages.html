@@ -5,10 +5,9 @@
 {% block content %}
 <main>
   <div class="widthConstraint">
-    <h1>Contact Messages</h1>
+    <h1>Messages</h1>
 
     {% if messages.new.length > 0 %}
-      <h2>New Messages</h2>
       <ul class="wideGallery">
         {% for msg in messages.new %}
           <li>
@@ -39,6 +38,7 @@
     {% endif %}
 
     {% if messages.read.length > 0 %}
+      <p>
       <h2>Read Messages</h2>
       <ul class="wideGallery">
         {% for msg in messages.read %}

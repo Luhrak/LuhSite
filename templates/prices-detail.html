@@ -25,12 +25,8 @@
             </button>
 
          
-            <div id="confirmDelete" style="display: none; margin-top: 0.5rem;">
-              <p style="margin-bottom: 0.5rem;">
-                Are you sure you want to delete this price?
-              </p>
-
-              <form method="POST" action="/prices-delete/{{ price.id }}" style="display:inline;">
+            <div id="confirmDelete" style="display: none;">
+              <form class="hiddenForm" method="POST" action="/prices-delete/{{ price.id }}" style="display:inline;">
                 <button class="redBg" type="submit">Confirm Delete</button>
               </form>
 
