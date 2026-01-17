@@ -589,7 +589,6 @@ form {
         overflow: hidden;
         color: var(--color-light);
 
-
         &>div:first-of-type {
             align-items: center;
             overflow: hidden;
@@ -648,34 +647,35 @@ form {
             }
         }
 
-        &>li>a {
+    }
+    
+    &>li>a {
 
-            &:hover {
-                background-color: #f8d6bd16;
+        &:hover {
+            background-color: #f8d6bd16;
 
-                div:first-of-type & img {
+            div:first-of-type & img {
+                transform: scale(1.10);
+            }
+
+            div:last-of-type & h3 {
+                color: var(--color-primary-light)
+            }
+        }
+
+        &:focus {
+            background-color: #f8d6bd16;
+
+            div:first-of-type {
+
+                & img {
                     transform: scale(1.10);
-                }
-
-                div:last-of-type & h3 {
-                    color: var(--color-primary-light)
                 }
             }
 
-            &:focus {
-                background-color: #f8d6bd16;
-
-                div:first-of-type {
-
-                    & img {
-                        transform: scale(1.10);
-                    }
-                }
-
-                div:last-of-type {
-                    & h3 {
-                        color: var(--color-primary-light)
-                    }
+            div:last-of-type {
+                & h3 {
+                    color: var(--color-primary-light)
                 }
             }
         }
