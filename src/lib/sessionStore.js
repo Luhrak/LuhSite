@@ -16,8 +16,11 @@ export function createSessionStore() {
     delete(key) {
       sessionStore.delete(key);
     },
-    applyTimeout() {
-      /* @TDB Remove old sessions */
+    applyTimeout(key, maxAge) {
+      const sessionOld = sessionStore.get(key);
+      if (sessionOld) {
+        sessionOld.maxAge = maxAge + Date.now();
+      }
     },
   };
 }

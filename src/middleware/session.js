@@ -6,6 +6,8 @@ export function getSession(ctx) {
   // Sets cookies and session into ctx
   ctx.cookies = getCookies(ctx.request.headers);
   ctx.sessionId = ctx.cookies?.sessionId;
+  // Sort out old sessions before loading to not get an old invalid one
+  if (ctx.sessionId) sessionStore().applyTimeout(ctx.sessionId, 86400);
   ctx.session = sessionStore().get(ctx.sessionId) ?? {};
 
   // Somehow loading flash messages when not logged into wont work eventhough they are saved correctly
@@ -23,8 +25,16 @@ export function saveSession(ctx) {
 
   if (hasData(ctx.session)) {
     ctx.sessionId = ctx.sessionId ?? createId();
-    sessionStore().set(ctx.sessionId, ctx.session);
-    setCookie(ctx.headers, { name: "sessionId", value: ctx.sessionId });
+    sessionStore().set(ctx.sessionId, ctx.session, 86400);
+    setCookie(ctx.headers, {
+      name: "sessionId",
+      value: ctx.sessionId,
+      maxAge: 86400, // 24 hours
+      path: "/",
+      httpOnly: true,
+      sameSite: "Strict",
+      // secure: true, // https only, usually needed, but we dont have a certificate
+    });
   } else {
     sessionStore().delete(ctx.sessionId);
     deleteCookie(ctx.headers, "sessionId");

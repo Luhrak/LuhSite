@@ -19,11 +19,20 @@ export async function loginConfirm(ctx) {
     loginWithData(ctx, formData, errors);
   } else {
     // First get accounts that matches the username to get the salt (without no password check)
-    const account = model.getByUsername(formData.username);
+    const account = model.getByUsername(formData.username) ?? {
+      // Realistic dummy data so that even if no entry found theres no errors and it still takes the same amount of time
+      username: "dummy",
+      salt: "IfGJRwmR2FQ/JJEVb47UMfyn6BUctw==",
+      password:
+        "$argon2id$v=19$m=19456,t=2,p=1$IEti5kG1ANI7S9cmN+LP6g$vVnIL3+dX99l2I3lEZWFRNDlNKYqBHzXLyit+DGF+gM",
+      permission: "guest",
+    };
 
-    // Now we can verify the password 
-    if(verify("argon2", account.salt + formData.password, account.password)) {
-    
+    // Now we can verify the password with the salt
+    if (
+      verify("argon2", account.salt + formData.password, account.password) &&
+      account.username !== "dummy" // ofc dont log in if no account was found
+    ) {
       // Login
       ctx.session.account = account.id;
       ctx.session.flash = "You are now logged in as " + account.username;
@@ -33,9 +42,9 @@ export async function loginConfirm(ctx) {
       ctx.headers.set("Location", `/`);
       return ctx;
     }
-    
+
     errors.username =
-        "No account with this username and password combination found";
+      "No account with this username and password combination found";
     loginWithData(ctx, formData, errors);
   }
   return ctx;
@@ -69,7 +78,7 @@ export async function signupConfirm(ctx) {
   if (Object.keys(errors).length > 0) {
     signupWithData(ctx, formData, errors);
   } else {
-    // Password hashing  
+    // Password hashing
     const salt = createSalt();
     const hashedPassword = hash("argon2", salt + formData.password);
 
