@@ -73,8 +73,6 @@ export async function signupConfirm(ctx) {
     const salt = createSalt();
     const hashedPassword = hash("argon2", salt + formData.password);
 
-    console.log(hashedPassword);
-
     // Save to db
     const newEntry = model.add({
       username: formData.username,
