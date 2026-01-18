@@ -1,5 +1,10 @@
 import * as model from "./model.js";
 import { render } from "../service/render.js";
+import { encodeBase64 } from "jsr:@std/encoding/base64";
+import { hash, verify } from "@stdext/crypto/hash";
+
+const h = hash("argon2", "password");
+verify("argon2", "password", h);
 
 export async function loginConfirm(ctx) {
   // Read form data
@@ -13,24 +18,25 @@ export async function loginConfirm(ctx) {
   if (Object.keys(errors).length > 0) {
     loginWithData(ctx, formData, errors);
   } else {
-    const account = model.match({
-      username: formData.username,
-      password: formData.password,
-    });
-    if (account === undefined) {
-      errors.username =
-        "No account with this username and password combination found";
-      loginWithData(ctx, formData, errors);
-    } else {
+    // First get accounts that matches the username to get the salt (without no password check)
+    const account = model.getByUsername(formData.username);
+
+    // Now we can verify the password 
+    if(verify("argon2", account.salt + formData.password, account.password)) {
+    
       // Login
       ctx.session.account = account.id;
-      ctx.session.flash = "You are now logged in as " + formData.username;
+      ctx.session.flash = "You are now logged in as " + account.username;
 
       // Redirect
       ctx.status = 303;
       ctx.headers.set("Location", `/`);
       return ctx;
     }
+    
+    errors.username =
+        "No account with this username and password combination found";
+    loginWithData(ctx, formData, errors);
   }
   return ctx;
 }
@@ -63,10 +69,17 @@ export async function signupConfirm(ctx) {
   if (Object.keys(errors).length > 0) {
     signupWithData(ctx, formData, errors);
   } else {
+    // Password hashing  
+    const salt = createSalt();
+    const hashedPassword = hash("argon2", salt + formData.password);
+
+    console.log(hashedPassword);
+
     // Save to db
     const newEntry = model.add({
       username: formData.username,
-      password: formData.password,
+      password: hashedPassword,
+      salt: salt,
       permission: "guest",
     });
 
@@ -98,3 +111,9 @@ function isValidatePassword(password) {
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,15}$/;
   return regex.test(password);
 }
+
+export const createSalt = () => {
+  const array = new Uint8Array(22);
+  crypto.getRandomValues(array);
+  return encodeBase64(array);
+};

@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "@stdext/crypto": "jsr:@stdext/crypto@^0.1.0"
+  }
+}

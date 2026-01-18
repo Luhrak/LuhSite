@@ -8,6 +8,7 @@ export function create() {
       "id"	INTEGER NOT NULL UNIQUE,
       "username"	TEXT NOT NULL,
       "password"	TEXT NOT NULL,
+      "salt"       TEXT NOT NULL,
       "permission"	TEXT NOT NULL,
       PRIMARY KEY("id" AUTOINCREMENT)
     )
@@ -19,7 +20,7 @@ export function get(id) {
   // Gets one entry with all columns via id
   const db = connection();
   const stmt = db.prepare(`
-    SELECT id, username, password, permission
+    SELECT id, username, password, salt, permission
     FROM accounts
     WHERE id = ?
   `);
@@ -31,24 +32,24 @@ export function getPermissionById(id) {
   return account.permission;
 }
 
-export function add({ username, password, permission }) {
+export function add({ username, password, salt, permission }) {
   // Adds a new entry
   const db = connection();
   const stmt = db.prepare(`
-    INSERT INTO accounts (username, password, permission)
-    VALUES (?, ?, ?)
+    INSERT INTO accounts (username, password, salt, permission)
+    VALUES (?, ?, ?, ?)
   `);
-  const result = stmt.run(username, password, permission);
+  const result = stmt.run(username, password, salt, permission);
   return result.lastInsertRowid;
 }
 
-export function match({ username, password }) {
-  // Checks the table for a username and password combination
+export function getByUsername(username) {
+  // Checks the table for all 
   const db = connection();
   const stmt = db.prepare(`
-    SELECT id 
+    SELECT id, username, password, salt, permission
     FROM accounts
-    WHERE username = ?  AND password = ?
+    WHERE username = ? 
   `);
-  return stmt.get(username, password);
+  return stmt.get(username);
 }
