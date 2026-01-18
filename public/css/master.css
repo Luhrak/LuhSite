@@ -218,7 +218,7 @@ select {
     font-size: 1em;
     font-weight: 400;
     background-color: var(--color-bg-dark);
-    color:var(--color-light);
+    color: var(--color-light);
     border: none;
     border-radius: var(--border-radius);
     padding: 0.8em 1em;
@@ -244,8 +244,8 @@ input::file-selector-button {
 .filterBox {
     display: flex;
     flex-direction: row;
-    margin-bottom: 1em;
-    gap: 1em; 
+    margin-bottom: 2em;
+    gap: 1em;
     padding: 0.4em 1em;
 
     & label {
@@ -261,12 +261,18 @@ input::file-selector-button {
 
 .contact {
     margin-top: 3em;
+
+
+    & p {
+        width: 60%;
+    }
 }
 
 .form-error {
     color: var(--color-primary);
     margin-top: 0;
     margin-bottom: 0.5em;
+    width: auto;
 }
 
 form {
@@ -303,9 +309,6 @@ form {
         margin: auto 0 auto auto;
     }
 
-    & p {
-        width: 60%;
-    }
 
     & textarea {
         font-size: 1em;
