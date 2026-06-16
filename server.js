@@ -6,13 +6,19 @@ import { handleRequest } from "./src/app.js";
 const port = 8080;
 const hostname = "127.0.0.1";
 
+const required = (name) => {
+  const v = Deno.env.get(name);
+  if (v === undefined) throw new Error(`Missing env: ${name}`);
+  return v;
+};
+
 createSessionStore();
 const db = await initConnection({
-  hostname: Deno.env.get("PGHOST"),
-  port: Deno.env.get("PGPORT"),
-  user: Deno.env.get("PGUSER"),
-  password: Deno.env.get("PGPASSWORD"),
-  database: Deno.env.get("PGDATABASE"),
+  hostname: required("PGHOST"),
+  port: required("PGPORT"),
+  user: required("PGUSER"),
+  password: required("PGPASSWORD"),
+  database: required("PGDATABASE"),
 });
 initDbTables();
 
