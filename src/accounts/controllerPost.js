@@ -117,7 +117,7 @@ async function signupWithData(ctx, formData, errors) {
 function isValidatePassword(password) {
   // https://www.geeksforgeeks.org/javascript/javascript-program-to-validate-password-using-regular-expressions/
   let regex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_@.#$!%*?&])[A-Za-z\d-_@.#$!%*?&]{8,15}$/;
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_@.#$!%*?&])[A-Za-z\d-_@.#$!%*?&]{8,25}$/;
   return regex.test(password);
 }
 
