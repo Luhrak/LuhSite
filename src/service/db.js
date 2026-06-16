@@ -1,22 +1,23 @@
 import { DatabaseSync } from "node:sqlite";
+import { Client } from "jsr:@db/postgres";
 
 let _db = null;
+let _client = null;
 
-export function initConnection(path) {
-  // Initialize connetion to databankW
-  if (!_db) {
-    _db = new DatabaseSync(path); // Also creates the file if not exist
-    _db.exec("PRAGMA foreign_keys = ON;"); // else foreign keys wont work
+export async function initConnection(info) {
+  // Initialize connetion to databank
+  if (!_client) {
+    _client = new Client(info); // Also creates the file if not exist
+    await _client.connect();
   }
-  return _db;
 }
 
 export function connection() {
   // Get current connection
-  if (!_db) {
+  if (!_client) {
     throw new Error(
       "DB connection not initialized. Call initConnection() first.",
     );
   }
-  return _db;
+  return _client;
 }

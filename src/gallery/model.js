@@ -1,108 +1,121 @@
 import { connection } from "../service/db.js";
 
-export function create() {
+export async function create() {
   // Creates gallery table if not exist
   const db = connection();
-  const stmt = db.prepare(`
+  await db.queryArray`
     CREATE TABLE IF NOT EXISTS "gallery" (
-      "id"	INTEGER NOT NULL UNIQUE,
+      "id" SERIAL NOT NULL PRIMARY KEY,
       "artfile"	TEXT NOT NULL,
       "title"	TEXT NOT NULL,
       "date"	TEXT NOT NULL,
       "alt"	TEXT DEFAULT 'An artpiece',
       "description"	TEXT,
-      "price_id" INTEGER,
-      PRIMARY KEY("id" AUTOINCREMENT)
+      "price_id" INTEGER
     )
-    `);
-  return stmt.all();
+    `;
 }
 
-export function list() {
+export async function list() {
   // Gets a list with all entries
   const db = connection();
-  const stmt = db.prepare(`
-    SELECT id, artfile, title, date, alt, description 
-    FROM gallery
-    `);
-  return stmt.all();
+  return (
+    await db.queryObject`
+    SELECT "id", "artfile", "title", "date", "alt", "description" 
+    FROM public.gallery
+  `
+  ).rows;
 }
 
-export function listMinimal() {
+export async function listMinimal() {
   // Gets a list with all entries but only columns needed for the gallery tab
   const db = connection();
-  const stmt = db.prepare(`
-    SELECT id, artfile, alt  
-    FROM gallery
+  return (
+    await db.queryObject`
+    SELECT "id", "artfile", "alt"  
+    FROM public."gallery"
     ORDER BY id DESC
-  `);
-  return stmt.all();
+  `
+  ).rows;
 }
 
-export function get(id) {
+export async function get(id) {
   // Gets one entry with all columns via id
   const db = connection();
-  const stmt = db.prepare(`
-    SELECT id, artfile, title, date, alt, description, price_id 
-    FROM gallery
-    WHERE id = ?
-  `);
-  return stmt.get(id);
+  return (
+    await db.queryObject`
+    SELECT "id", "artfile", "title", "date", "alt", "description", "price_id" 
+    FROM public."gallery"
+    WHERE id = ${id}
+  `
+  ).rows[0];
 }
 
-export function add({ artfile, title, date, alt, description, price_id }) {
+export async function add({
+  artfile,
+  title,
+  date,
+  alt,
+  description,
+  price_id,
+}) {
   // Adds a new entry
   const db = connection();
-  const stmt = db.prepare(`
-    INSERT INTO gallery (artfile, title, date, alt, description, price_id)
-    VALUES (?, ?, ?, ?, ?, ?)
-  `);
-  const result = stmt.run(artfile, title, date, alt, description, price_id);
-  return result.lastInsertRowid;
+  const { lastInsertRowid } = (
+    await db.queryObject`
+    INSERT INTO public."gallery" ("artfile", "title", "date", "alt", "description", "price_id")
+    VALUES (${artfile}, ${title}, ${date}, ${alt}, ${description}, ${price_id})
+  `
+  ).rows[0];
+  return { lastInsertRowid };
 }
 
-export function remove(id) {
+export async function remove(id) {
   // Delets one entry via id
   const db = connection();
-  const stmt = db.prepare(`
+  return (
+    await db.queryObject`
     DELETE 
-    FROM gallery
-    WHERE id = ?
-  `);
-  return stmt.get(id);
+    FROM public."gallery"
+    WHERE id = ${id}
+  `
+  ).rows[0];
 }
 
-export function update(
+export async function update(
   id,
   { artfile, title, date, alt, description, price_id },
 ) {
   // Updates an existing entry
   const db = connection();
-  const stmt = db.prepare(`
-    UPDATE gallery
-    SET artfile = ?, title = ?, date = ?, alt = ?, description = ?, price_id = ?
-    WHERE id = ?
+  await db.queryArray(`
+    UPDATE public."gallery"
+    SET "artfile" = ${artfile}, "title" = ${title}, "date" = ${date}, "alt" = ${alt}, "description" = ${description}, "price_id" = ${price_id}
+    WHERE id = ${id}
   `);
-  stmt.run(artfile, title, date, alt, description, price_id, id);
   return id;
 }
-export function listByPrice(priceId) {
+
+export async function listByPrice(priceId) {
   const db = connection();
-  const stmt = db.prepare(`
-    SELECT id, artfile, alt
-    FROM gallery
-    WHERE price_id = ?
+  return (
+    await db.queryObject`
+    SELECT "id", "artfile", "alt"
+    FROM public."gallery"
+    WHERE price_id = ${price_id}
     ORDER BY id DESC
-  `);
-  return stmt.all(priceId);
+  `
+  ).rows;
 }
-export function listByPriceId(priceId) {
+
+export async function listByPriceId(priceId) {
   const db = connection();
-  const stmt = db.prepare(`
-    SELECT id, artfile, alt
-    FROM gallery
-    WHERE price_id = ?
+  return (
+    await db.queryObject`
+    SELECT "id", "artfile", "alt"
+    FROM public."gallery"
+    WHERE price_id = ${priceId}
     ORDER BY id DESC
-  `);
-  return stmt.all(priceId);
+  `
+  ).rows;
 }

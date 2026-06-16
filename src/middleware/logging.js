@@ -15,30 +15,27 @@ export async function logRequest(ctx) {
   }
 }
 
-export function create() {
+export async function create() {
   // Create requestLog table if not exist
   const db = connection();
-  const stmt = db.prepare(`
+  await db.queryArray`
     CREATE TABLE IF NOT EXISTS "requestLog" (
-      "id"	        INTEGER NOT NULL UNIQUE,
+      "id" SERIAL NOT NULL PRIMARY KEY,
       "time"	    TEXT NOT NULL,
       "processTime"	INTEGER NOT NULL,
       "method"	    TEXT NOT NULL,
       "status"	    INTEGER NOT NULL,
-      "url"	        TEXT NOT NULL,
-      PRIMARY KEY("id" AUTOINCREMENT)
+      "url"	        TEXT NOT NULL
     )
-    `);
-  return stmt.all();
+    `;
 }
 
-export function add({ time, processTime, method, status, url }) {
+async function add({ time, processTime, method, status, url }) {
   // Adds a new log entry into the table
   const db = connection();
-  const stmt = db.prepare(`
-    INSERT INTO requestLog (time, processTime, method, status, url)
-    VALUES (?, ?, ?, ?, ?)
-  `);
-  const result = stmt.run(time, processTime, method, status, url);
-  return result.lastInsertRowid;
+
+  await db.queryArray`
+    INSERT INTO public."requestLog" ("time", "processTime", "method", "status", "url")
+    VALUES (${time}, ${processTime}, ${method}, ${status}, ${url})
+  `;
 }

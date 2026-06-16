@@ -48,7 +48,7 @@ export async function pricesSubmit(ctx) {
     }
 
     // Save to db
-    const id = model.add(formData);
+    const id = await model.add(formData);
     // Redirect to uploaded detailpage (ctx.body not needed for redirect)
     ctx.status = 303;
     ctx.headers.set("Location", `/prices/${id}`);
@@ -71,7 +71,7 @@ export async function pricesUpdate(ctx) {
   // Handling when submiting the form to edit a price listing
   // Read form data
   const id = ctx.entryId;
-  const existingPrice = model.get(id);
+  const existingPrice = await model.get(id);
   const form = await ctx.request.formData();
   const formData = Object.fromEntries(form.entries());
   const deleteImage = form.get("deleteImage");
@@ -127,7 +127,7 @@ export async function pricesUpdate(ctx) {
     }
 
     // Update in db
-    const updatedEntry = model.update(id, formData);
+    const updatedEntry = await model.update(id, formData);
 
     // Redirect to uploaded detailpage (ctx.body not needed for redirect)
     ctx.session.flash = 'Price "' + formData.title + '" has been updated';
@@ -143,7 +143,7 @@ async function pricesEditWithData(ctx, formData, errors) {
 
   // Replace any missing data from previous state
   const id = ctx.entryId;
-  const price = model.get(id);
+  const price = await model.get(id);
   formData.id = price.id;
   formData.previewfile = price.previewfile;
   if ("title" in errors) formData.title = price.title;
@@ -163,11 +163,11 @@ async function pricesEditWithData(ctx, formData, errors) {
 
 export async function pricesDelete(ctx) {
   // Deleting a single price listing from db and the file
-  const price = model.get(ctx.entryId);
+  const price = await model.get(ctx.entryId);
   if (price.previewfile) {
     image.deleteImage(price.previewfile);
   }
-  model.remove(ctx.entryId);
+  await model.remove(ctx.entryId);
 
   ctx.session.flash = 'Price "' + price.title + '" has been deleted';
   ctx.status = 303;

@@ -17,8 +17,9 @@ export async function loginConfirm(ctx) {
     loginWithData(ctx, formData, errors);
   } else {
     // First get accounts that matches the username to get the salt (without no password check)
-    const account = model.getByUsername(formData.username) ?? {
+    const account = (await model.getByUsername(formData.username)) ?? {
       // Realistic dummy data so that even if no entry found theres no errors and it still takes the same amount of time
+      id: 0,
       username: "dummy",
       salt: "IfGJRwmR2FQ/JJEVb47UMfyn6BUctw==",
       password:
@@ -83,7 +84,7 @@ export async function signupConfirm(ctx) {
     const hashedPassword = hash("argon2", salt + formData.password);
 
     // Save to db
-    const newEntry = model.add({
+    const newEntry = await model.add({
       username: formData.username,
       password: hashedPassword,
       salt: salt,
@@ -116,7 +117,7 @@ async function signupWithData(ctx, formData, errors) {
 function isValidatePassword(password) {
   // https://www.geeksforgeeks.org/javascript/javascript-program-to-validate-password-using-regular-expressions/
   let regex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,15}$/;
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_@.#$!%*?&])[A-Za-z\d-_@.#$!%*?&]{8,15}$/;
   return regex.test(password);
 }
 

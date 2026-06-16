@@ -1,11 +1,11 @@
 import { connection } from "../service/db.js";
 
-export function create() {
+export async function create() {
   // Creates prices table if not exist
   const db = connection();
-  const stmt = db.prepare(`
+  await db.queryArray`
     CREATE TABLE IF NOT EXISTS prices (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id SERIAL NOT NULL PRIMARY KEY,
       previewfile TEXT,
       alt TEXT, 
       title TEXT NOT NULL,
@@ -14,53 +14,46 @@ export function create() {
       short_description TEXT NOT NULL,
       description TEXT NOT NULL
     )
-  `);
-  return stmt.all();
+  `;
 }
 
-export function list() {
+export async function list() {
   // Gets a list with all entries
   const db = connection();
-  return db
-    .prepare(
-      `
+  return (
+    await db.queryObject`
     SELECT id, previewfile, alt, title, price, additions, short_description, description
-    FROM prices
+    FROM public.prices
     ORDER BY id DESC
-  `,
-    )
-    .all();
+  `
+  ).rows;
 }
 
-export function listMinimal() {
+export async function listMinimal() {
   // Gets a list with all entries but only columns needed for the prices tab
   const db = connection();
-  return db
-    .prepare(
-      `
+  return (
+    await db.queryObject`
     SELECT id, previewfile, alt, title, price, additions, short_description
-    FROM prices
+    FROM public.prices
     ORDER BY id DESC
-    `,
-    )
-    .all();
+  `
+  ).rows;
 }
 
-export function get(id) {
+export async function get(id) {
   // Gets one entry with all columns via id
   const db = connection();
-  return db
-    .prepare(
-      `
+  return (
+    await db.queryObject`
     SELECT id, previewfile, alt, title, price, additions, short_description, description
-    FROM prices
-    WHERE id = ?
-  `,
-    )
-    .get(id);
+    FROM public.prices
+    WHERE id = ${id}
+  `
+  ).rows[0];
 }
 
-export function add({
+export async function add({
   previewfile,
   alt,
   title,
@@ -71,61 +64,43 @@ export function add({
 }) {
   // Adds a new entry
   const db = connection();
-  const result = db
-    .prepare(
-      `
-    INSERT INTO prices (previewfile, alt, title, price, additions, short_description, description)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
-  `,
-    )
-    .run(
-      previewfile,
-      alt,
-      title,
-      price,
-      additions,
-      short_description,
-      description,
-    );
+  const { lastInsertRowId } = (
+    await db.queryObject`
+    INSERT INTO public."prices" ("previewfile", "alt", "title", "price", "additions", "short_description", "description")
+    VALUES (${previewfile}, ${alt}, ${title}, ${description}, ${price}, ${additions}, ${short_description})
+  `
+  ).rows[0];
 
-  return result.lastInsertRowid;
+  return lastInsertRowId;
 }
 
-export function remove(id) {
+export async function remove(id) {
   // Delets one entry via id
   const db = connection();
-  return db
-    .prepare(
-      `
-    DELETE FROM prices WHERE id = ?
-  `,
-    )
-    .run(id);
+  return (
+    await db.queryObject`
+    DELETE FROM public."prices" WHERE id = ${id}
+  `
+  ).rows[0];
 }
 
-export function update(
+export async function update(
   id,
   { previewfile, alt, title, price, additions, short_description, description },
 ) {
   // Updates an existing entry
   const db = connection();
-  const stmt = db.prepare(
-    `
-    UPDATE prices
-    SET previewfile = ?, alt = ?, title = ?, price = ?, additions = ?, short_description = ?, description = ?
-    WHERE id = ?
-  `,
-  );
-  stmt.run(
-    previewfile,
-    alt,
-    title,
-    price,
-    additions,
-    short_description,
-    description,
-    id,
-  );
+  await db.queryArray`
+    UPDATE public."prices"
+    SET "previewfile" = ${previewfile}, 
+        "alt" = ${alt}, 
+        "title" = ${title}, 
+        "price" = ${price}, 
+        "additions" = ${additions}, 
+        "short_description" = ${short_description}, 
+        "description" = ${description}
+    WHERE id = ${id}
+  `;
 
   return id;
 }

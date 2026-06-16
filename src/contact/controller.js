@@ -5,8 +5,8 @@ import { render } from "../service/render.js";
 
 export async function messages(ctx) {
   // Handling of page with messages overview
-  const newMessages = model.listNew(); // is_new = 1
-  const readMessages = model.listRead(); // is_new = 0
+  const newMessages = await model.listNew(); // is_new = 1
+  const readMessages = await model.listRead(); // is_new = 0
   ctx.body = await render("messages.html", ctx, {
     messages: {
       new: newMessages,
@@ -23,7 +23,7 @@ export async function messages(ctx) {
 export async function messagesMarkRead(ctx) {
   // Marks the message as read
   const id = ctx.entryId;
-  model.markAsRead(id);
+  await model.markAsRead(id);
   ctx.session.flash = "Message marked as read";
   ctx.status = 303;
   ctx.headers.set("Location", "/messages");
@@ -33,7 +33,7 @@ export async function messagesMarkRead(ctx) {
 export async function messagesDelete(ctx) {
   // Delets the message and redirect to messages page
   const id = ctx.entryId;
-  model.remove(id);
+  await model.remove(id);
   ctx.session.flash = "Message deleted";
   ctx.status = 303;
   ctx.headers.set("Location", "/messages");
@@ -59,7 +59,7 @@ export async function messagesSubmit(ctx) {
     return ctx;
   } else {
     // Save to db
-    const id = model.add({
+    const id = await model.add({
       name: formData.name,
       email: formData.email,
       subject: formData.subject,

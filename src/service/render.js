@@ -30,10 +30,10 @@ function getFlash(ctx, variables) {
   return variables;
 }
 
-function getPermission(ctx, variables) {
+async function getPermission(ctx, variables) {
   // Puts the users current permission into the varibles for nunjucks if there are any
   if (ctx.session.account) {
-    const permission = getPermissionById(ctx.session.account);
+    const permission = await getPermissionById(ctx.session.account);
     if (permission === "admin" || permission === "moderator") {
       variables.permission = "true";
       variables.loggedIn = "true";

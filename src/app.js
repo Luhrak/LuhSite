@@ -14,7 +14,7 @@ export async function handleRequest(request) {
   ctx = await serveStatic(ctx);
 
   saveSession(ctx);
-  logRequest(ctx);
+  await logRequest(ctx);
 
   return ctx.extractResponse();
   // } catch {

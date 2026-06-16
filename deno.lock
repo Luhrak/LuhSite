@@ -1,10 +1,15 @@
 {
   "version": "5",
   "specifiers": {
+    "jsr:@db/postgres@*": "0.19.5",
+    "jsr:@std/bytes@^1.0.5": "1.0.6",
     "jsr:@std/cli@^1.0.23": "1.0.23",
+    "jsr:@std/crypto@^1.0.4": "1.1.0",
     "jsr:@std/encoding@*": "1.0.10",
     "jsr:@std/encoding@1": "1.0.10",
     "jsr:@std/encoding@^1.0.10": "1.0.10",
+    "jsr:@std/encoding@^1.0.9": "1.0.10",
+    "jsr:@std/fmt@^1.0.6": "1.0.8",
     "jsr:@std/fmt@^1.0.8": "1.0.8",
     "jsr:@std/fs@^1.0.19": "1.0.19",
     "jsr:@std/html@^1.0.5": "1.0.5",
@@ -14,14 +19,31 @@
     "jsr:@std/media-types@^1.1.0": "1.1.0",
     "jsr:@std/net@^1.0.6": "1.0.6",
     "jsr:@std/path@*": "1.1.2",
+    "jsr:@std/path@^1.0.8": "1.1.2",
     "jsr:@std/path@^1.1.2": "1.1.2",
     "jsr:@std/streams@^1.0.13": "1.0.13",
     "jsr:@stdext/crypto@0.1": "0.1.0",
     "npm:nunjucks@3.2.4": "3.2.4"
   },
   "jsr": {
+    "@db/postgres@0.19.5": {
+      "integrity": "afdbe608bd066cda2ee5dba37c416d332098b9238c51aec223331108e281954c",
+      "dependencies": [
+        "jsr:@std/bytes",
+        "jsr:@std/crypto",
+        "jsr:@std/encoding@^1.0.9",
+        "jsr:@std/fmt@^1.0.6",
+        "jsr:@std/path@^1.0.8"
+      ]
+    },
+    "@std/bytes@1.0.6": {
+      "integrity": "f6ac6adbd8ccd99314045f5703e23af0a68d7f7e58364b47d2c7f408aeb5820a"
+    },
     "@std/cli@1.0.23": {
       "integrity": "bf95b7a9425ba2af1ae5a6359daf58c508f2decf711a76ed2993cd352498ccca"
+    },
+    "@std/crypto@1.1.0": {
+      "integrity": "b8d6d0a6377a32b213af2661ed7bf1062d94feac0c57def5526a8e74a95c3ec8"
     },
     "@std/encoding@1.0.10": {
       "integrity": "8783c6384a2d13abd5e9e87a7ae0520a30e9f56aeeaa3bdf910a3eaaf5c811a1"
@@ -40,7 +62,7 @@
       "dependencies": [
         "jsr:@std/cli",
         "jsr:@std/encoding@^1.0.10",
-        "jsr:@std/fmt",
+        "jsr:@std/fmt@^1.0.8",
         "jsr:@std/fs",
         "jsr:@std/html",
         "jsr:@std/media-types@^1.1.0",

@@ -7,8 +7,8 @@ export async function gallery(ctx) {
   // Handling of page with the gallery overview
   const priceId = ctx.url.searchParams.get("price");
   const gallery = priceId
-    ? model.listByPriceId(Number(priceId))
-    : model.listMinimal();
+    ? await model.listByPriceId(Number(priceId))
+    : await model.listMinimal();
   const prices = priceModel.listMinimal();
   const activePrice = priceId ? Number(priceId) : null;
 
@@ -25,7 +25,7 @@ export async function gallery(ctx) {
 export async function galleryDetail(ctx) {
   // Handling of page of a single art piece
   const id = ctx.entryId;
-  const art = model.get(id);
+  const art = await model.get(id);
   ctx.body = await render("gallery-detailpage.html", ctx, { art });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;
@@ -48,7 +48,7 @@ export async function galleryAdd(ctx) {
 export async function galleryEdit(ctx) {
   // Handling of page with the formular to edit an existing art piece
   const id = ctx.entryId;
-  const art = model.get(id);
+  const art = await model.get(id);
   const prices = priceModel.listMinimal();
   ctx.body = await render("gallery-add.html", ctx, {
     editing: "Edit Art",

@@ -234,10 +234,10 @@ export async function router(ctx) {
   return pages.error404(ctx);
 }
 
-function checkUserPermission(ctx, match, route) {
+async function checkUserPermission(ctx, match, route) {
   // Checks rather the user has permission for this route
   const userPermission = ctx.session.account
-    ? getPermissionById(ctx.session.account)
+    ? await getPermissionById(ctx.session.account)
     : "none";
   if (
     userPermission &&

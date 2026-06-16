@@ -29,7 +29,7 @@ export async function gallerySubmit(ctx) {
     }
 
     // Save to db
-    const newEntry = model.add({
+    const newEntry = await model.add({
       title: formData.title,
       artfile: uploadResult, // Path as string
       alt: formData.alt,
@@ -63,7 +63,7 @@ export async function galleryUpdate(ctx) {
   // Handling when submiting the form to edit an art piece
   // Read form data
   const id = ctx.entryId;
-  const existingArt = model.get(id);
+  const existingArt = await model.get(id);
   const form = await ctx.request.formData();
   const formData = Object.fromEntries(form.entries());
   const priceId = formData.price_id ? parseInt(formData.price_id, 10) : null;
@@ -101,7 +101,7 @@ export async function galleryUpdate(ctx) {
     }
 
     // Update in db
-    const unpdatedEntry = model.update(id, formData);
+    const unpdatedEntry = await model.update(id, formData);
 
     // Redirect to uploaded detailpage (ctx.body not needed for redirect)
     ctx.session.flash = 'Artpost "' + formData.title + '" has been updated';
@@ -118,7 +118,7 @@ async function galleryEditWithData(ctx, formData, errors) {
 
   // Replace any missing data from previous state
   const id = ctx.entryId;
-  const art = model.get(id);
+  const art = await model.get(id);
   formData.id = art.id;
   formData.artfile = art.artfile;
   if ("title" in errors) formData.title = art.title;
@@ -133,12 +133,12 @@ async function galleryEditWithData(ctx, formData, errors) {
   ctx.status = 200;
 }
 
-export function galleryDelete(ctx) {
+export async function galleryDelete(ctx) {
   // Deleting a single artpiece from db and the file
   const id = ctx.entryId;
-  const art = model.get(id);
+  const art = await model.get(id);
   image.deleteImage(art.artfile);
-  model.remove(id);
+  await model.remove(id);
 
   ctx.session.flash = 'Artpost "' + art.title + '" has been deleted';
   ctx.status = 303;

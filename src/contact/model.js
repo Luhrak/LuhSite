@@ -1,120 +1,102 @@
 import { connection } from "../service/db.js";
 
-export function create() {
+export async function create() {
   // Creates messages table if not exist
   const db = connection();
   // is_new is a basically a bool but sqlite uses int instead
-  const stmt = db.prepare(`
+  await db.queryArray`
     CREATE TABLE IF NOT EXISTS "messages" (
-      "id" INTEGER NOT NULL UNIQUE,
+      "id" SERIAL NOT NULL PRIMARY KEY,
       "name" TEXT NOT NULL,
       "email" TEXT NOT NULL,
       "subject" TEXT NOT NULL,
       "message" TEXT NOT NULL,
       "is_new" INTEGER NOT NULL DEFAULT 1,
-      "created_at" TEXT NOT NULL,
-      PRIMARY KEY("id" AUTOINCREMENT)
+      "created_at" TEXT NOT NULL
     )
-  `);
-  return stmt.all();
+  `;
 }
 
-export function list() {
+export async function list() {
   // Gets a list with all entries
   const db = connection();
-  return db
-    .prepare(
-      `
-      SELECT id, name, email, subject, message
-      FROM messages
+  return (
+    await db.queryObject`
+      SELECT "id", "name", "email", "subject", "message"
+      FROM public."messages"
       ORDER BY id DESC
-    `,
-    )
-    .all();
+    `
+  ).rows;
 }
 
-export function listNew() {
+export async function listNew() {
   // List all not read messages
   const db = connection();
-  return db
-    .prepare(
-      `
-      SELECT id, name, email, subject, message, created_at
-      FROM messages
+  return (
+    await db.queryObject`
+      SELECT "id", "name", "email", "subject", "message", "created_at"
+      FROM public."messages"
       WHERE is_new = 1
       ORDER BY created_at DESC
-    `,
-    )
-    .all();
+    `
+  ).rows;
 }
 
-export function listRead() {
+export async function listRead() {
   // List all read messages
   const db = connection();
-  return db
-    .prepare(
-      `
-  SELECT id, name, email, subject, message, created_at
-      FROM messages
+  return (
+    await db.queryObject`
+      SELECT "id", "name", "email", "subject", "message", "created_at"
+      FROM public."messages"
       WHERE is_new = 0
       ORDER BY created_at DESC
-    `,
-    )
-    .all();
+    `
+  ).rows;
 }
 
-export function get(id) {
+export async function get(id) {
   // Get one entry with all columns via id
   const db = connection();
-  return db
-    .prepare(
-      `
-      SELECT id, name, email, subject, message
-      FROM messages
-      WHERE id = ?
-    `,
-    )
-    .get(id);
+  return (
+    await db.queryObject`
+      SELECT "id", "name", "email", "subject", "message"
+      FROM public."messages"
+      WHERE id = ${id}
+    `
+  ).rows[0];
 }
 
-export function add({ name, email, subject, message }) {
+export async function add({ name, email, subject, message }) {
   // Add new contact entry
   const db = connection();
   const createdAt = new Date().toISOString().replace("T", " ").slice(0, 19);
-  const result = db
-    .prepare(
-      `
-      INSERT INTO messages (name, email, subject, message, is_new, created_at)
-      VALUES (?, ?, ?, ?, ?, ?)
-    `,
-    )
-    .run(name, email, subject, message, 1, createdAt);
+  const { lastInsertRowid } = (
+    await db.queryObject`
+      INSERT INTO public."messages" ("name", "email", "subject", "message", "is_new", "created_at")
+      VALUES (${name}, ${email}, ${subject}, ${message}, 1, ${createdAt})
+    `
+  ).rows[0];
 
-  return result.lastInsertRowid;
+  return lastInsertRowid;
 }
 
-export function remove(id) {
+export async function remove(id) {
   // Delete one entry via id
   const db = connection();
-  return db
-    .prepare(
-      `
-      DELETE FROM messages WHERE id = ?
-    `,
-    )
-    .run(id);
+  return (
+    await db.queryObject`
+      DELETE FROM public."messages" WHERE id = ${id}
+    `
+  ).rows[0];
 }
 
-export function markAsRead(id) {
+export async function markAsRead(id) {
   // Mark one entry as read
   const db = connection();
-  return db
-    .prepare(
-      `
-      UPDATE messages
-      SET is_new = 0
-      WHERE id = ?
-    `,
-    )
-    .run(id);
+  await db.queryObject`
+      UPDATE public."messages"
+      SET "is_new" = 0
+      WHERE id = ${id}
+    `;
 }

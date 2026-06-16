@@ -10,6 +10,8 @@ export function getSession(ctx) {
   if (ctx.sessionId) sessionStore().applyTimeout(ctx.sessionId, 86400);
   ctx.session = sessionStore().get(ctx.sessionId) ?? {};
 
+  console.log(ctx);
+
   // Somehow loading flash messages when not logged in wont
   // work eventhough they seem to be saved correctly
   return ctx;
