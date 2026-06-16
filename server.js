@@ -13,13 +13,7 @@ const required = (name) => {
 };
 
 createSessionStore();
-const db = await initConnection({
-  hostname: required("PGHOST"),
-  port: required("PGPORT"),
-  user: required("PGUSER"),
-  password: required("PGPASSWORD"),
-  database: required("PGDATABASE"),
-});
+const db = await initConnection(required("DATABASE_URL"));
 initDbTables();
 
 Deno.serve({ port, hostname }, handleRequest);
