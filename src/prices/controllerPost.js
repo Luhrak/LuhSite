@@ -101,7 +101,7 @@ export async function pricesUpdate(ctx) {
 
     // Delete or repalce image
     if (deleteImage && existingPrice.previewfile) {
-      image.deleteImage(existingPrice.previewfile);
+      await image.deleteImage(existingPrice.previewfile);
       formData.previewfile = "";
     } else if (
       formData.previewfile instanceof File &&
@@ -119,7 +119,7 @@ export async function pricesUpdate(ctx) {
       }
       // Delete old one and use new one
       if (existingPrice.previewfile)
-        image.deleteImage(existingPrice.previewfile);
+        await image.deleteImage(existingPrice.previewfile);
       formData.previewfile = uploadResult;
     } else {
       // or take the old one
@@ -165,7 +165,7 @@ export async function pricesDelete(ctx) {
   // Deleting a single price listing from db and the file
   const price = await model.get(ctx.entryId);
   if (price.previewfile) {
-    image.deleteImage(price.previewfile);
+    await image.deleteImage(price.previewfile);
   }
   await model.remove(ctx.entryId);
 

@@ -47,7 +47,7 @@ export async function gallerySubmit(ctx) {
 async function galleryAddWithData(ctx, formData, errors) {
   // When there is an error, this sends back to the new art form page with the errors
   // no redirect or export cuz function calling this returns the context already
-  const prices = priceModel.listMinimal();
+  const prices = await priceModel.listMinimal();
   const today = new Date().toISOString().split("T")[0];
   ctx.body = await render("gallery-add.html", ctx, {
     prefillDate: formData.date,
@@ -92,7 +92,7 @@ export async function galleryUpdate(ctx) {
         await galleryEditWithData(ctx, formData, errors);
       } else {
         // Delete old one and use new one
-        if (existingArt.artfile) image.deleteImage(existingArt.artfile);
+        if (existingArt.artfile) await image.deleteImage(existingArt.artfile);
         formData.artfile = uploadResult;
       }
     } else {
@@ -137,7 +137,7 @@ export async function galleryDelete(ctx) {
   // Deleting a single artpiece from db and the file
   const id = ctx.entryId;
   const art = await model.get(id);
-  image.deleteImage(art.artfile);
+  await image.deleteImage(art.artfile);
   await model.remove(id);
 
   ctx.session.flash = 'Artpost "' + art.title + '" has been deleted';

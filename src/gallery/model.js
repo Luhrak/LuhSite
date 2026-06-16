@@ -61,13 +61,13 @@ export async function add({
 }) {
   // Adds a new entry
   const db = connection();
-  const { lastInsertRowid } = (
+  return (
     await db.queryObject`
     INSERT INTO public."gallery" ("artfile", "title", "date", "alt", "description", "price_id")
     VALUES (${artfile}, ${title}, ${date}, ${alt}, ${description}, ${price_id})
+    RETURNING "id"
   `
-  ).rows[0];
-  return { lastInsertRowid };
+  ).rows[0].id;
 }
 
 export async function remove(id) {

@@ -64,14 +64,13 @@ export async function add({
 }) {
   // Adds a new entry
   const db = connection();
-  const { lastInsertRowId } = (
+  return (
     await db.queryObject`
     INSERT INTO public."prices" ("previewfile", "alt", "title", "price", "additions", "short_description", "description")
     VALUES (${previewfile}, ${alt}, ${title}, ${description}, ${price}, ${additions}, ${short_description})
-  `
-  ).rows[0];
-
-  return lastInsertRowId;
+    RETURNING "id"
+    `
+  ).rows[0].id;
 }
 
 export async function remove(id) {

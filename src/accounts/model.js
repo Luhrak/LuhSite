@@ -38,7 +38,7 @@ export async function add({ username, password, salt, permission }) {
     INSERT INTO public."accounts" ("username", "password", "salt", "permission")
     VALUES (${username}, ${password}, ${salt}, ${permission})
   `;
-  return await getByUsername(username).id;
+  return (await getByUsername(username)).id;
 }
 
 export async function getByUsername(username) {

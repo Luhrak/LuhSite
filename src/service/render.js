@@ -14,7 +14,7 @@ export async function render(viewName, ctx, variables = {}) {
   // This function adds flash message and permission check into render
   // so it doesnt have to be repeated over and over on every render
   variables = getFlash(ctx, variables);
-  variables = getPermission(ctx, variables);
+  variables = await getPermission(ctx, variables);
   // variables.permission = "true"; // DEBUG ONLY, REMOVE!
 
   // Then just nomal render via nunjucks

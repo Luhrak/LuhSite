@@ -9,7 +9,7 @@ export async function gallery(ctx) {
   const gallery = priceId
     ? await model.listByPriceId(Number(priceId))
     : await model.listMinimal();
-  const prices = priceModel.listMinimal();
+  const prices = await priceModel.listMinimal();
   const activePrice = priceId ? Number(priceId) : null;
 
   ctx.body = await render("gallery.html", ctx, {
@@ -35,7 +35,7 @@ export async function galleryDetail(ctx) {
 export async function galleryAdd(ctx) {
   // Handling of page with the formular to add a new art piece
   const today = new Date().toISOString().split("T")[0];
-  const prices = priceModel.listMinimal();
+  const prices = await priceModel.listMinimal();
   ctx.body = await render("gallery-add.html", ctx, {
     prefillDate: today,
     prices,
@@ -49,7 +49,7 @@ export async function galleryEdit(ctx) {
   // Handling of page with the formular to edit an existing art piece
   const id = ctx.entryId;
   const art = await model.get(id);
-  const prices = priceModel.listMinimal();
+  const prices = await priceModel.listMinimal();
   ctx.body = await render("gallery-add.html", ctx, {
     editing: "Edit Art",
     // We have formData.previewfile for input prefilling

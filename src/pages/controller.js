@@ -5,8 +5,8 @@ import { render } from "../service/render.js";
 // Main Pages:
 export async function index(ctx) {
   // Handling of the homepage
-  const gallery = listGallery();
-  const prices = listPrices();
+  const gallery = await listGallery();
+  const prices = await listPrices();
   ctx.body = await render("index.html", ctx, { gallery, prices });
   ctx.headers.set("content-type", "text/html");
   ctx.status = 200;

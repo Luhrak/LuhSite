@@ -14,7 +14,7 @@ export async function loginConfirm(ctx) {
   if (!formData.username) errors.username = "Username is required";
   if (!formData.password) errors.password = "Password is required";
   if (Object.keys(errors).length > 0) {
-    loginWithData(ctx, formData, errors);
+    await loginWithData(ctx, formData, errors);
   } else {
     // First get accounts that matches the username to get the salt (without no password check)
     const account = (await model.getByUsername(formData.username)) ?? {
@@ -44,7 +44,7 @@ export async function loginConfirm(ctx) {
 
     errors.username =
       "No account with this username and password combination found";
-    loginWithData(ctx, formData, errors);
+    await loginWithData(ctx, formData, errors);
   }
   return ctx;
 }
@@ -77,7 +77,7 @@ export async function signupConfirm(ctx) {
     errors.passwordConfirm = "Passwords dont match";
 
   if (Object.keys(errors).length > 0) {
-    signupWithData(ctx, formData, errors);
+    await signupWithData(ctx, formData, errors);
   } else {
     // Password hashing
     const salt = createSalt();

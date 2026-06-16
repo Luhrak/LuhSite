@@ -71,14 +71,13 @@ export async function add({ name, email, subject, message }) {
   // Add new contact entry
   const db = connection();
   const createdAt = new Date().toISOString().replace("T", " ").slice(0, 19);
-  const { lastInsertRowid } = (
+  return (
     await db.queryObject`
       INSERT INTO public."messages" ("name", "email", "subject", "message", "is_new", "created_at")
       VALUES (${name}, ${email}, ${subject}, ${message}, 1, ${createdAt})
+      RETURNING "id"
     `
-  ).rows[0];
-
-  return lastInsertRowid;
+  ).rows[0].id;
 }
 
 export async function remove(id) {
