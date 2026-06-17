@@ -26,7 +26,7 @@ export function saveSession(ctx) {
 
   if (hasData(ctx.session)) {
     ctx.sessionId = ctx.sessionId ?? createId();
-    sessionStore().set(ctx.sessionId, ctx.session, 86400);
+    sessionStore().set(ctx.sessionId, ctx.session, 86400000);
     setCookie(ctx.headers, {
       name: "sessionId",
       value: ctx.sessionId,
