@@ -2,12 +2,15 @@ import { sessionStore } from "../service/sessionStore.js";
 import { encodeBase64 } from "jsr:@std/encoding/base64";
 import { getCookies, setCookie, deleteCookie } from "jsr:@std/http";
 
+const twentyFourHours = 86400000;
+
 export function getSession(ctx) {
   // Sets cookies and session into ctx
   ctx.cookies = getCookies(ctx.request.headers);
   ctx.sessionId = ctx.cookies?.sessionId;
   // Sort out old sessions before loading to not get an old invalid one
-  if (ctx.sessionId) sessionStore().applyTimeout(ctx.sessionId, 86400);
+  if (ctx.sessionId)
+    sessionStore().applyTimeout(ctx.sessionId, twentyFourHours);
   ctx.session = sessionStore().get(ctx.sessionId) ?? {};
 
   // Somehow loading flash messages when not logged in wont
@@ -25,18 +28,20 @@ export function saveSession(ctx) {
   }
 
   if (hasData(ctx.session)) {
+    console.log("true");
     ctx.sessionId = ctx.sessionId ?? createId();
-    sessionStore().set(ctx.sessionId, ctx.session, 86400000);
+    sessionStore().set(ctx.sessionId, ctx.session, twentyFourHours);
     setCookie(ctx.headers, {
       name: "sessionId",
       value: ctx.sessionId,
-      maxAge: 86400000, // 24 hours
+      maxAge: twentyFourHours, // 24 hours
       path: "/",
       httpOnly: true,
       sameSite: "Strict",
-      // secure: true, // https only, usually needed, but we dont have a certificate
+      secure: true, // https only, usually needed, but we dont have a certificate
     });
   } else {
+    console.log("false");
     sessionStore().delete(ctx.sessionId);
     deleteCookie(ctx.headers, "sessionId");
   }
