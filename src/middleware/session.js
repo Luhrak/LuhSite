@@ -27,7 +27,7 @@ export function saveSession(ctx) {
     delete ctx.session.flashUsed;
   }
 
-  if (hasData(ctx.session)) {
+  if (Object.values(ctx.session).some((v) => v !== undefined && v !== null)) {
     console.log("true");
     ctx.sessionId = ctx.sessionId ?? createId();
     sessionStore().set(ctx.sessionId, ctx.session, twentyFourHours);
@@ -38,7 +38,7 @@ export function saveSession(ctx) {
       path: "/",
       httpOnly: true,
       sameSite: "Strict",
-      secure: true, // https only, usually needed, but we dont have a certificate
+      // secure: true, // https only, usually needed, but we dont have a certificate
     });
   } else {
     console.log("false");
