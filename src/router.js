@@ -162,24 +162,24 @@ const routes = [
     requiredPermissions: ["none"],
     handler: accountGet.login,
   },
-  {
+  /*   {
     path: "/signup",
     method: "GET",
     requiredPermissions: ["none"],
     handler: accountGet.signup,
-  },
+  }, */
   {
     path: "/login",
     method: "POST",
     requiredPermissions: ["none"],
     handler: accountPost.loginConfirm,
   },
-  {
+  /*   {
     path: "/signup",
     method: "POST",
     requiredPermissions: ["none"],
     handler: accountPost.signupConfirm,
-  },
+  }, */
   {
     path: "/logout",
     method: "GET",
