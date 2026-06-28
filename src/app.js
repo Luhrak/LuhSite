@@ -19,7 +19,15 @@ export async function handleRequest(request) {
 
     return ctx.extractResponse();
   } catch (error) {
-    if (!IsDeployed()) throw error; // re-throw error if in development
+    console.error(
+      // https://docs.deno.com/api/deno/io/#Deno.inspect
+      Deno.inspect(error, {
+        colors: true,
+        compact: false,
+        depth: Infinity,
+        showHidden: true,
+      }),
+    );
     return error500();
   }
 }
