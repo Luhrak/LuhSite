@@ -55,12 +55,10 @@ export async function messagesSubmit(ctx) {
   if (formData.email && !isEmailValid(formData.email))
     errors.email = "Must be a valid email";
   if (!formData.message) errors.message = "Message is required";
-  console.log(errors);
 
   if (Object.keys(errors).length > 0) {
     await messageAddWithData(ctx, formData, errors);
   } else {
-    console.log("saving");
     // Save to db
     const id = await model.add({
       name: formData.name,
@@ -81,10 +79,7 @@ export async function messagesSubmit(ctx) {
 async function messageAddWithData(ctx, formData, errors) {
   // When there is an error, this sends back to the new contact form page with the errors
   ctx.body = await render("about.html", ctx, {
-    name: formData.name,
-    email: formData.email,
-    subject: formData.subject,
-    message: formData.message,
+    formData: formData,
     formErrors: errors,
   });
   ctx.headers.set("content-type", "text/html");
