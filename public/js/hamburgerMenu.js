@@ -29,7 +29,7 @@ class HamburgerMenu extends HTMLElement {
           <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <rect width="16" height="16" id="icon-bound" fill="none" />
         <path d="M1,9h14V7H1V9z M1,14h14v-2H1V14z M1,2v2h14V2H1z" fill="currentcolor"/>
-      </svg></span></button>`
+      </svg></span></button>`,
     );
     const navs = this.querySelectorAll("nav");
     navs.forEach((el) => el.classList.add("HamburgerMenu-overlay"));
@@ -45,6 +45,7 @@ class HamburgerMenu extends HTMLElement {
   }
 }
 
-if ("customElements" in window) {
+// JS availablity check
+if ("customElements" in window && "addEventListener" in window) {
   customElements.define("hamburger-menu", HamburgerMenu);
 }
