@@ -151,7 +151,11 @@
             </li>
           </ul>
         </section>
+        {% if permission %}
+        <a href="/logout">
+        {% else %}
         <a href="/login">
+        {% endif %}
           <img src="/img/LuhWave.png" alt="Luhrak waving very happily" />
         </a>
       </div>
