@@ -6,7 +6,6 @@ import { handleRequest } from "./src/handleRequest.js";
 const port = 8080;
 const hostname = "127.0.0.1";
 
-createSessionStore();
 const db = await initConnection({
   hostname: Deno.env.get("PGHOST"),
   port: Deno.env.get("PGPORT"),
