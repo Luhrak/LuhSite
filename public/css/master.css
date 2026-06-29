@@ -182,6 +182,12 @@ button {
 }
 
 .flashbox {
+  position: fixed;
+  top: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+
     background-color: var(--color-bg-dark);
     border-radius: var(--border-radius);
     padding: 0.5em 1.4em;

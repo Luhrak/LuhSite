@@ -43,6 +43,7 @@ export async function set(id, content, maxage) {
 }
 
 export async function upsert(id, content, maxage) {
+  // Updates the session and refreshes its maxage
   const db = connection();
 
   const result = (
@@ -79,7 +80,8 @@ export async function applyTimeout(id) {
   const currentSession = await get(id);
   if (!currentSession) return;
 
-  const currentAge = Date.now() - new Date(currentSession.date).getTime();
+  const ageMs = BigInt(Date.now() - new Date(currentSession.date).getTime());
+  const maxAgeMs = BigInt(currentSession.maxage);
 
-  if (currentAge > currentSession.maxAge) await remove(id);
+  if (ageMs > maxAgeMs) await remove(id);
 }
