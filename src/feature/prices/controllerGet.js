@@ -1,8 +1,8 @@
 import * as model from "./model.js";
-import * as image from "../service/image.js";
+import * as image from "../../service/image.js";
 import * as galleryModel from "../gallery/model.js";
 import * as priceModel from "../prices/model.js";
-import { render } from "../service/render.js";
+import { render } from "../../service/render.js";
 import { text } from "node:stream/consumers";
 
 export async function prices(ctx) {

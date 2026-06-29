@@ -1,5 +1,5 @@
 import * as model from "./model.js";
-import { render } from "../service/render.js";
+import { render } from "../../service/render.js";
 import { encodeBase64 } from "jsr:@std/encoding/base64";
 import { hash, verify } from "@stdext/crypto/hash";
 

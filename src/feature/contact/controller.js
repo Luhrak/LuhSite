@@ -1,6 +1,6 @@
 import * as model from "./model.js";
-import { render } from "../service/render.js";
-import { isEmailValid } from "../service/email.js";
+import { render } from "../../service/render.js";
+import { isEmailValid } from "../../service/email.js";
 
 // Get Requests:
 

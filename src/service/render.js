@@ -1,6 +1,6 @@
 import * as path from "jsr:@std/path";
 import nunjucks from "npm:nunjucks@3.2.4";
-import { getPermissionById } from "../accounts/model.js";
+import { getPermissionById } from "../feature/accounts/model.js";
 
 const templPath = "./templates";
 

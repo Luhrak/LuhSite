@@ -1,12 +1,12 @@
 import * as pages from "./pages/controller.js";
-import * as galleryGet from "./gallery/controllerGet.js";
-import * as galleryPost from "./gallery/controllerPost.js";
-import * as priceGet from "./prices/controllerGet.js";
-import * as pricePost from "./prices/controllerPost.js";
-import * as accountGet from "./accounts/controllerGet.js";
-import * as accountPost from "./accounts/controllerPost.js";
-import * as contact from "./contact/controller.js";
-import { getPermissionById } from "./accounts/model.js";
+import * as galleryGet from "./feature/gallery/controllerGet.js";
+import * as galleryPost from "./feature/gallery/controllerPost.js";
+import * as priceGet from "./feature/prices/controllerGet.js";
+import * as pricePost from "./feature/prices/controllerPost.js";
+import * as accountGet from "./feature/accounts/controllerGet.js";
+import * as accountPost from "./feature/accounts/controllerPost.js";
+import * as contact from "./feature/contact/controller.js";
+import { getPermissionById } from "./feature/accounts/model.js";
 
 const routes = [
   // specific ones before general ones like :id

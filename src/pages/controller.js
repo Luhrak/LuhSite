@@ -1,5 +1,5 @@
-import { listMinimal as listGallery } from "../gallery/model.js";
-import { listMinimal as listPrices } from "../prices/model.js";
+import { listMinimal as listGallery } from "../feature/gallery/model.js";
+import { listMinimal as listPrices } from "../feature/prices/model.js";
 import { render } from "../service/render.js";
 
 // Main Pages:

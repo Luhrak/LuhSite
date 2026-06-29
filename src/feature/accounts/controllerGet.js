@@ -1,5 +1,5 @@
 import * as model from "./model.js";
-import { render } from "../service/render.js";
+import { render } from "../../service/render.js";
 
 export async function login(ctx) {
   // Handling of page with login formular

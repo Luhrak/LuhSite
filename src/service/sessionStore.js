@@ -1,4 +1,4 @@
-import { createSessionStore as create } from "../lib/sessionStore.js";
+import { createSessionStore as create } from "../feature/session/sessionStore.js";
 
 let _storage;
 

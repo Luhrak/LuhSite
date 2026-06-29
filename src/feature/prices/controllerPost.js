@@ -1,7 +1,7 @@
 import * as model from "./model.js";
 import * as gallery from "../gallery/model.js";
-import * as image from "../service/image.js";
-import { render } from "../service/render.js";
+import * as image from "../../service/image.js";
+import { render } from "../../service/render.js";
 import { text } from "node:stream/consumers";
 
 export async function pricesSubmit(ctx) {

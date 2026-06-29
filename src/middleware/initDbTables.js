@@ -1,7 +1,7 @@
-import { create as createGalleryTable } from "../gallery/model.js";
-import { create as createPricesTable } from "../prices/model.js";
-import { create as createMessagesTable } from "../contact/model.js";
-import { create as createAccountsTable } from "../accounts/model.js";
+import { create as createGalleryTable } from "../feature/gallery/model.js";
+import { create as createPricesTable } from "../feature/prices/model.js";
+import { create as createMessagesTable } from "../feature/contact/model.js";
+import { create as createAccountsTable } from "../feature/accounts/model.js";
 import { create as createLoggingTable } from "../middleware/logging.js";
 
 export async function initDbTables() {

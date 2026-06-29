@@ -1,7 +1,7 @@
 import * as model from "./model.js";
-import * as image from "../service/image.js";
+import * as image from "../../service/image.js";
 import * as priceModel from "../prices/model.js";
-import { render } from "../service/render.js";
+import { render } from "../../service/render.js";
 
 export async function gallery(ctx) {
   // Handling of page with the gallery overview

@@ -1,4 +1,4 @@
-import { connection } from "../service/db.js";
+import { connection } from "../../service/db.js";
 
 export async function create() {
   // Creates messages table if not exist
