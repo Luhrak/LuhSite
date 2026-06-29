@@ -174,18 +174,18 @@ const routes = [
     requiredPermissions: ["guest", "admin", "moderator"],
     handler: accountGet.logout,
   },
-  {
-    path: "/signup",
-    method: "GET",
-    requiredPermissions: ["none"],
-    handler: accountGet.signup,
-  },
-  {
-    path: "/signup",
-    method: "POST",
-    requiredPermissions: ["none"],
-    handler: accountPost.signupConfirm,
-  },
+  // {
+  //   path: "/signup",
+  //   method: "GET",
+  //   requiredPermissions: ["none"],
+  //   handler: accountGet.signup,
+  // },
+  // {
+  //   path: "/signup",
+  //   method: "POST",
+  //   requiredPermissions: ["none"],
+  //   handler: accountPost.signupConfirm,
+  // },
 
   // Contact routes
   {
