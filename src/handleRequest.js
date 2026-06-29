@@ -15,7 +15,7 @@ export async function handleRequest(request) {
     ctx = await serveStatic(ctx);
 
     if (!ctx.serveStatic) await updateSession(ctx);
-    await logRequest(ctx);
+    // await logRequest(ctx);
 
     return ctx.extractResponse();
   } catch (error) {

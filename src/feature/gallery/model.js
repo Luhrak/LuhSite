@@ -39,63 +39,6 @@ export async function listMinimal() {
   ).rows;
 }
 
-export async function get(id) {
-  // Gets one entry with all columns via id
-  const db = connection();
-  return (
-    await db.queryObject`
-    SELECT "id", "artfile", "title", "date", "alt", "description", "price_id" 
-    FROM public."gallery"
-    WHERE id = ${id}
-  `
-  ).rows[0];
-}
-
-export async function add({
-  artfile,
-  title,
-  date,
-  alt,
-  description,
-  price_id,
-}) {
-  // Adds a new entry
-  const db = connection();
-  return (
-    await db.queryObject`
-    INSERT INTO public."gallery" ("artfile", "title", "date", "alt", "description", "price_id")
-    VALUES (${artfile}, ${title}, ${date}, ${alt}, ${description}, ${price_id})
-    RETURNING "id"
-  `
-  ).rows[0].id;
-}
-
-export async function remove(id) {
-  // Delets one entry via id
-  const db = connection();
-  return (
-    await db.queryObject`
-    DELETE 
-    FROM public."gallery"
-    WHERE id = ${id}
-  `
-  ).rows[0];
-}
-
-export async function update(
-  id,
-  { artfile, title, date, alt, description, price_id },
-) {
-  // Updates an existing entry
-  const db = connection();
-  await db.queryArray(`
-    UPDATE public."gallery"
-    SET "artfile" = ${artfile}, "title" = ${title}, "date" = ${date}, "alt" = ${alt}, "description" = ${description}, "price_id" = ${price_id}
-    WHERE id = ${id}
-  `);
-  return id;
-}
-
 export async function listByPrice(priceId) {
   const db = connection();
   return (
@@ -118,4 +61,92 @@ export async function listByPriceId(priceId) {
     ORDER BY id DESC
   `
   ).rows;
+}
+
+export async function get(id) {
+  // Gets one entry with all columns via id
+  const db = connection();
+  return (
+    await db.queryObject`
+    SELECT "id", "artfile", "title", "date", "alt", "description", "price_id" 
+    FROM public."gallery"
+    WHERE id = ${id}
+  `
+  ).rows[0];
+}
+
+export async function add({
+  artfile,
+  title,
+  date,
+  alt,
+  description,
+  price_id,
+}) {
+  // Adds a new entry
+  const db = connection();
+  const altValue = alt?.trim?.() || alt;
+
+  if (altValue === undefined || altValue === null || altValue === "") {
+    return (
+      await db.queryObject`
+        INSERT INTO public."gallery" ("artfile", "title", "date", "description", "price_id")
+        VALUES (${artfile}, ${title}, ${date}, ${description}, ${price_id})
+        RETURNING "id"
+      `
+    ).rows[0].id;
+  }
+
+  return (
+    await db.queryObject`
+      INSERT INTO public."gallery" ("artfile", "title", "date", "alt", "description", "price_id")
+      VALUES (${artfile}, ${title}, ${date}, ${altValue}, ${description}, ${price_id})
+      RETURNING "id"
+    `
+  ).rows[0].id;
+}
+
+export async function update(
+  id,
+  { artfile, title, date, alt, description, price_id },
+) {
+  const db = connection();
+  const altValue =
+    alt === undefined || alt === null || alt.trim() === "" ? null : alt;
+
+  if (price_id) {
+    await db.queryObject`
+        UPDATE public."gallery"
+        SET
+          "artfile" = ${artfile},
+          "title" = ${title},
+          "date" = ${date},
+          "alt" = ${altValue},
+          "description" = ${description},
+          "price_id" = ${price_id}
+        WHERE id = ${id}
+      `;
+  } else {
+    await db.queryObject`
+        UPDATE public."gallery"
+        SET
+          "artfile" = ${artfile},
+          "title" = ${title},
+          "date" = ${date},
+          "alt" = ${altValue},
+          "description" = ${description}
+        WHERE id = ${id}
+      `;
+  }
+  return id;
+}
+
+export async function remove(id) {
+  // Delets one entry via id
+  const db = connection();
+  await db.queryObject`
+    DELETE 
+    FROM public."gallery"
+    WHERE id = ${id}
+  `;
 }

@@ -76,11 +76,9 @@ export async function add({
 export async function remove(id) {
   // Delets one entry via id
   const db = connection();
-  return (
-    await db.queryObject`
+  await db.queryObject`
     DELETE FROM public."prices" WHERE id = ${id}
-  `
-  ).rows[0];
+  `;
 }
 
 export async function update(

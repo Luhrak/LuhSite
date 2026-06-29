@@ -71,23 +71,19 @@ export async function add({ name, email, subject, message }) {
   // Add new contact entry
   const db = connection();
   const createdAt = new Date().toISOString().replace("T", " ").slice(0, 19);
-  return (
-    await db.queryObject`
+  await db.queryObject`
       INSERT INTO public."messages" ("name", "email", "subject", "message", "is_new", "created_at")
       VALUES (${name}, ${email}, ${subject}, ${message}, 1, ${createdAt})
       RETURNING "id"
-    `
-  ).rows[0].id;
+    `;
 }
 
 export async function remove(id) {
   // Delete one entry via id
   const db = connection();
-  return (
-    await db.queryObject`
+  await db.queryObject`
       DELETE FROM public."messages" WHERE id = ${id}
-    `
-  ).rows[0];
+    `;
 }
 
 export async function markAsRead(id) {

@@ -18,6 +18,7 @@ export async function render(viewName, ctx, variables = {}) {
   // variables.permission = "true"; // DEBUG ONLY, REMOVE!
 
   // Then just nomal render via nunjucks
+  console.log(variables);
   return await nunjucks.render(viewName, variables);
 }
 

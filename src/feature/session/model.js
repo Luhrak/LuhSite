@@ -14,6 +14,7 @@ export async function create() {
 }
 
 export async function get(id) {
+  // Gets a session via id
   const db = connection();
   const row = (
     await db.queryObject`
@@ -30,16 +31,14 @@ export async function get(id) {
   return row;
 }
 
-export async function set(id, content, maxage) {
+async function set(id, content, maxage) {
   // Adds a new entry
   const db = connection();
-  return (
-    await db.queryObject`
+  await db.queryObject`
     INSERT INTO public."sessions" ("id", "content", "maxage", "date")
     VALUES (${id}, ${content}, ${maxage}, NOW())
     RETURNING "id"
-  `
-  ).rows[0].id;
+  `;
 }
 
 export async function upsert(id, content, maxage) {
@@ -57,22 +56,18 @@ export async function upsert(id, content, maxage) {
     `
   ).rows[0];
 
-  // If nothing updated (row not found), create it instead
-  if (!result) return await set(id, content, maxage);
-
-  return result.id;
+  // If nothing found to update, create it instead
+  if (!result) await set(id, content, maxage);
 }
 
 export async function remove(id) {
   // Deletes one entry via id
   const db = connection();
-  return (
-    await db.queryObject`
+  await db.queryObject`
     DELETE 
     FROM public."sessions"
     WHERE "id" = ${id}
-  `
-  ).rows[0];
+  `;
 }
 
 export async function applyTimeout(id) {

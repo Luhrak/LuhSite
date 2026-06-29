@@ -12,6 +12,6 @@ export async function initDbTables() {
   await createPricesTable();
   await createMessagesTable();
   await createAccountsTable();
-  await createLoggingTable();
   await createSessionTable();
+  // await createLoggingTable();
 }

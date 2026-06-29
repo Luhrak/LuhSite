@@ -1,4 +1,3 @@
-import { createSessionStore } from "./src/service/sessionStore.js";
 import { initConnection } from "./src/service/db.js";
 import { initDbTables } from "./src/middleware/initDbTables.js";
 import { handleRequest } from "./src/handleRequest.js";
