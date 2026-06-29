@@ -1,4 +1,15 @@
-const delayMs = 6000;
+const delayMs = 3000;
+
+const transformation = [
+  { transform: "translateX(-50%) translateY(0)" },
+  { transform: "translateX(-50%) translateY(-3em)" },
+];
+
+const timing = {
+  duration: 300,
+  easing: "ease-in",
+  fill: "forwards",
+};
 
 function flashTimeout() {
   console.log("timer beginn");
@@ -7,7 +18,10 @@ function flashTimeout() {
 
 function removeFlash() {
   const flashbox = document.querySelector(".flashbox");
-  flashbox.remove();
+  flashbox
+    .animate(transformation, timing)
+    .finished.then(() => flashbox.remove());
+  //   flashbox.remove();
   console.log("removed");
 }
 
