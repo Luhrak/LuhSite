@@ -91,6 +91,7 @@
                 <p class="form-error">{{formErrors.name}}</p>
                 {% endif %}
                 <input 
+                {% if formErrors.name %} autofocus {% endif %}
                 type="text" 
                 id="name" 
                 name="name" 
@@ -103,6 +104,7 @@
                   <p class="form-error">{{formErrors.email}}</p>
                   {% endif %}
                 <input 
+                {% if formErrors.email %} autofocus {% endif %}
                 type="text" 
                 id="email" 
                 name="email" 
@@ -116,6 +118,7 @@
             <p class="form-error">{{formErrors.subject}}</p>
             {% endif %}
             <input 
+            {% if formErrors.subject %} autofocus {% endif %}
             type="text" 
             id="subject" 
             name="subject" 
@@ -127,6 +130,7 @@
             <p class="form-error">{{formErrors.message}}</p>
             {% endif %}
             <textarea 
+            {% if formErrors.message %} autofocus {% endif %}
             id="message" 
             name="message" 
             rows="5"

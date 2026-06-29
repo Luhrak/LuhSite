@@ -4,7 +4,7 @@ export async function create() {
   // Creates gallery table if not exist
   const db = connection();
   await db.queryArray`
-    CREATE TABLE IF NOT EXISTS gallery (
+    CREATE TABLE IF NOT EXISTS public."gallery" (
       "id" SERIAL NOT NULL PRIMARY KEY,
       "artfile"	TEXT NOT NULL,
       "title"	TEXT NOT NULL,

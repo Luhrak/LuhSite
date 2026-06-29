@@ -19,7 +19,7 @@ export async function create() {
   // Create requestLog table if not exist
   const db = connection();
   await db.queryArray`
-    CREATE TABLE IF NOT EXISTS "requestLog" (
+    CREATE TABLE IF NOT EXISTS public."requestLog" (
       "id" SERIAL NOT NULL PRIMARY KEY,
       "time"	    TEXT NOT NULL,
       "processTime"	INTEGER NOT NULL,

@@ -5,7 +5,7 @@ export async function create() {
   const db = connection();
   // is_new is a basically a bool but sqlite uses int instead
   await db.queryArray`
-    CREATE TABLE IF NOT EXISTS "messages" (
+    CREATE TABLE IF NOT EXISTS public."messages" (
       "id" SERIAL NOT NULL PRIMARY KEY,
       "name" TEXT NOT NULL,
       "email" TEXT NOT NULL,

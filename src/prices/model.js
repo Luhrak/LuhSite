@@ -4,7 +4,7 @@ export async function create() {
   // Creates prices table if not exist
   const db = connection();
   await db.queryArray`
-    CREATE TABLE IF NOT EXISTS prices (
+    CREATE TABLE IF NOT EXISTS public."prices" (
       id SERIAL NOT NULL PRIMARY KEY,
       previewfile TEXT,
       alt TEXT, 
