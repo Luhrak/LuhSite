@@ -5,14 +5,14 @@ export async function create() {
   const db = connection();
   await db.queryArray`
     CREATE TABLE IF NOT EXISTS public."prices" (
-      id SERIAL NOT NULL PRIMARY KEY,
-      previewfile TEXT,
-      alt TEXT, 
-      title TEXT NOT NULL,
-      price INTEGER NOT NULL,
-      additions TEXT,
-      short_description TEXT NOT NULL,
-      description TEXT NOT NULL
+      "id" SERIAL NOT NULL PRIMARY KEY,
+      "previewfile" TEXT,
+      "alt" TEXT, 
+      "title" TEXT NOT NULL,
+      "price" INTEGER NOT NULL,
+      "additions" TEXT,
+      "short_description" TEXT NOT NULL,
+      "description" TEXT NOT NULL
     )
   `;
 }
@@ -22,8 +22,8 @@ export async function list() {
   const db = connection();
   return (
     await db.queryObject`
-    SELECT id, previewfile, alt, title, price, additions, short_description, description
-    FROM public.prices
+    SELECT "id", "previewfile", "alt", "title", "price", "additions", "short_description", "description"
+    FROM public."prices"
     ORDER BY id DESC
   `
   ).rows;
@@ -34,8 +34,8 @@ export async function listMinimal() {
   const db = connection();
   return (
     await db.queryObject`
-    SELECT id, previewfile, alt, title, price, additions, short_description
-    FROM public.prices
+    SELECT "id", "previewfile", "alt", "title", "price", "additions", "short_description"
+    FROM public."prices"
     ORDER BY id DESC
   `
   ).rows;
@@ -46,8 +46,8 @@ export async function get(id) {
   const db = connection();
   return (
     await db.queryObject`
-    SELECT id, previewfile, alt, title, price, additions, short_description, description
-    FROM public.prices
+    SELECT "id", "previewfile", "alt", "title", "price", "additions", "short_description", "description"
+    FROM public."prices"
     WHERE id = ${id}
   `
   ).rows[0];
@@ -66,7 +66,7 @@ export async function add({
   const db = connection();
   return (
     await db.queryObject`
-    INSERT INTO public."prices" ("previewfile", "alt", "title", "price", "additions", "short_description", "description")
+    INSERT INTO public."prices" ("previewfile", "alt", "title", "description", "price", "additions", "short_description")
     VALUES (${previewfile}, ${alt}, ${title}, ${description}, ${price}, ${additions}, ${short_description})
     RETURNING "id"
     `

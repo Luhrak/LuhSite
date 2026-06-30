@@ -75,6 +75,8 @@ export async function pricesUpdate(ctx) {
   const form = await ctx.request.formData();
   const formData = Object.fromEntries(form.entries());
   const deleteImage = form.get("deleteImage");
+  const hasNewFile =
+    formData.previewfile && Number(formData.previewfile.size) > 0;
   formData.price = parseInt(formData.price, 10) || 0;
 
   // Validation
@@ -89,7 +91,7 @@ export async function pricesUpdate(ctx) {
   if (!formData.description) errors.description = "Description is required";
 
   // image replacing is optional so only check if given
-  if (formData.previewfile) {
+  if (hasNewFile) {
     const fileError = image.validateImage(formData.previewfile);
     if (fileError !== undefined) errors.previewfile = fileError;
   }
@@ -103,10 +105,7 @@ export async function pricesUpdate(ctx) {
     if (deleteImage && existingPrice.previewfile) {
       await image.deleteImage(existingPrice.previewfile);
       formData.previewfile = "";
-    } else if (
-      formData.previewfile instanceof File &&
-      formData.previewfile.size > 0
-    ) {
+    } else if (hasNewFile) {
       const uploadResult = await image.uploadImage(
         formData.previewfile,
         "prices",

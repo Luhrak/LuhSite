@@ -22,7 +22,7 @@ export async function list() {
   return (
     await db.queryObject`
     SELECT "id", "artfile", "title", "date", "alt", "description" 
-    FROM public.gallery
+    FROM public."gallery"
   `
   ).rows;
 }
@@ -45,7 +45,7 @@ export async function listByPrice(priceId) {
     await db.queryObject`
     SELECT "id", "artfile", "alt"
     FROM public."gallery"
-    WHERE price_id = ${price_id}
+    WHERE price_id = ${priceId}
     ORDER BY id DESC
   `
   ).rows;
