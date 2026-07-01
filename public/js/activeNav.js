@@ -4,11 +4,11 @@ class activeNav extends HTMLElement {
   }
 
   connectedCallback() {
-    styleActiveItem(this);
+    setActiveItem(this);
   }
 }
 
-function styleActiveItem(nav) {
+function setActiveItem(nav) {
   const navItems = nav.querySelectorAll("a");
   const url = window.location.href;
 
@@ -17,6 +17,7 @@ function styleActiveItem(nav) {
 
     if (url.includes(itemText)) {
       navItems.item(i).classList.add("nav-active");
+      navItems.item(i).ariaCurrent = "selection";
     }
   }
 }
