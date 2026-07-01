@@ -101,7 +101,6 @@ export async function galleryUpdate(ctx) {
     }
 
     // Update in db
-    console.log(formData);
     const unpdatedEntry = await model.update(id, formData);
 
     // Redirect to uploaded detailpage (ctx.body not needed for redirect)

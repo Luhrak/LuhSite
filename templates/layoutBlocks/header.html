@@ -14,6 +14,7 @@
           <p>Luhrak</p>
         </a>
         <hamburger-menu>
+          <active-nav>
           <nav aria-label="main navigation">
             <ul>
               <li><a href="/gallery">Gallery</a></li>
@@ -25,10 +26,12 @@
               {% endif %}
             </ul>
           </nav>
+          </active-nav>
         </hamburger-menu>
       </div>
     </header>
     <script src="/js/hamburgerMenu.js"></script>
+    <script src="/js/activeNav.js"></script>
 
     {% if flash %}
     <div class="flashbox" > 

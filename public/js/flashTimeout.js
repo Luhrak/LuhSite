@@ -11,8 +11,7 @@ const timing = {
   fill: "forwards",
 };
 
-function flashTimeout() {
-  console.log("timer beginn");
+function activeNav() {
   setTimeout(removeFlash, delayMs);
 }
 
@@ -22,14 +21,13 @@ function removeFlash() {
     .animate(transformation, timing)
     .finished.then(() => flashbox.remove());
   //   flashbox.remove();
-  console.log("removed");
 }
 
 // JS availablity check
 if ("querySelector" in document && "addEventListener" in window) {
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", flashTimeout);
+    document.addEventListener("DOMContentLoaded", activeNav);
   } else {
-    flashTimeout();
+    activeNav();
   }
 }

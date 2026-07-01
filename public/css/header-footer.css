@@ -78,6 +78,11 @@ nav ul {
     }
 }
 
+.nav-active {
+    color: var(--color-bg-dark);
+    background-color: var(--color-primary-light);
+}
+
 .branding {
     display: flex;
     align-items: center;
