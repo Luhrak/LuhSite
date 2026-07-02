@@ -15,28 +15,23 @@ class FetchForm extends HTMLElement {
 
   handler(e) {
     const form = e.target.closest("form") || this.querySelector("form");
-    const input = e.target.closest("input") || this.querySelector("input");
-    if (!form || !input) return;
-    update(form, input);
+    const formBlockActive = e.target.closest(".input-block");
+    if (!form || !formBlockActive) return;
+    update(form, formBlockActive);
   }
 
   resetter(e) {
-    const input = e.target.closest("input") || this.querySelector("input");
-    reset(input);
+    const formBlockActive = e.target.closest(".input-block");
+    if (!formBlockActive) return;
+    reset(formBlockActive);
   }
 }
 
-function reset(input) {
-  const err = input.parentElement.querySelector(".form-error");
-  if (err) err.remove();
-}
-
-async function update(form, input) {
-  const url = form.action;
+async function update(form, formBlockActive) {
   const formData = new FormData(form);
   formData.append("partial", true);
 
-  const { data, error } = await safeFetchText(url, {
+  const { data, error } = await safeFetchText(form.action, {
     method: "POST",
     headers: {},
     body: formData,
@@ -44,37 +39,43 @@ async function update(form, input) {
 
   if (error) {
     console.error(error);
+    return;
   }
 
   if (data) {
-    const formError = getFormError(input, data.data);
-    insertFormErrors(input, formError);
+    const formError = getFormError(formBlockActive, data.data);
+    if (!formError) return;
+    insertFormErrors(formBlockActive, formError);
   }
 }
 
-function getFormError(input, data) {
+function getFormError(formBlockActive, data) {
   const dataDoc = new DOMParser().parseFromString(data, "text/html");
-  const inputBlocks = dataDoc.querySelectorAll(".input-block");
+  const formBlocks = dataDoc.querySelectorAll(".input-block");
 
-  const wantedLabel = input.parentElement.querySelector("label");
-  for (var i = 0; i < inputBlocks.length; i++) {
-    const currentLabel = inputBlocks.item(i).querySelector("label");
-
-    if (wantedLabel.textContent === currentLabel.textContent)
-      return currentLabel.parentElement.querySelector(".form-error");
+  for (var i = 0; i < formBlocks.length; i++) {
+    if (doFormBlocksMatch(formBlockActive, formBlocks.item(i)))
+      return formBlocks.item(i).querySelector(".form-error");
   }
 }
 
-function insertFormErrors(input, formError) {
-  if (!formError) return;
-  const existingError = input.parentElement.querySelector(".form-error");
+function insertFormErrors(formBlockActive, formError) {
+  const existingError = formBlockActive.querySelector(".form-error");
 
   if (existingError) {
     existingError.replaceWith = formError;
   } else {
-    input.parentElement.querySelector("label").after(formError);
+    formBlockActive.querySelector("label").after(formError);
   }
 }
+
+function reset(formBlockActive) {
+  const inputError = formBlockActive.querySelector(".form-error");
+  if (inputError) inputError.remove();
+}
+
+const doFormBlocksMatch = (block1, block2) =>
+  block1.dataset.field === block2.dataset.field;
 
 async function safeFetchText(url, options) {
   let response;
