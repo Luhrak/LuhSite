@@ -15,7 +15,7 @@
         </a>
         <hamburger-menu>
           <active-nav>
-          <nav role="navigation" aria-label="Main">
+          <nav aria-label="main navigation">
             <ul>
               <li><a href="/gallery">Gallery</a></li>
               <li><a href="/prices">Prices</a></li>
@@ -30,12 +30,12 @@
         </hamburger-menu>
       </div>
     </header>
-    <script src="/js/hamburgerMenu.js"></script>
-    <script src="/js/activeNav.js"></script>
+    <script src="/js/hamburger-menu.js"></script>
+    <script src="/js/active-nav.js"></script>
 
     {% if flash %}
     <div class="flashbox" > 
       <p>{{flash}}</p>
     </div>
-    <script src="/js/flashTimeout.js"></script>
+    <script src="/js/flash-timeout.js"></script>
     {% endif %}
